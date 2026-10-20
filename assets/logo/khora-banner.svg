@@ -1,152 +1,152 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 480" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 420" width="100%" height="100%">
   <defs>
-    <!-- Dark Blueprint Grid Patterns -->
-    <pattern id="grid-fine" width="20" height="20" patternUnits="userSpaceOnUse">
-      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#0f1624" stroke-width="0.8"/>
+    <!-- Ultra-subtle engineering grid -->
+    <pattern id="dot-grid" width="30" height="30" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1" fill="#1e2430"/>
     </pattern>
-    <pattern id="grid-coarse" width="100" height="100" patternUnits="userSpaceOnUse">
-      <rect width="100" height="100" fill="none" stroke="#162338" stroke-width="1.2"/>
+    <pattern id="caliper-strip" width="10" height="20" patternUnits="userSpaceOnUse">
+      <line x1="0" y1="0" x2="0" y2="10" stroke="#242e42" stroke-width="1"/>
+      <line x1="10" y1="0" x2="10" y2="20" stroke="#3b4b66" stroke-width="1.2"/>
     </pattern>
-    
-    <!-- Linear Gradient Accents -->
-    <linearGradient id="cyan-glow" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#00f0ff" stop-opacity="0.9"/>
-      <stop offset="100%" stop-color="#38bdf8" stop-opacity="0.3"/>
-    </linearGradient>
-    <linearGradient id="laser-beam" x1="0%" y1="100%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#00f0ff" stop-opacity="0.0"/>
-      <stop offset="50%" stop-color="#00f0ff" stop-opacity="0.4"/>
-      <stop offset="100%" stop-color="#00f0ff" stop-opacity="0.8"/>
-    </linearGradient>
   </defs>
 
-  <!-- Deep Obsidian Technical Background -->
-  <rect width="1200" height="480" fill="#06080e"/>
-  <rect width="1200" height="480" fill="url(#grid-fine)"/>
-  <rect width="1200" height="480" fill="url(#grid-coarse)"/>
+  <!-- Deep Obsidian Technical Void -->
+  <rect width="1200" height="420" fill="#080a0f"/>
+  <rect width="1200" height="420" fill="url(#dot-grid)"/>
 
-  <!-- Dramatic 45° Optical Reflection Ray (Crossing entire canvas) -->
-  <line x1="-50" y1="530" x2="600" y2="-120" stroke="url(#laser-beam)" stroke-width="2" stroke-dasharray="8 6"/>
-  <line x1="200" y1="500" x2="850" y2="-150" stroke="#00f0ff" stroke-width="0.75" stroke-dasharray="3 9" opacity="0.25"/>
+  <!-- Top & Bottom Aerospace Caliper Rulers -->
+  <rect x="0" y="0" width="1200" height="12" fill="#0d111a"/>
+  <rect x="0" y="0" width="1200" height="12" fill="url(#caliper-strip)"/>
+  <line x1="0" y1="12" x2="1200" y2="12" stroke="#1f293d" stroke-width="1"/>
 
-  <!-- Outer Technical Blueprint Border with Precision Calipers -->
-  <rect x="24" y="24" width="1152" height="432" fill="none" stroke="#1e293b" stroke-width="1.2"/>
-  
-  <!-- Caliper Corner Ticks (Mechanical CAD style) -->
-  <g stroke="#00f0ff" stroke-width="2">
-    <path d="M 24 44 L 24 24 L 44 24"/>
-    <path d="M 1176 44 L 1176 24 L 1156 24"/>
-    <path d="M 24 436 L 24 456 L 44 456"/>
-    <path d="M 1176 436 L 1176 456 L 1156 456"/>
+  <rect x="0" y="408" width="1200" height="12" fill="#0d111a"/>
+  <rect x="0" y="408" width="1200" height="12" fill="url(#caliper-strip)"/>
+  <line x1="0" y1="408" x2="1200" y2="408" stroke="#1f293d" stroke-width="1"/>
+
+  <!-- Precision Corner Crosshairs (CERN / Skunk Works style) -->
+  <g stroke="#00f0ff" stroke-width="1.5" opacity="0.8">
+    <path d="M 30 30 L 50 30 M 30 30 L 30 50"/>
+    <path d="M 1170 30 L 1150 30 M 1170 30 L 1170 50"/>
+    <path d="M 30 390 L 50 390 M 30 390 L 30 370"/>
+    <path d="M 1170 390 L 1150 390 M 1170 390 L 1170 370"/>
   </g>
 
-  <!-- Precision Dimension Ruler Ticks across Top & Bottom -->
-  <g stroke="#334155" stroke-width="1">
-    <line x1="300" y1="24" x2="300" y2="34"/><line x1="600" y1="24" x2="600" y2="38"/><line x1="900" y1="24" x2="900" y2="34"/>
-    <line x1="300" y1="446" x2="300" y2="456"/><line x1="600" y1="442" x2="600" y2="456"/><line x1="900" y1="446" x2="900" y2="456"/>
-  </g>
+  <!-- Massive Background Coordinate Vector slicing diagonally at 45° -->
+  <line x1="0" y1="420" x2="420" y2="0" stroke="#131c2c" stroke-width="2"/>
+  <line x1="150" y1="420" x2="570" y2="0" stroke="#00f0ff" stroke-width="0.75" stroke-dasharray="6 12" opacity="0.3"/>
+  <line x1="850" y1="420" x2="1270" y2="0" stroke="#131c2c" stroke-width="1.5" stroke-dasharray="4 8"/>
 
   <!-- ==================================================================== -->
-  <!-- LEFT HERO SECTION: IMPOSING CONCEPT C MARK (Traversable Horizon)     -->
+  <!-- LEFT: MONUMENTAL OPTION C HERO GLYPH (Pure Mathematical Power)      -->
   <!-- ==================================================================== -->
-  <g transform="translate(64, 76)">
-    <!-- Main Outer Precision Caliper Frame (328x328 px) -->
-    <rect x="0" y="0" width="328" height="328" fill="#090d16" stroke="#223249" stroke-width="1.8"/>
-    <rect x="8" y="8" width="312" height="312" fill="none" stroke="#131d2e" stroke-width="1"/>
+  <g transform="translate(60, 48)">
+    <!-- Precision Drafting Outer Boundary -->
+    <rect x="0" y="0" width="310" height="310" fill="#0b0e17" stroke="#1f2d45" stroke-width="1.5"/>
+    <rect x="10" y="10" width="290" height="290" fill="none" stroke="#131d2e" stroke-width="1"/>
 
-    <!-- Caliper Sub-divisions & Metric Marks -->
+    <!-- Caliper Tick Marks -->
     <g stroke="#475569" stroke-width="1">
-      <line x1="82" y1="0" x2="82" y2="10"/><line x1="164" y1="0" x2="164" y2="14"/><line x1="246" y1="0" x2="246" y2="10"/>
-      <line x1="82" y1="318" x2="82" y2="328"/><line x1="164" y1="314" x2="164" y2="328"/><line x1="246" y1="318" x2="246" y2="328"/>
-      <line x1="0" y1="82" x2="10" y2="82"/><line x1="0" y1="164" x2="14" y2="164"/><line x1="0" y1="246" x2="10" y2="246"/>
-      <line x1="318" y1="82" x2="328" y2="82"/><line x1="314" y1="164" x2="328" y2="164"/><line x1="318" y1="246" x2="328" y2="246"/>
+      <line x1="77" y1="0" x2="77" y2="10"/><line x1="155" y1="0" x2="155" y2="16"/><line x1="232" y1="0" x2="232" y2="10"/>
+      <line x1="77" y1="300" x2="77" y2="310"/><line x1="155" y1="294" x2="155" y2="310"/><line x1="232" y1="300" x2="232" y2="310"/>
+      <line x1="0" y1="77" x2="10" y2="77"/><line x1="0" y1="155" x2="16" y2="155"/><line x1="0" y1="232" x2="10" y2="232"/>
+      <line x1="300" y1="77" x2="310" y2="77"/><line x1="294" y1="155" x2="310" y2="155"/><line x1="300" y1="232" x2="310" y2="232"/>
     </g>
 
-    <!-- 45-Degree Optical Reference Diagonal -->
-    <line x1="32" y1="296" x2="296" y2="32" stroke="#1e2c42" stroke-width="1.5" stroke-dasharray="4 4"/>
+    <!-- 45-Degree Internal Optical Projection Line -->
+    <line x1="30" y1="280" x2="280" y2="30" stroke="#182338" stroke-width="1.5" stroke-dasharray="3 4"/>
 
-    <!-- THE CONCEPT C TRAVERSABLE EMBLEM -->
-    <!-- Left Physical Datum: Dual Solid & Guide Rail Spine -->
-    <line x1="90" y1="52" x2="90" y2="276" stroke="#f8fafc" stroke-width="15" stroke-linecap="round"/>
-    <line x1="108" y1="68" x2="108" y2="260" stroke="#00f0ff" stroke-width="2" stroke-dasharray="4 4"/>
+    <!-- THE OPTION C GLYPH (Monumental Titanium White & Cyan) -->
+    <!-- Vertical Physical Substrate (Dual Solid + Parallel Guide) -->
+    <line x1="84" y1="46" x2="84" y2="264" stroke="#ffffff" stroke-width="16" stroke-linecap="round"/>
+    <line x1="102" y1="60" x2="102" y2="250" stroke="#00f0ff" stroke-width="2.5" stroke-dasharray="4 4"/>
 
-    <!-- Upper Optical Vector (Traversable Ray converging in free air) -->
-    <line x1="140" y1="148" x2="248" y2="52" stroke="#00f0ff" stroke-width="15" stroke-linecap="round"/>
+    <!-- Upper Traversable Ray (Shooting into free space) -->
+    <line x1="134" y1="138" x2="236" y2="46" stroke="#00f0ff" stroke-width="16" stroke-linecap="round"/>
 
-    <!-- Acoustic Wavefront Shock Arcs (40 kHz Radiation Node) -->
-    <path d="M 218 36 A 34 34 0 0 1 264 82" fill="none" stroke="#00f0ff" stroke-width="2.5" stroke-dasharray="4 4"/>
-    <path d="M 204 22 A 56 56 0 0 1 278 96" fill="none" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="3 5" opacity="0.6"/>
+    <!-- Concentric Acoustic Shockwave Arcs (40 kHz Radiation Pressure) -->
+    <path d="M 204 32 A 36 36 0 0 1 254 82" fill="none" stroke="#00f0ff" stroke-width="3" stroke-dasharray="4 4"/>
+    <path d="M 190 18 A 60 60 0 0 1 268 96" fill="none" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="3 6" opacity="0.7"/>
+    <path d="M 176 4 A 84 84 0 0 1 282 110" fill="none" stroke="#00f0ff" stroke-width="1" stroke-dasharray="2 8" opacity="0.35"/>
 
-    <!-- Lower Kinematic Ground Vector (Motor / Joint Base Axis) -->
-    <line x1="140" y1="180" x2="248" y2="276" stroke="#f8fafc" stroke-width="15" stroke-linecap="round"/>
+    <!-- Lower Kinematic Ground Vector -->
+    <line x1="134" y1="172" x2="236" y2="264" stroke="#ffffff" stroke-width="16" stroke-linecap="round"/>
 
-    <!-- Physical Clearance Air Gap Marker -->
-    <circle cx="122" cy="164" r="7" fill="none" stroke="#00f0ff" stroke-width="2"/>
-    <circle cx="122" cy="164" r="2.5" fill="#00f0ff"/>
+    <!-- The 120mm Open-Air Clearance Aperture Ring -->
+    <circle cx="118" cy="155" r="8" fill="none" stroke="#00f0ff" stroke-width="2.5"/>
+    <circle cx="118" cy="155" r="3" fill="#00f0ff"/>
 
-    <!-- Frame Readout Annotations -->
-    <text x="14" y="24" font-family="'JetBrains Mono', monospace" font-size="9" fill="#00f0ff" font-weight="bold" letter-spacing="2">KHORA // SPEC-C</text>
-    <text x="314" y="316" font-family="'JetBrains Mono', monospace" font-size="9" fill="#64748b" text-anchor="end" letter-spacing="1.5">OPEN AIR GAP: 120mm</text>
+    <!-- Caliper Footprint Annotations -->
+    <text x="14" y="24" font-family="'JetBrains Mono', 'SF Mono', monospace" font-size="9" fill="#00f0ff" font-weight="700" letter-spacing="2">KHORA // C-01</text>
+    <text x="296" y="298" font-family="'JetBrains Mono', 'SF Mono', monospace" font-size="9" fill="#64748b" text-anchor="end" letter-spacing="1.5">OPEN AIR GAP: 120mm</text>
   </g>
 
   <!-- ==================================================================== -->
-  <!-- RIGHT HERO SECTION: TYPOGRAPHY, SPECIFICATIONS & ARCHITECTURE        -->
+  <!-- CENTER/RIGHT: COMMANDING TYPOGRAPHY & BRUTALIST ARCHITECTURE         -->
   <!-- ==================================================================== -->
   
-  <!-- System Protocol Badge Header -->
-  <g transform="translate(440, 76)">
-    <rect x="0" y="0" width="230" height="24" rx="2" fill="#0b1322" stroke="#1d2e47" stroke-width="1"/>
-    <circle cx="12" cy="12" r="3.5" fill="#00f0ff"/>
-    <text x="24" y="16" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="600" fill="#38bdf8" letter-spacing="2">RFC-0001 // RFC-0002</text>
-    
-    <text x="700" y="16" font-family="'JetBrains Mono', monospace" font-size="10" fill="#64748b" text-anchor="end" letter-spacing="3">AIR-GAPPED CONTROL PLANE</text>
+  <!-- Protocol & Clearance Readout Bar -->
+  <g transform="translate(420, 52)">
+    <rect x="0" y="0" width="720" height="26" fill="#0c111a" stroke="#1d273a" stroke-width="1"/>
+    <circle cx="12" cy="13" r="3.5" fill="#00f0ff"/>
+    <text x="24" y="17" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="700" fill="#00f0ff" letter-spacing="2.5">
+      CORE ARCHITECTURE // RFC-0001 &amp; RFC-0002
+    </text>
+    <text x="708" y="17" font-family="'JetBrains Mono', monospace" font-size="10" fill="#64748b" text-anchor="end" letter-spacing="3">
+      AIR-GAPPED DETERMINISTIC PLANE
+    </text>
   </g>
 
-  <!-- MASSIVE IMPOSING BRAND WORDMARK -->
-  <text x="436" y="172" font-family="'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="900" font-size="82" fill="#ffffff" letter-spacing="18">KHORA</text>
+  <!-- MONUMENTAL KHORA WORDMARK -->
+  <text x="416" y="162" font-family="'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="900" font-size="96" fill="#ffffff" letter-spacing="22">KHORA</text>
 
-  <!-- Bold Technical Subtitle -->
-  <text x="440" y="214" font-family="'JetBrains Mono', 'SF Mono', monospace" font-size="14" font-weight="700" fill="#00f0ff" letter-spacing="5">
+  <!-- Authoritative Engineering Manifesto Line -->
+  <text x="420" y="204" font-family="'JetBrains Mono', 'SF Mono', monospace" font-size="14" font-weight="800" fill="#00f0ff" letter-spacing="5">
     TRAVERSABLE SPATIAL LIGHT &amp; DETERMINISTIC ROBOTICS
   </text>
 
-  <!-- Comprehensive Mission Statement (No truncation, sharp contrast) -->
-  <text x="440" y="252" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="15" fill="#cbd5e1" letter-spacing="0.4">
-    Foundational open-source platform bridging autonomous AI cognition to hard real-time kinematics
+  <!-- Deep Technical Spec Descriptor -->
+  <text x="420" y="238" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" fill="#cbd5e1" letter-spacing="0.3">
+    Global open-source platform uniting non-deterministic AI agents with hard real-time kinematics
   </text>
-  <text x="440" y="274" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="15" fill="#94a3b8" letter-spacing="0.4">
-    and mid-air tactile holography. Pure physics, zero wearables, zero cloud latency.
+  <text x="420" y="258" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" fill="#94a3b8" letter-spacing="0.3">
+    and mid-air tactile holography. Pure optical physics. Zero wearables. 100% offline determinism.
   </text>
 
-  <!-- 4 IMPOSING ARCHITECTURAL SPEC PILLARS -->
-  <g transform="translate(440, 310)">
-    <!-- Pillar 1: DCRA Optics -->
-    <rect x="0" y="0" width="160" height="54" rx="4" fill="#0a101d" stroke="#1e293b" stroke-width="1.2"/>
-    <text x="16" y="22" font-family="'JetBrains Mono', monospace" font-size="9" fill="#00f0ff" font-weight="700" letter-spacing="1.5">OPTICAL PLANE</text>
-    <text x="16" y="42" font-family="'JetBrains Mono', monospace" font-size="12" fill="#ffffff" font-weight="600">DCRA 1:1 AIP</text>
+  <!-- HARDWARE & PROTOCOL SPECIFICATION BADGES -->
+  <g transform="translate(420, 284)">
+    <!-- Badge 1: DCRA -->
+    <rect x="0" y="0" width="168" height="42" fill="#0c121e" stroke="#1f2d42" stroke-width="1.2"/>
+    <line x1="0" y1="0" x2="3" y2="42" stroke="#00f0ff" stroke-width="3"/>
+    <text x="14" y="17" font-family="'JetBrains Mono', monospace" font-size="8" fill="#64748b" font-weight="700" letter-spacing="1.5">OPTICAL CONVERGENCE</text>
+    <text x="14" y="32" font-family="'JetBrains Mono', monospace" font-size="11" fill="#ffffff" font-weight="700">DCRA 1:1 AIR</text>
 
-    <!-- Pillar 2: Ultrasound Haptics -->
-    <rect x="172" y="0" width="168" height="54" rx="4" fill="#0a101d" stroke="#1e293b" stroke-width="1.2"/>
-    <text x="188" y="22" font-family="'JetBrains Mono', monospace" font-size="9" fill="#38bdf8" font-weight="700" letter-spacing="1.5">MID-AIR HAPTICS</text>
-    <text x="188" y="42" font-family="'JetBrains Mono', monospace" font-size="12" fill="#ffffff" font-weight="600">40kHz ULTRASOUND</text>
+    <!-- Badge 2: Ultrasound -->
+    <rect x="180" y="0" width="168" height="42" fill="#0c121e" stroke="#1f2d42" stroke-width="1.2"/>
+    <line x1="180" y1="0" x2="183" y2="42" stroke="#38bdf8" stroke-width="3"/>
+    <text x="194" y="17" font-family="'JetBrains Mono', monospace" font-size="8" fill="#64748b" font-weight="700" letter-spacing="1.5">MID-AIR HAPTICS</text>
+    <text x="194" y="32" font-family="'JetBrains Mono', monospace" font-size="11" fill="#ffffff" font-weight="700">40kHz 5-15mN</text>
 
-    <!-- Pillar 3: Kinematics -->
-    <rect x="352" y="0" width="168" height="54" rx="4" fill="#0a101d" stroke="#1e293b" stroke-width="1.2"/>
-    <text x="368" y="22" font-family="'JetBrains Mono', monospace" font-size="9" fill="#a78bfa" font-weight="700" letter-spacing="1.5">KINEMATICS</text>
-    <text x="368" y="42" font-family="'JetBrains Mono', monospace" font-size="12" fill="#ffffff" font-weight="600">SE(3) DLS ENGINE</text>
+    <!-- Badge 3: Kinematics -->
+    <rect x="360" y="0" width="168" height="42" fill="#0c121e" stroke="#1f2d42" stroke-width="1.2"/>
+    <line x1="360" y1="0" x2="363" y2="42" stroke="#a78bfa" stroke-width="3"/>
+    <text x="374" y="17" font-family="'JetBrains Mono', monospace" font-size="8" fill="#64748b" font-weight="700" letter-spacing="1.5">KINEMATIC CONTROL</text>
+    <text x="374" y="32" font-family="'JetBrains Mono', monospace" font-size="11" fill="#ffffff" font-weight="700">SE(3) DLS 250Hz</text>
 
-    <!-- Pillar 4: AI MCP Plane -->
-    <rect x="532" y="0" width="168" height="54" rx="4" fill="#0a101d" stroke="#1e293b" stroke-width="1.2"/>
-    <text x="548" y="22" font-family="'JetBrains Mono', monospace" font-size="9" fill="#4ade80" font-weight="700" letter-spacing="1.5">AI INTERFACE</text>
-    <text x="548" y="42" font-family="'JetBrains Mono', monospace" font-size="12" fill="#ffffff" font-weight="600">STDIO MCP BRIDGE</text>
+    <!-- Badge 4: Watchdog -->
+    <rect x="540" y="0" width="176" height="42" fill="#0c121e" stroke="#1f2d42" stroke-width="1.2"/>
+    <line x1="540" y1="0" x2="543" y2="42" stroke="#4ade80" stroke-width="3"/>
+    <text x="554" y="17" font-family="'JetBrains Mono', monospace" font-size="8" fill="#64748b" font-weight="700" letter-spacing="1.5">FAIL-SAFE INTERLOCK</text>
+    <text x="554" y="32" font-family="'JetBrains Mono', monospace" font-size="11" fill="#4ade80" font-weight="700">50ms WATCHDOG</text>
   </g>
 
-  <!-- Technical Telemetry Footer Bar -->
-  <line x1="440" y1="388" x2="1140" y2="388" stroke="#162338" stroke-width="1"/>
-  <text x="440" y="408" font-family="'JetBrains Mono', monospace" font-size="10" fill="#64748b" letter-spacing="2.5">
-    d_air = d_source // v_r = [-v_x, -v_y, v_z] // 5-15mN RADIATION FORCE // 250Hz S-CURVE
-  </text>
-  <text x="1140" y="408" font-family="'JetBrains Mono', monospace" font-size="10" fill="#00f0ff" text-anchor="end" font-weight="bold" letter-spacing="2">
-    v0.1.0-alpha
-  </text>
+  <!-- Technical Telemetry Equation Footer -->
+  <g transform="translate(420, 345)">
+    <line x1="0" y1="0" x2="720" y2="0" stroke="#182338" stroke-width="1"/>
+    <text x="0" y="18" font-family="'JetBrains Mono', monospace" font-size="10" fill="#64748b" letter-spacing="2">
+      d_air = d_source // v_r = [-v_x, -v_y, v_z] // P_rad = 2&lt;I&gt;/c // w = √(det(J J^T))
+    </text>
+    <text x="720" y="18" font-family="'JetBrains Mono', monospace" font-size="10" fill="#00f0ff" text-anchor="end" font-weight="bold" letter-spacing="2">
+      v0.1.0-alpha
+    </text>
+  </g>
 </svg>
