@@ -8,6 +8,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-00f0ff.svg?style=flat-square)](LICENSE)
 [![Architecture: RFC--0001](https://img.shields.io/badge/Architecture-RFC--0001-blue.svg?style=flat-square)](specs/RFC-0001-SPATIAL-LIGHT-AND-HAPTICS.md)
 [![Safety: RFC--0002](https://img.shields.io/badge/Determinism-RFC--0002-green.svg?style=flat-square)](specs/RFC-0002-DETERMINISTIC-ROBOTICS-AND-MCP-PLANE.md)
+[![Proof: Real--World Verified](https://img.shields.io/badge/Physics_Proof-Verified_Deployments-purple.svg?style=flat-square)](docs/PHYSICAL_PROOF_AND_VALIDATION.md)
 [![Status: v0.1.0-alpha](https://img.shields.io/badge/Status-v0.1.0--alpha-f59e0b.svg?style=flat-square)](specs/)
 
 **KHORA** is an open-source engineering platform designed to bridge non-deterministic cognitive AI with hard real-time physical robotics and traversable, mid-air holographic computing.
