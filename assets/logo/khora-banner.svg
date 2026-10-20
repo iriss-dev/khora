@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 380" width="100%" height="100%">
+  <defs>
+    <pattern id="banner-grid" width="30" height="30" patternUnits="userSpaceOnUse">
+      <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#121826" stroke-width="1"/>
+    </pattern>
+    <pattern id="banner-major" width="120" height="120" patternUnits="userSpaceOnUse">
+      <rect width="120" height="120" fill="none" stroke="#1c263a" stroke-width="1.2"/>
+    </pattern>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="1200" height="380" fill="#070a10"/>
+  <rect width="1200" height="380" fill="url(#banner-grid)"/>
+  <rect width="1200" height="380" fill="url(#banner-major)"/>
+
+  <!-- Outer Technical Calipers -->
+  <rect x="20" y="20" width="1160" height="340" fill="none" stroke="#1e293b" stroke-width="1"/>
+  <g stroke="#38bdf8" stroke-width="1" opacity="0.6">
+    <path d="M 20 20 L 36 20 M 20 20 L 20 36"/>
+    <path d="M 1180 20 L 1164 20 M 1180 20 L 1180 36"/>
+    <path d="M 20 360 L 36 360 M 20 360 L 20 344"/>
+    <path d="M 1180 360 L 1164 360 M 1180 360 L 1180 344"/>
+  </g>
+
+  <!-- Left Side: Engineering Logo Mark (Scaled at 180x180) -->
+  <g transform="translate(70, 70)">
+    <!-- Sub-reticle -->
+    <circle cx="120" cy="120" r="110" fill="none" stroke="#1e293b" stroke-width="1.2" stroke-dasharray="4 6"/>
+    <circle cx="120" cy="120" r="116" fill="none" stroke="#334155" stroke-width="0.8"/>
+    
+    <!-- Cardinal Ticks -->
+    <line x1="120" y1="4" x2="120" y2="16" stroke="#00f0ff" stroke-width="2"/>
+    <line x1="120" y1="224" x2="120" y2="236" stroke="#64748b" stroke-width="1.5"/>
+    <line x1="4" y1="120" x2="16" y2="120" stroke="#64748b" stroke-width="1.5"/>
+    <line x1="224" y1="120" x2="236" y2="120" stroke="#00f0ff" stroke-width="2"/>
+
+    <!-- Light Guides -->
+    <line x1="75" y1="165" x2="165" y2="75" stroke="#334155" stroke-width="1" stroke-dasharray="2 3"/>
+    
+    <!-- Acoustic Node -->
+    <circle cx="165" cy="72" r="10" fill="none" stroke="#00f0ff" stroke-width="1" stroke-dasharray="2 2" opacity="0.7"/>
+    <circle cx="165" cy="72" r="2.5" fill="#00f0ff"/>
+
+    <!-- Geometric K Mark -->
+    <line x1="75" y1="55" x2="75" y2="185" stroke="#f8fafc" stroke-width="9" stroke-linecap="round"/>
+    <line x1="88" y1="126" x2="162" y2="72" stroke="#00f0ff" stroke-width="8" stroke-linecap="round"/>
+    <line x1="118" y1="104" x2="165" y2="185" stroke="#f8fafc" stroke-width="8" stroke-linecap="round"/>
+  </g>
+
+  <!-- Vertical Divider Line -->
+  <line x1="330" y1="50" x2="330" y2="330" stroke="#1e293b" stroke-width="1"/>
+  <circle cx="330" cy="190" r="3" fill="#38bdf8"/>
+
+  <!-- Right Side: Brand & Technical Metadata -->
+  <!-- Top Protocol Readout -->
+  <text x="360" y="75" font-family="'JetBrains Mono', 'SF Mono', 'Segoe UI Mono', monospace" font-size="11" fill="#64748b" letter-spacing="3">PROTOCOL // KHORA-CORE-SPEC-01</text>
+  <text x="1140" y="75" font-family="'JetBrains Mono', 'SF Mono', 'Segoe UI Mono', monospace" font-size="11" fill="#38bdf8" text-anchor="end" letter-spacing="2">AIR-GAPPED CONTROL PLANE</text>
+
+  <!-- Brand Wordmark -->
+  <text x="358" y="150" font-family="'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="900" font-size="68" fill="#f8fafc" letter-spacing="14">KHORA</text>
+
+  <!-- Technical Description -->
+  <text x="362" y="195" font-family="'JetBrains Mono', 'SF Mono', 'Segoe UI Mono', monospace" font-size="13" font-weight="600" fill="#38bdf8" letter-spacing="4.5">SPATIAL KINEMATICS &amp; TRAVERSABLE LIGHT</text>
+  
+  <text x="362" y="235" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" fill="#94a3b8" letter-spacing="0.5">
+    Rigorous open-source foundation linking non-deterministic AI cognition to hard real-time robotics and mid-air tactile holography.
+  </text>
+
+  <!-- Technical Metric Badges -->
+  <g transform="translate(362, 275)">
+    <!-- Badge 1 -->
+    <rect x="0" y="0" width="165" height="34" rx="4" fill="#0f172a" stroke="#1e293b" stroke-width="1"/>
+    <text x="82" y="21" font-family="'JetBrains Mono', monospace" font-size="11" fill="#e2e8f0" text-anchor="middle" letter-spacing="1">SE(3) KINEMATICS</text>
+
+    <!-- Badge 2 -->
+    <rect x="175" y="0" width="165" height="34" rx="4" fill="#0f172a" stroke="#1e293b" stroke-width="1"/>
+    <text x="257" y="21" font-family="'JetBrains Mono', monospace" font-size="11" fill="#38bdf8" text-anchor="middle" letter-spacing="1">AIP / DCRA OPTICS</text>
+
+    <!-- Badge 3 -->
+    <rect x="350" y="0" width="180" height="34" rx="4" fill="#0f172a" stroke="#1e293b" stroke-width="1"/>
+    <text x="440" y="21" font-family="'JetBrains Mono', monospace" font-size="11" fill="#e2e8f0" text-anchor="middle" letter-spacing="1">40kHz ULTRASOUND</text>
+
+    <!-- Badge 4 -->
+    <rect x="540" y="0" width="175" height="34" rx="4" fill="#0f172a" stroke="#1e293b" stroke-width="1"/>
+    <text x="627" y="21" font-family="'JetBrains Mono', monospace" font-size="11" fill="#4ade80" text-anchor="middle" letter-spacing="1">DETERMINISTIC MCP</text>
+  </g>
+
+  <!-- Bottom Coordinate Bar -->
+  <line x1="360" y1="335" x2="1140" y2="335" stroke="#161f30" stroke-width="1"/>
+  <text x="362" y="348" font-family="'JetBrains Mono', monospace" font-size="10" fill="#475569" letter-spacing="2">REAL-TIME TRAJECTORY BUFFER: 250Hz S-CURVE // ZERO CLOUD DEPENDENCY</text>
+  <text x="1140" y="348" font-family="'JetBrains Mono', monospace" font-size="10" fill="#475569" text-anchor="end" letter-spacing="2">v0.1.0-alpha</text>
+</svg>

@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <!-- Clean Monochromatic / Architectural Canvas -->
+  <rect width="512" height="512" fill="#080b11"/>
+
+  <!-- Subtly etched concentric reference rings (like a precision collimator) -->
+  <circle cx="256" cy="256" r="220" fill="none" stroke="#161f30" stroke-width="1.5"/>
+  <circle cx="256" cy="256" r="180" fill="none" stroke="#101724" stroke-width="1"/>
+  <circle cx="256" cy="256" r="120" fill="none" stroke="#161f30" stroke-width="0.75" stroke-dasharray="2 4"/>
+
+  <!-- Collimation crosshairs -->
+  <line x1="256" y1="24" x2="256" y2="72" stroke="#475569" stroke-width="1.5"/>
+  <line x1="256" y1="440" x2="256" y2="488" stroke="#475569" stroke-width="1.5"/>
+  <line x1="24" y1="256" x2="72" y2="256" stroke="#475569" stroke-width="1.5"/>
+  <line x1="440" y1="256" x2="488" y2="256" stroke="#475569" stroke-width="1.5"/>
+
+  <!-- Hexagonal Aperture Boundary (Light ray limits) -->
+  <polygon points="256,60 425,158 425,354 256,452 87,354 87,158" 
+           fill="none" stroke="#1e293b" stroke-width="1.2" stroke-dasharray="6 6"/>
+
+  <!-- THE GLYPH: Pure Geometric Monoline Khôra 'K' -->
+  <!-- Vertical Spatial Plane -->
+  <path d="M 172 136 L 172 376" stroke="#f1f5f9" stroke-width="18" stroke-linecap="square"/>
+
+  <!-- Upper Optical Trajectory -->
+  <path d="M 172 256 L 332 136" stroke="#38bdf8" stroke-width="18" stroke-linecap="square"/>
+
+  <!-- Lower Kinematic Ground Trajectory -->
+  <path d="M 236 208 L 332 376" stroke="#f1f5f9" stroke-width="18" stroke-linecap="square"/>
+
+  <!-- Micro-Reflector Optical Interference Node -->
+  <circle cx="332" cy="136" r="9" fill="#080b11" stroke="#38bdf8" stroke-width="4"/>
+  <circle cx="332" cy="376" r="9" fill="#080b11" stroke="#f1f5f9" stroke-width="4"/>
+  <circle cx="172" cy="136" r="9" fill="#080b11" stroke="#f1f5f9" stroke-width="4"/>
+  <circle cx="172" cy="376" r="9" fill="#080b11" stroke="#f1f5f9" stroke-width="4"/>
+  
+  <!-- Optical Coordinate Annotation -->
+  <text x="256" y="476" font-family="'JetBrains Mono', 'Segoe UI Mono', monospace" font-size="11" fill="#475569" text-anchor="middle" letter-spacing="4">λ: 532nm // F_ACOUSTIC: 40kHz</text>
+</svg>
