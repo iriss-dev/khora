@@ -1,6 +1,6 @@
 <div align="center">
 
-![KHORA Banner](assets/logo/khora-banner.svg)
+<img src="assets/logo/khora-banner.svg" alt="KHORA Master Banner" width="100%" />
 
 # KHORA (χώρα)
 ### Deterministic Robotics Kinematics, Spatial Computing & Traversable Light
