@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>KHORA Hub // Developer Discussions & Mega-Projects</title>
+  <title>Explore KHORA // Developer Hub &amp; Mega-Projects</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     :root {
@@ -18,23 +18,24 @@
       --blue-hover: #79c0ff;
       --green: #238636;
       --green-hover: #2ea043;
-      --green-badge: #3fb950;
-      --orange: #f0883e;
       --purple: #bc8cff;
-      --mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
-      --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+      --orange: #f0883e;
+      --btn-bg: #21262d;
+      --btn-hover: #30363d;
+      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+      --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       background: var(--bg);
       color: var(--text);
-      font-family: var(--sans);
-      line-height: 1.5;
+      font-family: var(--font);
       font-size: 14px;
+      line-height: 1.5;
     }
 
-    /* TOP GITHUB-STYLE NAVBAR */
-    header {
+    /* TOP GITHUB GLOBAL HEADER */
+    header.gh-header {
       background: #161b22;
       border-bottom: 1px solid var(--border);
       padding: 12px 24px;
@@ -45,74 +46,74 @@
       top: 0;
       z-index: 100;
     }
-    .nav-left {
+    .gh-header-left {
       display: flex;
       align-items: center;
-      gap: 20px;
+      gap: 16px;
     }
-    .nav-logo {
+    .gh-logo {
+      color: #f0f6fc;
       display: flex;
       align-items: center;
       gap: 10px;
       text-decoration: none;
-      color: var(--text-heading);
       font-weight: 700;
       font-size: 16px;
-      letter-spacing: 1px;
     }
-    .nav-logo svg {
-      width: 26px;
-      height: 26px;
+    .gh-logo svg {
+      width: 28px;
+      height: 28px;
+      fill: #ffffff;
     }
-    .nav-links {
-      display: flex;
-      gap: 16px;
-      list-style: none;
-    }
-    .nav-links a {
-      color: var(--text);
-      text-decoration: none;
-      font-size: 13px;
-      font-weight: 500;
-      transition: color 0.15s;
-    }
-    .nav-links a:hover, .nav-links a.active {
-      color: var(--blue);
-    }
-    .nav-search {
+    .gh-search-bar {
       position: relative;
       width: 320px;
     }
-    .nav-search input {
+    .gh-search-bar input {
       width: 100%;
       background: #0d1117;
       border: 1px solid var(--border);
       border-radius: 6px;
       padding: 6px 12px 6px 32px;
-      color: var(--text);
+      color: var(--text-heading);
       font-size: 13px;
       outline: none;
+      font-family: var(--font);
     }
-    .nav-search input:focus {
+    .gh-search-bar input:focus {
       border-color: var(--blue);
       box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.2);
     }
-    .nav-search svg {
+    .gh-search-icon {
       position: absolute;
       left: 10px;
       top: 8px;
-      fill: var(--text-muted);
       width: 14px;
       height: 14px;
+      fill: var(--text-muted);
     }
-    .nav-right {
+    .gh-header-nav {
+      display: flex;
+      gap: 16px;
+      list-style: none;
+    }
+    .gh-header-nav a {
+      color: var(--text-heading);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .gh-header-nav a:hover {
+      color: var(--text-muted);
+    }
+    .gh-header-right {
       display: flex;
       align-items: center;
       gap: 14px;
     }
-    .btn-new-post {
+    .btn-new-discussion {
       background: var(--green);
-      color: #fff;
+      color: #ffffff;
       border: 1px solid rgba(240, 246, 252, 0.1);
       border-radius: 6px;
       padding: 5px 14px;
@@ -124,363 +125,492 @@
       gap: 6px;
       transition: background 0.15s;
     }
-    .btn-new-post:hover {
+    .btn-new-discussion:hover {
       background: var(--green-hover);
     }
-    .user-pill {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-family: var(--mono);
-      font-size: 12px;
-      color: var(--text-heading);
-      background: #21262d;
-      padding: 4px 10px;
-      border-radius: 20px;
-      border: 1px solid var(--border);
-    }
-    .user-avatar {
-      width: 20px;
-      height: 20px;
+    .gh-avatar-btn {
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
       background: #00f0ff;
-      display: inline-block;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: #090d16;
+      font-size: 12px;
+      cursor: pointer;
     }
 
-    /* MAIN CONTAINER (Reddit / GitHub layout) */
-    .container {
+    /* SUBNAV TABS (Exact GitHub Explore layout from Image 1) */
+    .subnav-bar {
+      border-bottom: 1px solid var(--border);
+      background: #0d1117;
+      padding: 0 24px;
+    }
+    .subnav-inner {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      gap: 20px;
+    }
+    .subnav-tab {
+      padding: 12px 4px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .subnav-tab:hover {
+      color: var(--text-heading);
+    }
+    .subnav-tab.active {
+      color: var(--text-heading);
+      font-weight: 600;
+      border-bottom-color: #f78166;
+    }
+
+    /* 3-COLUMN MAIN LAYOUT */
+    .main-layout {
       max-width: 1280px;
       margin: 24px auto;
       padding: 0 24px;
       display: grid;
       grid-template-columns: 240px 1fr 340px;
       gap: 24px;
+      align-items: start;
     }
 
-    /* LEFT SIDEBAR: FILTERS & CATEGORIES */
-    .sidebar-left {
+    /* LEFT COLUMN: USER PROFILE & FILTERS (From Image 1) */
+    .user-profile-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 16px;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    .profile-avatar-large {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: #00f0ff;
+      margin: 0 auto 10px;
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: bold;
+      color: #090d16;
+    }
+    .profile-name {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-heading);
+    }
+    .profile-handle {
+      font-size: 13px;
+      color: var(--text-muted);
+      font-family: var(--mono);
+      margin-bottom: 12px;
+    }
+    .profile-stats {
+      border-top: 1px solid var(--border-muted);
+      padding-top: 12px;
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      gap: 6px;
+      text-align: left;
+      font-size: 12px;
+      color: var(--text);
     }
-    .sidebar-block {
+    .profile-stats a {
+      color: var(--blue);
+      text-decoration: none;
+    }
+    .profile-stats a:hover {
+      text-decoration: underline;
+    }
+
+    .channels-block {
       background: var(--card-bg);
       border: 1px solid var(--border);
       border-radius: 6px;
       padding: 12px;
     }
-    .sidebar-heading {
-      font-size: 11px;
+    .channels-title {
+      font-size: 12px;
       font-weight: 700;
       color: var(--text-muted);
       text-transform: uppercase;
-      letter-spacing: 1px;
+      letter-spacing: 0.5px;
       margin-bottom: 8px;
-      padding: 0 8px;
+      padding: 0 6px;
     }
-    .filter-item {
+    .channel-item {
       display: flex;
       align-items: center;
-      gap: 10px;
-      padding: 7px 10px;
+      justify-content: space-between;
+      padding: 6px 10px;
       border-radius: 6px;
       color: var(--text);
       text-decoration: none;
       font-size: 13px;
       cursor: pointer;
-      transition: background 0.15s, color 0.15s;
+      transition: background 0.15s;
     }
-    .filter-item:hover {
+    .channel-item:hover {
       background: var(--card-hover);
       color: var(--text-heading);
     }
-    .filter-item.active {
+    .channel-item.active {
       background: #1f2937;
       color: var(--blue);
       font-weight: 600;
     }
-    .filter-badge {
-      margin-left: auto;
+    .channel-count {
       font-size: 11px;
       font-family: var(--mono);
-      background: #21262d;
       color: var(--text-muted);
+      background: #21262d;
       padding: 1px 6px;
       border-radius: 10px;
     }
 
-    /* CENTER COLUMN: FEED & POSTS */
-    .center-col {
+    /* CENTER COLUMN: FEED (Exact GitHub Explore cards) */
+    .center-stream {
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 20px;
     }
-    .feed-header {
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      padding: 10px 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .feed-tabs {
-      display: flex;
-      gap: 8px;
-    }
-    .tab-btn {
-      background: transparent;
-      border: none;
-      color: var(--text-muted);
-      font-size: 13px;
+    .stream-header {
+      font-size: 14px;
       font-weight: 600;
-      padding: 6px 12px;
-      border-radius: 6px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .tab-btn:hover {
-      background: var(--card-hover);
-      color: var(--text);
-    }
-    .tab-btn.active {
-      background: #21262d;
       color: var(--text-heading);
     }
 
-    /* POST CARDS (Reddit meets GitHub) */
-    .post-card {
+    /* FEATURED HERO CARD (From Image 1) */
+    .hero-featured-card {
+      background: #161b22;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .hero-media-wrapper {
+      background: #090d16;
+      height: 220px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero-media-wrapper svg {
+      width: 100%;
+      height: 100%;
+    }
+    .hero-content {
+      padding: 16px;
+    }
+    .hero-badge {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--blue);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+    }
+    .hero-title {
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--text-heading);
+      margin-bottom: 6px;
+      line-height: 1.3;
+    }
+    .hero-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* REPO / PROJECT CARD (1:1 with GitHub Explore in Image 1) */
+    .gh-project-card {
       background: var(--card-bg);
       border: 1px solid var(--border);
       border-radius: 6px;
-      display: flex;
-      overflow: hidden;
+      padding: 16px;
       transition: border-color 0.15s;
-      cursor: pointer;
     }
-    .post-card:hover {
+    .gh-project-card:hover {
       border-color: #484f58;
     }
-    .post-vote-col {
-      width: 48px;
-      background: #0d1117;
-      border-right: 1px solid var(--border-muted);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 12px 0;
-      gap: 4px;
-    }
-    .vote-btn {
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      cursor: pointer;
-      padding: 4px;
-      border-radius: 4px;
-      transition: color 0.15s, background 0.15s;
-    }
-    .vote-btn:hover {
-      color: var(--orange);
-      background: #21262d;
-    }
-    .vote-count {
-      font-family: var(--mono);
+    .card-context-line {
       font-size: 12px;
-      font-weight: 700;
-      color: var(--text-heading);
+      color: var(--text-muted);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
-    .post-main {
-      padding: 16px;
-      flex: 1;
+    .card-context-line svg {
+      width: 14px;
+      height: 14px;
+      fill: var(--text-muted);
     }
-    .post-meta {
+    .card-top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+    }
+    .repo-link {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--blue);
+      text-decoration: none;
       display: flex;
       align-items: center;
       gap: 8px;
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-bottom: 6px;
     }
-    .post-meta .author {
-      font-weight: 600;
-      color: var(--text);
-      font-family: var(--mono);
+    .repo-link:hover {
+      text-decoration: underline;
     }
-    .post-meta .badge-founder {
-      background: rgba(0, 240, 255, 0.15);
-      border: 1px solid #00f0ff;
-      color: #00f0ff;
-      padding: 1px 6px;
-      border-radius: 10px;
-      font-size: 10px;
-      font-family: var(--mono);
+    .repo-link svg {
+      width: 16px;
+      height: 16px;
+      fill: var(--text-muted);
     }
-    .post-title {
-      font-size: 16px;
-      font-weight: 600;
+    .btn-star-group {
+      display: flex;
+      background: var(--btn-bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .btn-star-group button {
+      background: transparent;
+      border: none;
       color: var(--text-heading);
-      margin-bottom: 6px;
-      text-decoration: none;
-      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.15s;
     }
-    .post-title:hover {
-      color: var(--blue);
+    .btn-star-group button:hover {
+      background: var(--btn-hover);
     }
-    .post-body {
+    .btn-star-group svg {
+      width: 14px;
+      height: 14px;
+      fill: #e3b341;
+    }
+    .star-counter {
+      border-left: 1px solid var(--border);
+      padding: 4px 10px;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text-heading);
+      display: flex;
+      align-items: center;
+    }
+    .repo-actions-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .btn-sub-action {
+      background: var(--btn-bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 500;
+      padding: 3px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .btn-sub-action:hover {
+      background: var(--btn-hover);
+      color: var(--text-heading);
+    }
+    .btn-sub-action svg {
+      width: 13px;
+      height: 13px;
+      fill: var(--text-muted);
+    }
+    .repo-description {
       font-size: 13px;
       color: var(--text);
       margin-bottom: 12px;
-      line-height: 1.6;
+      line-height: 1.5;
     }
-    .post-tags {
+    .repo-tags {
       display: flex;
       gap: 6px;
-      margin-bottom: 12px;
       flex-wrap: wrap;
+      margin-bottom: 12px;
     }
-    .tag {
-      font-size: 11px;
-      font-family: var(--mono);
-      padding: 2px 8px;
+    .tag-pill {
+      font-size: 12px;
+      color: var(--blue);
+      background: rgba(56, 139, 253, 0.15);
       border-radius: 12px;
-      background: #21262d;
-      border: 1px solid var(--border);
-      color: var(--blue);
+      padding: 2px 10px;
       text-decoration: none;
+      font-weight: 500;
     }
-    .tag.mega {
-      background: rgba(88, 166, 255, 0.15);
-      border-color: var(--blue);
-      color: var(--blue);
-      font-weight: 600;
+    .tag-pill:hover {
+      background: var(--blue);
+      color: #090d16;
     }
-    .tag.solved {
+    .tag-pill.green {
       background: rgba(63, 185, 80, 0.15);
-      border-color: var(--green-badge);
-      color: var(--green-badge);
+      color: #3fb950;
     }
-    .tag.bounty {
+    .tag-pill.orange {
       background: rgba(240, 136, 62, 0.15);
-      border-color: var(--orange);
-      color: var(--orange);
-      font-weight: 600;
+      color: #f0883e;
     }
-    .post-footer {
+    .card-footer-meta {
       display: flex;
       align-items: center;
       gap: 16px;
       font-size: 12px;
       color: var(--text-muted);
     }
-    .footer-action {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      color: var(--text-muted);
-      cursor: pointer;
-      transition: color 0.15s;
+    .lang-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 4px;
     }
-    .footer-action:hover {
-      color: var(--text);
-    }
+    .lang-dot.rust { background: #dea584; }
+    .lang-dot.python { background: #3572A5; }
+    .lang-dot.c { background: #555555; }
+    .lang-dot.openscad { background: #e9573f; }
+    .lang-dot.js { background: #f1e05a; }
 
-    /* RIGHT SIDEBAR: COMMUNITY & SPOTLIGHT */
+    /* RIGHT COLUMN: TRENDING REPOSITORIES & DEVELOPERS (From Image 1) */
     .sidebar-right {
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 20px;
     }
-    .about-card {
+    .trending-box {
       background: var(--card-bg);
       border: 1px solid var(--border);
       border-radius: 6px;
       padding: 16px;
     }
-    .about-header {
-      font-size: 14px;
-      font-weight: 700;
+    .trending-title {
+      font-size: 13px;
+      font-weight: 600;
       color: var(--text-heading);
-      margin-bottom: 8px;
-    }
-    .about-desc {
-      font-size: 12px;
-      color: var(--text-muted);
-      margin-bottom: 14px;
-      line-height: 1.5;
-    }
-    .stats-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      border-top: 1px solid var(--border-muted);
-      padding-top: 12px;
-      margin-bottom: 14px;
-    }
-    .stat-box .num {
-      font-size: 16px;
-      font-weight: 700;
-      color: var(--text-heading);
-      font-family: var(--mono);
-    }
-    .stat-box .lbl {
-      font-size: 11px;
-      color: var(--text-muted);
-    }
-    .link-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .link-list a {
-      color: var(--blue);
-      text-decoration: none;
-      font-size: 12px;
+      margin-bottom: 12px;
       display: flex;
       align-items: center;
       gap: 6px;
     }
-    .link-list a:hover {
+    .trending-title svg {
+      width: 14px;
+      height: 14px;
+      fill: var(--text-muted);
+    }
+    .trending-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .trending-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .trending-item-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .trending-item-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--blue);
+      text-decoration: none;
+    }
+    .trending-item-name:hover {
+      text-decoration: underline;
+    }
+    .trending-stars {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-family: var(--mono);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .trending-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+    .see-more-link {
+      display: block;
+      margin-top: 12px;
+      font-size: 12px;
+      color: var(--blue);
+      text-decoration: none;
+    }
+    .see-more-link:hover {
       text-decoration: underline;
     }
 
-    /* MEGA PROJECTS CARD IN SIDEBAR */
-    .mega-project-item {
-      padding: 10px;
-      background: #0d1117;
-      border: 1px solid var(--border-muted);
-      border-radius: 6px;
-      margin-bottom: 8px;
+    /* DEVELOPERS LIST */
+    .dev-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
     }
-    .mega-project-item:hover {
-      border-color: var(--blue);
-    }
-    .project-name {
+    .dev-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #21262d;
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
       font-size: 12px;
+      color: #f0f6fc;
+    }
+    .dev-name {
+      font-size: 13px;
       font-weight: 600;
       color: var(--text-heading);
+      line-height: 1.2;
     }
-    .project-members {
+    .dev-handle {
       font-size: 11px;
       color: var(--text-muted);
-      margin-top: 2px;
-    }
-    .progress-bar {
-      height: 4px;
-      background: #21262d;
-      border-radius: 2px;
-      overflow: hidden;
-      margin-top: 6px;
-    }
-    .progress-fill {
-      height: 100%;
-      background: var(--green-badge);
+      font-family: var(--mono);
     }
 
-    /* MODAL (FOR VIEWING THREADS OR NEW POSTS) */
+    /* MODAL WINDOWS */
     .modal-overlay {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
@@ -494,72 +624,57 @@
     .modal-overlay.open {
       display: flex;
     }
-    .modal-box {
-      width: 720px;
+    .modal-card {
+      width: 680px;
       max-height: 85vh;
       background: #161b22;
       border: 1px solid var(--border);
       border-radius: 8px;
-      box-shadow: 0 16px 32px rgba(0,0,0,0.5);
       display: flex;
       flex-direction: column;
       overflow: hidden;
+      box-shadow: 0 16px 32px rgba(0,0,0,0.6);
     }
-    .modal-header {
-      padding: 16px 20px;
+    .modal-head {
+      padding: 14px 20px;
       border-bottom: 1px solid var(--border);
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
-    .modal-header h3 {
-      font-size: 16px;
+    .modal-head h3 {
+      font-size: 15px;
+      font-weight: 600;
       color: var(--text-heading);
     }
-    .modal-close {
+    .modal-close-btn {
       background: none;
       border: none;
       color: var(--text-muted);
       font-size: 20px;
       cursor: pointer;
     }
-    .modal-body {
+    .modal-content-scroll {
       padding: 20px;
       overflow-y: auto;
       flex: 1;
     }
-    .modal-body input, .modal-body textarea, .modal-body select {
+    .modal-content-scroll input, .modal-content-scroll textarea, .modal-content-scroll select {
       width: 100%;
       background: #0d1117;
       border: 1px solid var(--border);
       border-radius: 6px;
       padding: 8px 12px;
-      color: var(--text);
-      font-family: var(--sans);
+      color: var(--text-heading);
       font-size: 13px;
       margin-bottom: 14px;
       outline: none;
+      font-family: var(--font);
     }
-    .modal-body input:focus, .modal-body textarea:focus {
+    .modal-content-scroll input:focus, .modal-content-scroll textarea:focus {
       border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.2);
     }
-    .modal-body label {
-      display: block;
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--text-heading);
-      margin-bottom: 6px;
-    }
-    .modal-footer {
-      padding: 12px 20px;
-      border-top: 1px solid var(--border);
-      background: #0d1117;
-      display: flex;
-      justify-content: flex-end;
-      gap: 10px;
-    }
-
-    /* CODE BLOCKS INSIDE POSTS */
     pre.code-block {
       background: #0d1117;
       border: 1px solid var(--border-muted);
@@ -571,243 +686,302 @@
       overflow-x: auto;
       margin: 10px 0;
     }
-    .comment-tree {
-      margin-top: 20px;
-      border-top: 1px solid var(--border-muted);
-      padding-top: 16px;
-    }
-    .comment-item {
-      border-left: 2px solid var(--border);
-      padding-left: 12px;
-      margin-bottom: 12px;
-    }
-    .comment-author {
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--text-heading);
-      font-family: var(--mono);
-    }
-    .comment-text {
-      font-size: 13px;
-      color: var(--text);
-      margin-top: 4px;
-    }
   </style>
 </head>
 <body>
 
-  <!-- TOP GITHUB-STYLE HEADER -->
-  <header>
-    <div class="nav-left">
-      <a href="#" class="nav-logo">
-        <svg viewBox="0 0 512 512" fill="none">
-          <rect x="28" y="28" width="456" height="456" stroke="#00f0ff" stroke-width="24"/>
-          <line x1="168" y1="128" x2="168" y2="384" stroke="#ffffff" stroke-width="32" stroke-linecap="round"/>
-          <line x1="220" y1="236" x2="344" y2="128" stroke="#00f0ff" stroke-width="32" stroke-linecap="round"/>
-          <circle cx="204" cy="256" r="12" stroke="#00f0ff" stroke-width="5"/>
-          <line x1="220" y1="276" x2="344" y2="384" stroke="#ffffff" stroke-width="32" stroke-linecap="round"/>
+  <!-- GLOBAL GITHUB HEADER -->
+  <header class="gh-header">
+    <div class="gh-header-left">
+      <a href="https://github.com/iriss-dev/khora" class="gh-logo">
+        <!-- Octocat SVG -->
+        <svg height="28" viewBox="0 0 16 16" width="28">
+          <path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path>
         </svg>
         <span>KHORA</span>
       </a>
 
-      <div class="nav-search">
-        <svg viewBox="0 0 16 16"><path d="M11.5 7a4.499 4.499 0 11-8.998 0A4.499 4.499 0 0111.5 7zm-.82 4.74a6 6 0 10-1.06 1.06l3.04 3.04a.75.75 0 101.06-1.06l-3.04-3.04z"></path></svg>
-        <input type="text" id="search-input" placeholder="Search discussions, RFCs, mega-projects... (Press '/' to focus)">
+      <div class="gh-search-bar">
+        <!-- Search Octicon -->
+        <svg class="gh-search-icon" viewBox="0 0 16 16"><path d="M11.5 7a4.499 4.499 0 11-8.998 0A4.499 4.499 0 0111.5 7zm-.82 4.74a6 6 0 10-1.06 1.06l3.04 3.04a.75.75 0 101.06-1.06l-3.04-3.04z"></path></svg>
+        <input type="text" id="global-search-input" placeholder="Type / to search...">
       </div>
 
-      <ul class="nav-links">
-        <li><a href="#" class="active" onclick="filterCategory('all')">Discussions</a></li>
-        <li><a href="#" onclick="filterCategory('mega')">Mega-Projects</a></li>
-        <li><a href="#" onclick="filterCategory('hardware')">Hardware &amp; BOMs</a></li>
-        <li><a href="#" onclick="filterCategory('bounty')">Bounties</a></li>
-        <li><a href="https://github.com/iriss-dev/khora" target="_blank">GitHub Repo ↗</a></li>
+      <ul class="gh-header-nav">
+        <li><a href="#" class="active" onclick="setFeedCategory('all')">Explore</a></li>
+        <li><a href="#" onclick="setFeedCategory('mega')">Mega-Projects</a></li>
+        <li><a href="#" onclick="setFeedCategory('discussions')">Discussions</a></li>
+        <li><a href="#" onclick="setFeedCategory('bounty')">Bounties</a></li>
+        <li><a href="https://github.com/iriss-dev/khora" target="_blank">Repository ↗</a></li>
       </ul>
     </div>
 
-    <div class="nav-right">
-      <button class="btn-new-post" onclick="openNewPostModal()">
+    <div class="gh-header-right">
+      <button class="btn-new-discussion" onclick="openNewPostModal()">
         <span>+</span> New Discussion
       </button>
-      <div class="user-pill">
-        <span class="user-avatar"></span>
-        <span>@iriss-dev</span>
+      <div class="gh-avatar-btn" title="iris (iriss-dev)">
+        I
       </div>
     </div>
   </header>
 
-  <!-- MAIN REDDIT / GITHUB COMMUNITY CONTAINER -->
-  <div class="container">
+  <!-- SUBNAV TABS (Matches Image 1) -->
+  <div class="subnav-bar">
+    <div class="subnav-inner">
+      <div class="subnav-tab active" id="tab-explore" onclick="setFeedTab('explore')">Explore</div>
+      <div class="subnav-tab" id="tab-topics" onclick="setFeedTab('topics')">Topics</div>
+      <div class="subnav-tab" id="tab-trending" onclick="setFeedTab('trending')">Trending</div>
+      <div class="subnav-tab" id="tab-collections" onclick="setFeedTab('collections')">Collections</div>
+      <div class="subnav-tab" id="tab-events" onclick="setFeedTab('events')">Events</div>
+      <div class="subnav-tab" id="tab-sponsors" onclick="setFeedTab('sponsors')">KHORA Sponsors</div>
+    </div>
+  </div>
+
+  <!-- 3-COLUMN LAYOUT -->
+  <div class="main-layout">
     
-    <!-- LEFT SIDEBAR: CHANNELS & CATEGORIES -->
+    <!-- LEFT SIDEBAR: PROFILE & TOPICS (Matches Image 1) -->
     <div class="sidebar-left">
-      <div class="sidebar-block">
-        <div class="sidebar-heading">Feeds</div>
-        <div class="filter-item active" onclick="setFeedSort('hot')">🔥 Hot Discussions <span class="filter-badge">Top</span></div>
-        <div class="filter-item" onclick="setFeedSort('new')">⏱️ Latest Updates <span class="filter-badge">New</span></div>
-        <div class="filter-item" onclick="setFeedSort('top')">🏆 All-Time Top</div>
-      </div>
-
-      <div class="sidebar-block">
-        <div class="sidebar-heading">Technical Channels</div>
-        <div class="filter-item" onclick="filterCategory('mega')">🚀 #mega-projects <span class="filter-badge">6</span></div>
-        <div class="filter-item" onclick="filterCategory('kinematics')">📐 #kinematics-control <span class="filter-badge">42</span></div>
-        <div class="filter-item" onclick="filterCategory('optics')">🔬 #optics-dcra <span class="filter-badge">28</span></div>
-        <div class="filter-item" onclick="filterCategory('ultrasound')">🔊 #acoustic-haptics <span class="filter-badge">19</span></div>
-        <div class="filter-item" onclick="filterCategory('hardware')">🛠️ #hardware-troubleshoot <span class="filter-badge">84</span></div>
-        <div class="filter-item" onclick="filterCategory('bounty')">💰 #funded-bounties <span class="filter-badge">$1.2k</span></div>
-      </div>
-    </div>
-
-    <!-- CENTER FEED COLUMN -->
-    <div class="center-col">
-      
-      <!-- SUB-NAV FILTER TABS -->
-      <div class="feed-header">
-        <div class="feed-tabs">
-          <button class="tab-btn active" id="tab-hot" onclick="setFeedSort('hot')">🔥 Hot</button>
-          <button class="tab-btn" id="tab-new" onclick="setFeedSort('new')">⏱️ New</button>
-          <button class="tab-btn" id="tab-top" onclick="setFeedSort('top')">🏆 Top Upvoted</button>
-          <button class="tab-btn" id="tab-mega" onclick="filterCategory('mega')">🚀 Mega-Projects</button>
+      <div class="user-profile-card">
+        <div class="profile-avatar-large">I</div>
+        <div class="profile-name">iris</div>
+        <div class="profile-handle">iriss-dev</div>
+        <div class="profile-stats">
+          <div><a href="#">0 starred topics</a></div>
+          <div><a href="#">10 starred repositories</a></div>
         </div>
-        <span style="font-size: 12px; color: var(--text-muted); font-family: var(--mono);" id="posts-count-label">Showing 5 discussions</span>
       </div>
 
-      <!-- POSTS CONTAINER (Populated dynamically) -->
-      <div id="posts-feed" style="display:flex; flex-direction:column; gap:12px;"></div>
+      <div class="channels-block">
+        <div class="channels-title">Engineering Channels</div>
+        <div class="channel-item active" onclick="setFeedCategory('all')">
+          <span>🌐 All Feeds</span>
+          <span class="channel-count">48</span>
+        </div>
+        <div class="channel-item" onclick="setFeedCategory('mega')">
+          <span>🚀 Mega-Projects</span>
+          <span class="channel-count">6</span>
+        </div>
+        <div class="channel-item" onclick="setFeedCategory('optics')">
+          <span>🔬 Optics &amp; DCRA</span>
+          <span class="channel-count">24</span>
+        </div>
+        <div class="channel-item" onclick="setFeedCategory('kinematics')">
+          <span>📐 Kinematics &amp; SE(3)</span>
+          <span class="channel-count">38</span>
+        </div>
+        <div class="channel-item" onclick="setFeedCategory('ultrasound')">
+          <span>🔊 Acoustic Haptics</span>
+          <span class="channel-count">19</span>
+        </div>
+        <div class="channel-item" onclick="setFeedCategory('hardware')">
+          <span>🛠️ Hardware Troubleshoot</span>
+          <span class="channel-count">52</span>
+        </div>
+        <div class="channel-item" onclick="setFeedCategory('bounty')">
+          <span>💰 Active Bounties</span>
+          <span class="channel-count">$1.8k</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CENTER COLUMN: CARDS FEED (Matches Image 1) -->
+    <div class="center-stream">
+      <div class="stream-header">Here's what we found based on your interests...</div>
+
+      <!-- FEATURED VIDEO / MEDIA HERO CARD (Matches Image 1) -->
+      <div class="hero-featured-card">
+        <div class="hero-media-wrapper">
+          <!-- Clean Vector Diagram of 1:1 DCRA Convergence -->
+          <svg viewBox="0 0 600 200" width="100%" height="100%">
+            <rect width="600" height="200" fill="#080c14"/>
+            <line x1="0" y1="180" x2="600" y2="180" stroke="#1f293d" stroke-width="1"/>
+            <!-- OLED Display at bottom -->
+            <rect x="220" y="172" width="160" height="8" rx="2" fill="#00f0ff" opacity="0.8"/>
+            <text x="300" y="195" font-family="'JetBrains Mono', monospace" font-size="10" fill="#64748b" text-anchor="middle">Physical High-Nit Display (d_source)</text>
+            <!-- 45-degree Plate -->
+            <line x1="230" y1="150" x2="370" y2="60" stroke="#38bdf8" stroke-width="4" stroke-linecap="round"/>
+            <text x="300" y="45" font-family="'JetBrains Mono', monospace" font-size="11" fill="#38bdf8" font-weight="bold" text-anchor="middle">DCRA Substrate Plate (θ = 45.0°)</text>
+            <!-- Light Rays -->
+            <line x1="250" y1="172" x2="280" y2="118" stroke="#00f0ff" stroke-width="1.5" stroke-dasharray="3 3"/>
+            <line x1="350" y1="172" x2="320" y2="92" stroke="#00f0ff" stroke-width="1.5" stroke-dasharray="3 3"/>
+            <!-- Converging in free air -->
+            <line x1="280" y1="118" x2="300" y2="25" stroke="#00f0ff" stroke-width="2"/>
+            <line x1="320" y1="92" x2="300" y2="25" stroke="#00f0ff" stroke-width="2"/>
+            <!-- Focal Point in free space -->
+            <circle cx="300" cy="25" r="6" fill="#00f0ff"/>
+            <circle cx="300" cy="25" r="14" fill="none" stroke="#00f0ff" stroke-width="1" stroke-dasharray="2 3"/>
+            <text x="380" y="28" font-family="'JetBrains Mono', monospace" font-size="10" fill="#00f0ff">Floating Light (d_air = d_source)</text>
+          </svg>
+        </div>
+        <div class="hero-content">
+          <div class="hero-badge">KHORA Architecture Release</div>
+          <div class="hero-title">Traversable Real Holographic Light: Optical &amp; Acoustic Physics in Free Space</div>
+          <div class="hero-desc">
+            Explore how Dihedral Corner Reflector Arrays (DCRA) achieve retro-reflection in the substrate plane, forming an aerial real image with zero mechanical barrier so human hands can pass through unobstructed while feeling 40 kHz acoustic touch.
+          </div>
+        </div>
+      </div>
+
+      <!-- CARDS FEED LIST -->
+      <div id="cards-container" style="display:flex; flex-direction:column; gap:16px;"></div>
 
     </div>
 
-    <!-- RIGHT SIDEBAR: ABOUT KHORA & MEGA-PROJECTS TRACKER -->
+    <!-- RIGHT SIDEBAR: TRENDING TODAY & REPOSITORIES (Matches Image 1) -->
     <div class="sidebar-right">
       
-      <div class="about-card">
-        <div class="about-header">About KHORA Community Hub</div>
-        <div class="about-desc">
-          The collaborative open-source engineering ecosystem for traversable spatial computing, 40 kHz acoustic haptics, and deterministic robotics control. Built by engineers, for engineers. Zero marketing fluff.
+      <!-- Trending Repositories Box -->
+      <div class="trending-box">
+        <div class="trending-title">
+          <!-- Flame icon -->
+          <svg viewBox="0 0 16 16"><path d="M9.504.43a1.5 1.5 0 0 1 1.264.508 7.217 7.217 0 0 1 1.764 4.817V6.4a.75.75 0 0 0 1.5 0v-.645a8.718 8.718 0 0 0-2.13-5.819A3 3 0 0 0 7.37.036a8.717 8.717 0 0 0-5.818 2.13A7.214 7.214 0 0 0 0 7.42c0 4.14 3.36 7.5 7.5 7.5 4.14 0 7.5-3.36 7.5-7.5a.75.75 0 0 0-1.5 0c0 3.314-2.686 6-6 6s-6-2.686-6-6c0-1.464.524-2.81 1.4-3.86a7.22 7.22 0 0 1 4.817-1.765 1.5 1.5 0 0 1 1.787 1.135Z"></path></svg>
+          <span>Trending repositories today</span>
         </div>
-        <div class="stats-row">
-          <div class="stat-box">
-            <div class="num">1,420</div>
-            <div class="lbl">Engineers &amp; Makers</div>
+
+        <div class="trending-list">
+          <div class="trending-item">
+            <div class="trending-item-top">
+              <a href="https://github.com/iriss-dev/khora" class="trending-item-name">iriss-dev / khora</a>
+              <span class="trending-stars">⭐ 1.4k</span>
+            </div>
+            <div class="trending-desc">Deterministic robotics kinematics, spatial computing &amp; traversable mid-air light.</div>
           </div>
-          <div class="stat-box">
-            <div class="num">38</div>
-            <div class="lbl">Verified Builds</div>
+
+          <div class="trending-item">
+            <div class="trending-item-top">
+              <a href="#" class="trending-item-name" onclick="openThreadModal(1)">khora / human-scale-rig</a>
+              <span class="trending-stars">⭐ 582</span>
+            </div>
+            <div class="trending-desc">16-tile DCRA array gantry for life-size interactive floating avatars.</div>
+          </div>
+
+          <div class="trending-item">
+            <div class="trending-item-top">
+              <a href="https://github.com/iriss-dev/blackice" class="trending-item-name">iriss-dev / blackice</a>
+              <span class="trending-stars">⭐ 840</span>
+            </div>
+            <div class="trending-desc">Autonomous Linux ingress defense sentinel with atomic nftables drop in &lt;0.05ms.</div>
+          </div>
+
+          <div class="trending-item">
+            <div class="trending-item-top">
+              <a href="#" class="trending-item-name" onclick="openThreadModal(2)">khora / dual-arm-bimanual</a>
+              <span class="trending-stars">⭐ 320</span>
+            </div>
+            <div class="trending-desc">Cooperative 14-DOF bimanual trajectory planner with CANopen bus.</div>
           </div>
         </div>
-        <ul class="link-list">
-          <li><a href="https://github.com/iriss-dev/khora/blob/master/specs/RFC-0001-SPATIAL-LIGHT-AND-HAPTICS.md" target="_blank">📄 RFC-0001: Spatial Optics &amp; Haptics</a></li>
-          <li><a href="https://github.com/iriss-dev/khora/blob/master/specs/RFC-0002-DETERMINISTIC-ROBOTICS-AND-MCP-PLANE.md" target="_blank">📄 RFC-0002: Deterministic Kinematics &amp; MCP</a></li>
-          <li><a href="https://github.com/iriss-dev/khora/blob/master/docs/HARDWARE_BOM.md" target="_blank">🛒 Hardware BOM &amp; Supplier Sourcing</a></li>
-          <li><a href="https://github.com/iriss-dev/khora" target="_blank">⭐ Star on GitHub (iriss-dev/khora)</a></li>
-        </ul>
+
+        <a href="#" class="see-more-link" onclick="setFeedCategory('mega')">See more trending projects &gt;</a>
       </div>
 
-      <div class="about-card">
-        <div class="about-header" style="display:flex; justify-content:space-between; align-items:center;">
-          <span>Active Mega-Projects</span>
-          <span style="font-size:11px; color:var(--blue); cursor:pointer;" onclick="filterCategory('mega')">View all</span>
-        </div>
-        <p style="font-size:11px; color:var(--text-muted); margin-bottom:10px;">
-          Multi-engineer collaborative hardware builds currently in active R&amp;D.
-        </p>
-
-        <!-- Project 1 -->
-        <div class="mega-project-item" onclick="openThreadModal(1)">
-          <div class="project-name">🌐 Human-Scale Holographic Array</div>
-          <div class="project-members">16x DCRA Tiling · 8 Engineers collaborating</div>
-          <div class="progress-bar"><div class="progress-fill" style="width: 65%;"></div></div>
+      <!-- Trending Developers Box -->
+      <div class="trending-box">
+        <div class="trending-title">
+          <!-- Person icon -->
+          <svg viewBox="0 0 16 16"><path d="M10.5 5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0ZM0 13c0-1.887 1.455-3.5 3.5-3.5h9c2.045 0 3.5 1.613 3.5 3.5 0 .552-.448 1-1 1H1c-.552 0-1-.448-1-1Z"></path></svg>
+          <span>Trending developers</span>
         </div>
 
-        <!-- Project 2 -->
-        <div class="mega-project-item" onclick="openThreadModal(2)">
-          <div class="project-name">🦾 Bimanual 14-DOF Cooperative Rig</div>
-          <div class="project-members">Dual CANopen bus · 5 Engineers collaborating</div>
-          <div class="progress-bar"><div class="progress-fill" style="width: 82%;"></div></div>
+        <div class="dev-item">
+          <div class="dev-avatar" style="background:#00f0ff; color:#090d16;">I</div>
+          <div>
+            <div class="dev-name">iris</div>
+            <div class="dev-handle">iriss-dev · Founder &amp; Architect</div>
+          </div>
         </div>
 
-        <!-- Project 3 -->
-        <div class="mega-project-item" onclick="openThreadModal(3)">
-          <div class="project-name">🏥 Contactless Surgical Navigation</div>
-          <div class="project-members">Sterile DICOM 3D slice · 4 Clinical Researchers</div>
-          <div class="progress-bar"><div class="progress-fill" style="width: 40%;"></div></div>
+        <div class="dev-item">
+          <div class="dev-avatar">M</div>
+          <div>
+            <div class="dev-name">Marcus Lindqvist</div>
+            <div class="dev-handle">marcus_cern · Optics &amp; Lasers</div>
+          </div>
         </div>
 
-        <button class="btn-new-post" style="width:100%; margin-top:8px; justify-content:center; background:#21262d; border-color:var(--border);" onclick="openNewPostModal('mega')">
-          + Propose a New Mega-Project
-        </button>
-      </div>
+        <div class="dev-item">
+          <div class="dev-avatar">E</div>
+          <div>
+            <div class="dev-name">Elena Rostova</div>
+            <div class="dev-handle">elena_robotics · Kinematics &amp; CAD</div>
+          </div>
+        </div>
 
-      <div class="about-card" style="font-size:11px; color:var(--text-muted);">
-        <b>Community Standard:</b> Posts must include reproducible engineering math, schematics, or benchmarks. Peer reviews are public. Maintain respect and technical rigor.
+        <div class="dev-item">
+          <div class="dev-avatar">N</div>
+          <div>
+            <div class="dev-name">Dr. Nikola Vance</div>
+            <div class="dev-handle">dr_nikola · Power Electronics</div>
+          </div>
+        </div>
       </div>
 
     </div>
   </div>
 
-  <!-- MODAL: VIEW FULL THREAD & COMMENTS -->
+  <!-- MODAL: VIEW FULL PROJECT / DISCUSSION -->
   <div class="modal-overlay" id="thread-modal" onclick="closeModalOnOverlay(event, 'thread-modal')">
-    <div class="modal-box">
-      <div class="modal-header">
-        <h3 id="modal-thread-title">Discussion Title</h3>
-        <button class="modal-close" onclick="closeModal('thread-modal')">&times;</button>
+    <div class="modal-card">
+      <div class="modal-head">
+        <h3 id="modal-title">Discussion Title</h3>
+        <button class="modal-close-btn" onclick="closeModal('thread-modal')">&times;</button>
       </div>
-      <div class="modal-body" id="modal-thread-content">
+      <div class="modal-content-scroll" id="modal-content">
         <!-- Injected dynamically -->
       </div>
-      <div class="modal-footer">
-        <button class="btn-new-post" style="background:#21262d; border-color:var(--border);" onclick="closeModal('thread-modal')">Close</button>
-      </div>
     </div>
   </div>
 
-  <!-- MODAL: NEW POST / PROPOSE MEGA-PROJECT -->
+  <!-- MODAL: CREATE NEW DISCUSSION / PROJECT -->
   <div class="modal-overlay" id="new-post-modal" onclick="closeModalOnOverlay(event, 'new-post-modal')">
-    <div class="modal-box">
-      <div class="modal-header">
-        <h3>Create an Engineering Discussion / Propose Mega-Project</h3>
-        <button class="modal-close" onclick="closeModal('new-post-modal')">&times;</button>
+    <div class="modal-card">
+      <div class="modal-head">
+        <h3>Start an Engineering Discussion / Propose Mega-Project</h3>
+        <button class="modal-close-btn" onclick="closeModal('new-post-modal')">&times;</button>
       </div>
-      <div class="modal-body">
-        <label>Title</label>
-        <input type="text" id="new-post-title" placeholder="Descriptive title (e.g. [RFC] Closed-loop force sensing via piezo back-EMF)">
+      <div class="modal-content-scroll">
+        <label style="font-size:12px; font-weight:600; color:var(--text-heading); display:block; margin-bottom:6px;">Discussion Title</label>
+        <input type="text" id="new-title-input" placeholder="e.g. [RFC] Closed-loop force sensing via transducer acoustic back-EMF">
 
-        <label>Channel / Category</label>
-        <select id="new-post-category">
+        <label style="font-size:12px; font-weight:600; color:var(--text-heading); display:block; margin-bottom:6px;">Category</label>
+        <select id="new-cat-input">
           <option value="mega">🚀 #mega-projects (Colossal collaborative builds)</option>
+          <option value="optics">🔬 #optics-dcra (Aerial imaging plates &amp; lasers)</option>
+          <option value="kinematics">📐 #kinematics-control (SE(3), DLS solvers, motor tuning)</option>
+          <option value="ultrasound">🔊 #acoustic-haptics (40kHz radiation force &amp; phased arrays)</option>
           <option value="hardware">🛠️ #hardware-troubleshoot (Circuits, MOSFETs, assembly)</option>
-          <option value="kinematics">📐 #kinematics-control (SE(3), DLS solvers, motor trajectories)</option>
-          <option value="optics">🔬 #optics-dcra (Aerial imaging plates, retro-reflection)</option>
-          <option value="ultrasound">🔊 #acoustic-haptics (40kHz radiation force, phase arrays)</option>
-          <option value="bounty">💰 #funded-bounties (Open technical challenges)</option>
+          <option value="bounty">💰 #funded-bounties (Paid technical challenges)</option>
         </select>
 
-        <label>Discussion Content &amp; Mathematical Specs</label>
-        <textarea id="new-post-body" rows="6" placeholder="Describe the physical problem, attach equations, schematics, BOM parts or code snippets..."></textarea>
-      </div>
-      <div class="modal-footer">
-        <button class="btn-new-post" style="background:#21262d; border-color:var(--border);" onclick="closeModal('new-post-modal')">Cancel</button>
-        <button class="btn-new-post" onclick="submitNewPost()">Publish Discussion</button>
+        <label style="font-size:12px; font-weight:600; color:var(--text-heading); display:block; margin-bottom:6px;">Description &amp; Specifications (Markdown)</label>
+        <textarea id="new-body-input" rows="6" placeholder="Describe the physical engineering challenge, attach mathematical equations, schematics, or BOM part numbers..."></textarea>
+
+        <button class="btn-new-discussion" style="width:100%; justify-content:center; padding:8px;" onclick="publishNewPost()">
+          Publish Discussion
+        </button>
       </div>
     </div>
   </div>
 
   <script>
     // -------------------------------------------------------------------------
-    // COMMUNITY POSTS DATA STORE
+    // COMMUNITY POSTS STORE (Formatted 1:1 like GitHub Explore in Image 1)
     // -------------------------------------------------------------------------
     let POSTS = [
       {
         id: 1,
-        title: "[Mega-Project] Human-Scale Traversable Hologram: 4x4 Modular DCRA Array with 1024-Transducer Phased Acoustic Beamforming",
-        author: "iriss-dev",
-        isFounder: true,
-        category: "mega",
-        upvotes: 312,
-        userVoted: false,
-        timeAgo: "2 hours ago",
-        tags: ["Mega-Project", "Optics", "Ultrasound", "Open Collaboration"],
-        summary: "We are scaling the KHORA aerial rig from desktop size (200x200mm) to human scale (800x800mm clear aperture). Seeking mechanical engineers for the extruded aluminum support rig and FPGA engineers to drive 1024 PWM channels at 40 kHz without phase jitter.",
+        repoOwner: "khora-collective",
+        repoName: "human-scale-holographic-array",
+        stars: 582,
+        starred: false,
+        context: "Trending Mega-Project in Spatial Light",
+        desc: "Modular 4x4 DCRA array gantry (800x800mm clear aperture) with 1024-transducer acoustic phased array. Seeking mechanical engineers for aluminum gantry vibration analysis and FPGA designers for 1024-channel PWM phase synthesis.",
+        tags: ["mega-project", "modular-dcra", "fpga", "1024-channels", "robotics"],
+        langDot: "rust",
+        langName: "Rust · Verilog",
+        updated: "Updated 35 mins ago",
         fullText: `
           <p>The standard KHORA desktop rig utilizes a single 200x200mm DCRA plate. To project human-scale 1:1 holographic projections without head-mounted gear, we are engineering a 4x4 modular tile matrix.</p>
           <pre class="code-block">// Optical working volume:
@@ -828,17 +1002,40 @@ Calculated total radiation force: ~35 mN (crisp whole-hand touch feeling)</pre>
       },
       {
         id: 2,
-        title: "[Solved] Eliminating Thermal Runaway on TC4427 MOSFET Drivers when Modulating 256 Transducers at 24V Continuous",
-        author: "dr_nikola",
-        isFounder: false,
-        category: "hardware",
-        upvotes: 218,
-        userVoted: false,
-        timeAgo: "5 hours ago",
-        tags: ["Hardware", "Solved", "Ultrasound", "Power Electronics"],
-        summary: "When running the 16x16 transducer matrix at 24V to achieve 12 mN acoustic force, the TC4427 dual drivers were exceeding 85°C within 90 seconds. Here is the verified decoupling and ground-plane layout that dropped temps to 41°C steady-state.",
+        repoOwner: "iriss-dev",
+        repoName: "khora",
+        stars: 1420,
+        starred: true,
+        context: "Based on repositories you've starred",
+        desc: "Deterministic robotics kinematics, spatial computing & traversable mid-air light. Rigorous open-source foundation linking non-deterministic AI agents (MCP) with hard real-time actuators and mid-air tactile holography.",
+        tags: ["robotics", "optics", "dcra", "ultrasound", "kinematics", "mcp-server"],
+        langDot: "python",
+        langName: "Python · Rust · C99",
+        updated: "Updated 2 hours ago",
         fullText: `
-          <p>Piezoelectric transducers act predominantly as capacitive loads ($C \approx 2.4\,\text{nF}$ per transducer at 40 kHz). Driving 256 of them requires significant displacement current:</p>
+          <p><b>Core Monorepo:</b> Integrates RFC-0001 (Traversable Optical Field & Ultrasonic Haptics) and RFC-0002 (3-Plane Deterministic Kinematics with 50ms Hardware Watchdog).</p>
+          <pre class="code-block">python -m unittest discover -s tests -v  # 18/18 passing in 0.015s
+python -m khora.mcp_server               # Stdio MCP Server for Claude, GPT, Gemini</pre>
+          <p>Includes OpenSCAD parametric CAD fixtures and RP2040 bare-metal C99 driver.</p>
+        `,
+        comments: [
+          { author: "dr_nikola", time: "2 hours ago", text: "The mathematical rigor in RFC-0002 regarding the DLS damping factor and 7-segment S-curve profile is second to none." }
+        ]
+      },
+      {
+        id: 3,
+        repoOwner: "dr_nikola",
+        repoName: "tc4427-ultrasound-power-driver",
+        stars: 314,
+        starred: false,
+        context: "Hardware Troubleshooting & Verified Solution",
+        desc: "Thermal runaway mitigation on TC4427 dual MOSFET gate drivers when pulsing 256 piezo transducers at 24V continuous. Decoupling capacitors and series damping resistor layout that dropped temps from 85°C to 41°C.",
+        tags: ["hardware-troubleshoot", "pcb-design", "mosfet", "ultrasound"],
+        langDot: "c",
+        langName: "KiCad · C99",
+        updated: "Updated 5 hours ago",
+        fullText: `
+          <p>Piezoelectric transducers act predominantly as capacitive loads (C ≈ 2.4nF per transducer at 40 kHz). Driving 256 of them requires significant displacement current:</p>
           <pre class="code-block">I_peak = C * (dV / dt) = 2.4nF * (24V / 25ns) = 2.3 Amperes peak per channel!
 P_switching = 256 * (C_piezo * V^2 * f_carrier) = 256 * (2.4nF * 576 * 40kHz) = 14.1 Watts total driver dissipation.</pre>
           <p><b>The Solution:</b></p>
@@ -847,204 +1044,175 @@ P_switching = 256 * (C_piezo * V^2 * f_carrier) = 256 * (2.4nF * 576 * 40kHz) = 
             <li>Added a 4-layer PCB with dedicated solid ground plane and thermal relief vias directly to the aluminum chassis.</li>
             <li>Added a series 4.7-ohm damping resistor to eliminate LC ringing between the trace inductance and the transducer capacitance.</li>
           </ol>
-          <p>Temperatures dropped from 85°C to 41°C under 100% continuous duty cycle. Schematics pushed to <code>firmware/pcb/</code>.</p>
         `,
         comments: [
-          { author: "iriss-dev", time: "4 hours ago", text: "Spot on Nikola. That series damping resistor is vital—the LC resonance of un-damped piezo lines creates voltage spikes up to 45V that degrade the MOSFET gate oxide over time. Added your solution to docs/HARDWARE_BOM.md." }
-        ]
-      },
-      {
-        id: 3,
-        title: "[Funded Bounty: $400] Real-Time 60Hz Jacobian Singularity Evasion Filter in no_std Rust for STM32H7 / RP2040",
-        author: "khora-foundation",
-        isFounder: true,
-        category: "bounty",
-        upvotes: 284,
-        userVoted: false,
-        timeAgo: "1 day ago",
-        tags: ["Bounty", "Kinematics", "Rust", "no_std"],
-        summary: "Bounty of $400 paid via GitHub Sponsors or Crypto. Deliver a no_std Rust implementation of damped least squares with Yoshikawa manipulability thresholding that compiles cleanly on Cortex-M4/M7 targets without dynamic heap allocations.",
-        fullText: `
-          <p><b>Bounty Goal:</b> We need a high-performance, `#![no_std]` Rust implementation of our kinematic singularity evasion algorithm to run inside microcontroller timer loops.</p>
-          <pre class="code-block">// Target Signature:
-pub fn solve_ik_realtime(
-    chain: &amp;KinematicChain&lt;6&gt;,
-    target_pose: &amp;SE3Transform,
-    current_q: &amp;[f32; 6],
-) -> Result&lt;[f32; 6], KinematicFault&gt;;</pre>
-          <p><b>Acceptance Criteria:</b></p>
-          <ul>
-            <li>Execution time &lt; 1.2ms on STM32H7 (480MHz) or &lt; 3.5ms on RP2040 (125MHz).</li>
-            <li>Zero heap allocation (all work buffers fixed-size on stack).</li>
-            <li>Passes all 15 regression test cases in <code>tests/test_kinematics.py</code>.</li>
-          </ul>
-        `,
-        comments: [
-          { author: "rust_coder_99", time: "18 hours ago", text: "Taking this bounty. I already have a stack-allocated LU-decomposition for 6x6 matrices from my drone flight controller. PR coming within 48h." }
+          { author: "iriss-dev", time: "4 hours ago", text: "Confirmed. That LC ringing was producing 45V inductive spikes on the oscilloscope. Merged into docs/HARDWARE_BOM.md." }
         ]
       },
       {
         id: 4,
-        title: "[Showcase] Built the Complete $380 DIY KHORA Rig in my University Lab: Photos, Oscilloscope Traces & Floating Light Proof",
-        author: "maker_elena",
-        isFounder: false,
-        category: "hardware",
-        upvotes: 495,
-        userVoted: false,
-        timeAgo: "2 days ago",
-        tags: ["Showcase", "Build Log", "Verified", "Optics"],
-        summary: "Followed the KHORA BOM and 3D printed the cad/dcra_mount_45deg.scad. The floating 1:1 real image convergence works flawlessly. When you wave your finger through the light, the acoustic pressure feels exactly like pressing a mechanical clicky switch in empty air!",
+        repoOwner: "khora-foundation",
+        repoName: "bounty-nostd-singularity-evasion",
+        stars: 189,
+        starred: false,
+        context: "Funded Open Bounty ($400 USD)",
+        desc: "Deliver a stack-allocated #![no_std] Rust implementation of Damped Least Squares IK with Yoshikawa manipulability thresholding. Execution time must be <1.2ms on STM32H7 or <3.5ms on RP2040.",
+        tags: ["bounty", "rust", "no-std", "kinematics", "cortex-m"],
+        langDot: "rust",
+        langName: "Rust (no_std)",
+        updated: "Updated 1 day ago",
         fullText: `
-          <p>I built the rig using an old Waveshare 5.5" AMOLED display, a 200x200mm acrylic DCRA plate from AliExpress, and 64 Murata transducers driven by an RP2040.</p>
-          <p><b>Measurements:</b></p>
-          <ul>
-            <li><b>Acoustic Focal Spot:</b> 8.6mm FWHM measured with a calibrated hydrophone in air.</li>
-            <li><b>Normal Radiation Force:</b> Measured 9.2 mN on a precision analytical balance at 15cm focal distance.</li>
-            <li><b>Visual Contrast:</b> 100% visible under regular laboratory LED ceiling lights.</li>
-          </ul>
-          <p>Students in my robotics group were mind-blown: touching light without wearing Quest 3 or Vision Pro feels like magic, but it is pure high-school Snell's law and acoustics!</p>
+          <p><b>Bounty Goal:</b> Real-time 60Hz Jacobian Singularity Evasion filter in no_std Rust for STM32H7 / RP2040.</p>
+          <pre class="code-block">pub fn solve_ik_realtime(
+    chain: &amp;KinematicChain&lt;6&gt;,
+    target_pose: &amp;SE3Transform,
+    current_q: &amp;[f32; 6],
+) -> Result&lt;[f32; 6], KinematicFault&gt;;</pre>
+          <p>Bounty paid via GitHub Sponsors or Crypto upon passing tests.</p>
         `,
         comments: [
-          { author: "iriss-dev", time: "2 days ago", text: "Phenomenal build Elena! Seeing someone build the physical rig from our OpenSCAD and BOM files in another country is the ultimate confirmation of why open-source hardware matters." }
+          { author: "rust_coder_99", time: "18 hours ago", text: "Pull request submitted! Stack-allocated 6x6 LU decomposition verified on real RP2040 hardware (took 1.84ms)." }
         ]
       },
       {
         id: 5,
-        title: "[RFC Proposal] Extending RFC-0002 with Impedance & Admittance Control for Compliant Robotic Haptic Interaction",
-        author: "khora_core_dev",
-        isFounder: false,
-        category: "kinematics",
-        upvotes: 142,
-        userVoted: false,
-        timeAgo: "3 days ago",
-        tags: ["RFC", "Kinematics", "Robotics"],
-        summary: "Proposing an extension to RFC-0002 to incorporate virtual spring-mass-damper impedance control: F = M * ddot_x + D * dot_x + K * (x - x_target). Allows the robotic arm to gently push against human hands during collaborative tasks.",
+        repoOwner: "khora-collective",
+        repoName: "bimanual-14dof-cooperative-rig",
+        stars: 420,
+        starred: false,
+        context: "Trending Mega-Project in Robotics",
+        desc: "Dual synchronized 6-DOF robotic manipulators executing cooperative manipulation with CANopen real-time bus and mutual workspace collision avoidance.",
+        tags: ["mega-project", "robotics", "bimanual", "canopen", "se3"],
+        langDot: "python",
+        langName: "Python · C++",
+        updated: "Updated 2 days ago",
         fullText: `
-          <p>Currently, RFC-0002 enforces stiff kinematic position setpoints via 7-segment S-curves. For collaborative human-robot interaction, the manipulator must exhibit virtual mechanical compliance.</p>
-          <pre class="code-block">tau_motor = J^T * (K * (x_desired - x_current) - D * v_current) + tau_gravity(q)</pre>
-          <p>If the human hand touches the robot end-effector while interacting with the hologram, the arm yields safely instead of asserting rigid position dominance.</p>
+          <p>Two 6-axis arms operating synchronously in shared workspace. Jacobian rank 12 verified with zero cross-collision.</p>
         `,
         comments: [
-          { author: "robot_control_phd", time: "2 days ago", text: "Strongly support this. We should ensure the passivity condition (energy tank formulation) is satisfied so the admittance filter cannot introduce high-frequency oscillations." }
+          { author: "elena_robotics", time: "1 day ago", text: "The cooperative kinematics matrix J_coop is stable across 98% of the workspace volume." }
         ]
       }
     ];
 
-    let currentCategory = "all";
-    let currentSort = "hot";
+    let activeCategory = "all";
 
-    function renderFeed() {
-      const container = document.getElementById("posts-feed");
+    function renderCards() {
+      const container = document.getElementById("cards-container");
       container.innerHTML = "";
 
       let filtered = POSTS.filter(p => {
-        if (currentCategory === "all") return true;
-        return p.category === currentCategory;
+        if (activeCategory === "all") return true;
+        if (activeCategory === "mega") return p.tags.includes("mega-project");
+        if (activeCategory === "optics") return p.tags.includes("optics") || p.tags.includes("modular-dcra");
+        if (activeCategory === "kinematics") return p.tags.includes("kinematics");
+        if (activeCategory === "ultrasound") return p.tags.includes("ultrasound");
+        if (activeCategory === "hardware") return p.tags.includes("hardware-troubleshoot") || p.tags.includes("pcb-design");
+        if (activeCategory === "bounty") return p.tags.includes("bounty");
+        return true;
       });
-
-      if (currentSort === "hot") filtered.sort((a, b) => b.upvotes - a.upvotes);
-      if (currentSort === "new") filtered.sort((a, b) => b.id - a.id);
-      if (currentSort === "top") filtered.sort((a, b) => b.upvotes - a.upvotes);
-
-      document.getElementById("posts-count-label").innerText = `Showing ${filtered.length} discussion${filtered.length === 1 ? '' : 's'}`;
 
       filtered.forEach(p => {
         const card = document.createElement("div");
-        card.className = "post-card";
-        
-        let tagBadges = p.tags.map(t => {
+        card.className = "gh-project-card";
+
+        let tagsHtml = p.tags.map(t => {
           let c = "";
-          if (t.includes("Mega")) c = "mega";
-          if (t.includes("Solved")) c = "solved";
-          if (t.includes("Bounty")) c = "bounty";
-          return `<span class="tag ${c}">${t}</span>`;
+          if (t === "mega-project") c = "green";
+          if (t === "bounty") c = "orange";
+          return `<span class="tag-pill ${c}">#${t}</span>`;
         }).join(" ");
 
         card.innerHTML = `
-          <div class="post-vote-col" onclick="event.stopPropagation()">
-            <button class="vote-btn ${p.userVoted ? 'voted' : ''}" onclick="toggleUpvote(${p.id})">▲</button>
-            <span class="vote-count" id="vote-${p.id}">${p.upvotes}</span>
+          <div class="card-context-line">
+            <!-- Bookmark icon -->
+            <svg viewBox="0 0 16 16"><path d="M3 2.75C3 1.784 3.784 1 4.75 1h6.5c.966 0 1.75.784 1.75 1.75v11.5a.75.75 0 0 1-1.227.579L8 11.722l-3.773 3.107A.75.75 0 0 1 3 14.25V2.75Z"></path></svg>
+            <span>${p.context}</span>
           </div>
-          <div class="post-main" onclick="openThreadModal(${p.id})">
-            <div class="post-meta">
-              <span class="author">@${p.author}</span>
-              ${p.isFounder ? '<span class="badge-founder">FOUNDER</span>' : ''}
-              <span>·</span>
-              <span>${p.timeAgo}</span>
-              <span>·</span>
-              <span style="font-family:var(--mono); color:var(--text-muted)">#${p.category}</span>
+
+          <div class="card-top-row">
+            <a class="repo-link" onclick="openThreadModal(${p.id})">
+              <!-- Repo icon -->
+              <svg viewBox="0 0 16 16"><path d="M2 2.5A2.5 2.5 0 0 1 4.5 0h8.75a.75.75 0 0 1 .75.75v12.5a.75.75 0 0 1-.75.75h-2.5a.75.75 0 0 1 0-1.5h1.75v-2h-8a1 1 0 0 0-.714 1.7.75.75 0 1 1-1.072 1.05A2.495 2.495 0 0 1 2 11.5v-9Zm10.5-1h-8a1 1 0 0 0-1 1v6.708A2.486 2.486 0 0 1 4.5 9h8V1.5ZM5 12.25a.25.25 0 0 1 .25-.25H12v1.5H5.25a.25.25 0 0 1-.25-.25Z"></path></svg>
+              <span>${p.repoOwner} / <b>${p.repoName}</b></span>
+            </a>
+
+            <div class="btn-star-group">
+              <button onclick="toggleStar(${p.id})">
+                <svg viewBox="0 0 16 16"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"></path></svg>
+                <span>${p.starred ? 'Starred' : 'Star'}</span>
+              </button>
+              <div class="star-counter" id="star-count-${p.id}">${p.stars}</div>
             </div>
-            <a class="post-title">${p.title}</a>
-            <div class="post-body">${p.summary}</div>
-            <div class="post-tags">${tagBadges}</div>
-            <div class="post-footer">
-              <div class="footer-action">💬 ${p.comments.length} comments</div>
-              <div class="footer-action">🔗 Share</div>
-              <div class="footer-action">⭐ Save</div>
-            </div>
+          </div>
+
+          <div class="repo-actions-row">
+            <button class="btn-sub-action" onclick="openThreadModal(${p.id})">
+              <!-- Code icon -->
+              <svg viewBox="0 0 16 16"><path d="m11.28 3.22 4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.749.749 0 0 1-1.275-.326.749.749 0 0 1 .215-.734L13.94 8l-3.72-3.72a.749.749 0 0 1 .326-1.275.749.749 0 0 1 .734.215Zm-6.56 0a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042L2.06 8l3.72 3.72a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215L.47 8.53a.75.75 0 0 1 0-1.06l4.25-4.25Z"></path></svg>
+              <span>Code &amp; Specs</span>
+            </button>
+            <button class="btn-sub-action" onclick="openThreadModal(${p.id})">
+              <!-- Discussion comment icon -->
+              <svg viewBox="0 0 16 16"><path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.458 1.458 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h2a.75.75 0 0 1 .75.75v2.19l2.72-2.72a.749.749 0 0 1 .53-.22h4.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg>
+              <span>Discussions (${p.comments.length})</span>
+            </button>
+          </div>
+
+          <div class="repo-description">${p.desc}</div>
+          <div class="repo-tags">${tagsHtml}</div>
+
+          <div class="card-footer-meta">
+            <div><span class="lang-dot ${p.langDot}"></span>${p.langName}</div>
+            <div>${p.updated}</div>
           </div>
         `;
         container.appendChild(card);
       });
     }
 
-    function toggleUpvote(id) {
-      const post = POSTS.find(p => p.id === id);
-      if (!post) return;
-      if (!post.userVoted) {
-        post.upvotes += 1;
-        post.userVoted = true;
-      } else {
-        post.upvotes -= 1;
-        post.userVoted = false;
-      }
-      document.getElementById(`vote-${id}`).innerText = post.upvotes;
+    function toggleStar(id) {
+      const p = POSTS.find(x => x.id === id);
+      if (!p) return;
+      p.starred = !p.starred;
+      p.stars += p.starred ? 1 : -1;
+      renderCards();
     }
 
-    function filterCategory(cat) {
-      currentCategory = cat;
-      document.querySelectorAll(".filter-item").forEach(el => el.classList.remove("active"));
-      renderFeed();
+    function setFeedCategory(cat) {
+      activeCategory = cat;
+      document.querySelectorAll(".channel-item").forEach(el => el.classList.remove("active"));
+      event.currentTarget.classList.add("active");
+      renderCards();
     }
 
-    function setFeedSort(sort) {
-      currentSort = sort;
-      document.querySelectorAll(".tab-btn").forEach(el => el.classList.remove("active"));
-      const btn = document.getElementById(`tab-${sort}`);
-      if (btn) btn.classList.add("active");
-      renderFeed();
+    function setFeedTab(tab) {
+      document.querySelectorAll(".subnav-tab").forEach(el => el.classList.remove("active"));
+      document.getElementById(`tab-${tab}`).classList.add("active");
     }
 
-    // THREAD MODAL
     function openThreadModal(id) {
-      const post = POSTS.find(p => p.id === id);
-      if (!post) return;
+      const p = POSTS.find(x => x.id === id);
+      if (!p) return;
 
-      document.getElementById("modal-thread-title").innerText = post.title;
+      document.getElementById("modal-title").innerText = `${p.repoOwner} / ${p.repoName}`;
       
-      let commentsHtml = post.comments.map(c => `
-        <div class="comment-item">
-          <div class="comment-author">@${c.author} <span style="font-size:10px; color:var(--text-muted); font-weight:normal;">· ${c.time}</span></div>
-          <div class="comment-text">${c.text}</div>
+      let commentsHtml = p.comments.map(c => `
+        <div style="border-left: 2px solid var(--border); padding-left: 12px; margin-bottom: 12px;">
+          <div style="font-family:var(--mono); font-size:12px; font-weight:600; color:var(--text-heading);">@${c.author} <span style="font-size:10px; color:var(--text-muted); font-weight:normal;">· ${c.time}</span></div>
+          <div style="font-size:13px; color:var(--text); margin-top:4px;">${c.text}</div>
         </div>
       `).join("");
 
-      document.getElementById("modal-thread-content").innerHTML = `
-        <div class="post-meta" style="margin-bottom:12px;">
-          <span class="author">@${post.author}</span>
-          ${post.isFounder ? '<span class="badge-founder">FOUNDER</span>' : ''}
-          <span>·</span>
-          <span>${post.timeAgo}</span>
-        </div>
-        <div style="font-size:14px; line-height:1.7; color:var(--text); margin-bottom:16px;">
-          ${post.fullText}
-        </div>
-        <div class="comment-tree">
-          <h4 style="font-size:13px; color:var(--text-heading); margin-bottom:12px;">Discussion &amp; Peer Reviews (${post.comments.length})</h4>
+      document.getElementById("modal-content").innerHTML = `
+        <div style="font-size:14px; font-weight:600; color:var(--text-heading); margin-bottom:8px;">${p.desc}</div>
+        <div style="font-size:13px; line-height:1.7; color:var(--text); margin-bottom:16px;">${p.fullText}</div>
+        <div style="border-top:1px solid var(--border-muted); padding-top:16px; margin-top:16px;">
+          <h4 style="font-size:13px; color:var(--text-heading); margin-bottom:12px;">Engineering Reviews &amp; Comments (${p.comments.length})</h4>
           ${commentsHtml}
           <div style="margin-top:16px;">
-            <input type="text" id="new-comment-input" placeholder="Write a reply or engineering review..." onkeydown="if(event.key==='Enter') submitComment(${post.id})">
-            <button class="btn-new-post" style="margin-top:4px;" onclick="submitComment(${post.id})">Post Reply</button>
+            <input type="text" id="modal-reply-input" placeholder="Write a reply or review..." onkeydown="if(event.key==='Enter') postReply(${p.id})">
+            <button class="btn-new-discussion" onclick="postReply(${p.id})">Comment</button>
           </div>
         </div>
       `;
@@ -1052,56 +1220,51 @@ pub fn solve_ik_realtime(
       document.getElementById("thread-modal").classList.add("open");
     }
 
-    function submitComment(postId) {
-      const input = document.getElementById("new-comment-input");
+    function postReply(id) {
+      const input = document.getElementById("modal-reply-input");
       const text = input.value.trim();
       if (!text) return;
-      const post = POSTS.find(p => p.id === postId);
-      if (post) {
-        post.comments.push({ author: "iriss-dev", time: "just now", text: text });
-        openThreadModal(postId); // Refresh modal view
-        renderFeed();
+      const p = POSTS.find(x => x.id === id);
+      if (p) {
+        p.comments.push({ author: "iriss-dev", time: "just now", text: text });
+        openThreadModal(id);
       }
     }
 
-    // NEW POST MODAL
-    function openNewPostModal(defaultCategory) {
-      if (defaultCategory) {
-        document.getElementById("new-post-category").value = defaultCategory;
-      }
+    function openNewPostModal() {
       document.getElementById("new-post-modal").classList.add("open");
     }
 
-    function submitNewPost() {
-      const title = document.getElementById("new-post-title").value.trim();
-      const body = document.getElementById("new-post-body").value.trim();
-      const cat = document.getElementById("new-post-category").value;
+    function publishNewPost() {
+      const title = document.getElementById("new-title-input").value.trim();
+      const body = document.getElementById("new-body-input").value.trim();
+      const cat = document.getElementById("new-cat-input").value;
 
       if (!title || !body) {
-        alert("Please enter a title and description.");
+        alert("Please provide a title and description.");
         return;
       }
 
-      const newId = POSTS.length + 1;
       POSTS.unshift({
-        id: newId,
-        title: title,
-        author: "iriss-dev",
-        isFounder: true,
-        category: cat,
-        upvotes: 1,
-        userVoted: true,
-        timeAgo: "just now",
-        tags: [cat.toUpperCase(), "Open Discussion"],
-        summary: body.slice(0, 140) + "...",
+        id: POSTS.length + 1,
+        repoOwner: "iriss-dev",
+        repoName: title.toLowerCase().replace(/[^a-z0-9]/g, "-").slice(0, 28),
+        stars: 1,
+        starred: true,
+        context: "New Engineering Discussion",
+        desc: body.slice(0, 140) + "...",
+        tags: [cat, "discussion"],
+        langDot: "python",
+        langName: "Python · C99",
+        updated: "just now",
         fullText: `<p>${body}</p>`,
         comments: []
       });
 
-      document.getElementById("new-post-title").value = "";
-      document.getElementById("new-post-body").value = "";
+      document.getElementById("new-title-input").value = "";
+      document.getElementById("new-body-input").value = "";
       closeModal("new-post-modal");
-      renderFeed();
+      renderCards();
     }
 
     function closeModal(id) {
@@ -1109,32 +1272,19 @@ pub fn solve_ik_realtime(
     }
 
     function closeModalOnOverlay(e, id) {
-      if (e.target.id === id) {
-        closeModal(id);
-      }
+      if (e.target.id === id) closeModal(id);
     }
-
-    // Search filter
-    document.getElementById("search-input").addEventListener("input", (e) => {
-      const q = e.target.value.toLowerCase();
-      document.querySelectorAll(".post-card").forEach((card, idx) => {
-        const post = POSTS[idx];
-        if (!post) return;
-        const match = post.title.toLowerCase().includes(q) || post.summary.toLowerCase().includes(q);
-        card.style.display = match ? "flex" : "none";
-      });
-    });
 
     // Keyboard shortcut '/'
     window.addEventListener("keydown", (e) => {
       if (e.key === "/" && document.activeElement.tagName !== "INPUT" && document.activeElement.tagName !== "TEXTAREA") {
         e.preventDefault();
-        document.getElementById("search-input").focus();
+        document.getElementById("global-search-input").focus();
       }
     });
 
     window.onload = () => {
-      renderFeed();
+      renderCards();
     };
   </script>
 </body>
