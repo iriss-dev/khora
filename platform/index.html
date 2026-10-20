@@ -2,1188 +2,1139 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>KHORA Studio // Spatial Computing & Robotics Platform</title>
+  <title>KHORA Hub // Developer Discussions & Mega-Projects</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
   <style>
     :root {
-      --bg: #07090e;
-      --panel: #0d121c;
-      --panel-border: #1a2538;
-      --cyan: #00f0ff;
-      --accent: #38bdf8;
-      --purple: #a78bfa;
-      --green: #4ade80;
-      --red: #f87171;
-      --text: #f8fafc;
-      --muted: #64748b;
+      --bg: #0d1117;
+      --card-bg: #161b22;
+      --card-hover: #1c2128;
+      --border: #30363d;
+      --border-muted: #21262d;
+      --text: #c9d1d9;
+      --text-heading: #f0f6fc;
+      --text-muted: #8b949e;
+      --blue: #58a6ff;
+      --blue-hover: #79c0ff;
+      --green: #238636;
+      --green-hover: #2ea043;
+      --green-badge: #3fb950;
+      --orange: #f0883e;
+      --purple: #bc8cff;
       --mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+      --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       background: var(--bg);
       color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      overflow: hidden;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-    
-    /* TOP INSTRUMENTAL BAR */
-    header {
-      height: 48px;
-      background: var(--panel);
-      border-bottom: 1px solid var(--panel-border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 16px;
-      z-index: 10;
-    }
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .brand svg {
-      width: 24px;
-      height: 24px;
-    }
-    .brand-title {
-      font-family: var(--mono);
+      font-family: var(--sans);
+      line-height: 1.5;
       font-size: 14px;
-      font-weight: 700;
-      letter-spacing: 3px;
-      color: var(--text);
     }
-    .brand-tag {
-      font-size: 10px;
-      font-family: var(--mono);
-      padding: 2px 6px;
-      background: rgba(0, 240, 255, 0.1);
-      border: 1px solid var(--cyan);
-      color: var(--cyan);
-      border-radius: 3px;
-    }
-    .status-group {
-      display: flex;
-      gap: 12px;
-      font-family: var(--mono);
-      font-size: 11px;
-    }
-    .status-pill {
+
+    /* TOP GITHUB-STYLE NAVBAR */
+    header {
+      background: #161b22;
+      border-bottom: 1px solid var(--border);
+      padding: 12px 24px;
       display: flex;
       align-items: center;
-      gap: 6px;
-      color: var(--muted);
-      background: #090e18;
-      padding: 4px 10px;
-      border-radius: 4px;
-      border: 1px solid #162032;
-    }
-    .status-pill.active {
-      color: var(--text);
-      border-color: var(--panel-border);
-    }
-    .dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--green);
-      box-shadow: 0 0 6px var(--green);
-    }
-
-    /* MAIN WORKSPACE LAYOUT */
-    .workspace {
-      display: flex;
-      flex: 1;
-      height: calc(100vh - 48px);
-      position: relative;
-    }
-
-    /* SIDEBARS */
-    .sidebar {
-      width: 330px;
-      background: var(--panel);
-      border-right: 1px solid var(--panel-border);
-      display: flex;
-      flex-direction: column;
-      z-index: 5;
-      overflow-y: auto;
-    }
-    .sidebar.right {
-      border-right: none;
-      border-left: 1px solid var(--panel-border);
-      width: 360px;
-    }
-    .panel-section {
-      padding: 16px;
-      border-bottom: 1px solid var(--panel-border);
-    }
-    .panel-title {
-      font-family: var(--mono);
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--cyan);
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      margin-bottom: 12px;
-      display: flex;
       justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-left {
+      display: flex;
       align-items: center;
+      gap: 20px;
     }
-    .control-row {
-      margin-bottom: 10px;
-    }
-    .control-label {
+    .nav-logo {
       display: flex;
-      justify-content: space-between;
-      font-family: var(--mono);
-      font-size: 11px;
-      color: var(--muted);
-      margin-bottom: 4px;
-    }
-    .control-label span.val {
-      color: var(--text);
-      font-weight: bold;
-    }
-    input[type=range] {
-      width: 100%;
-      height: 4px;
-      background: #1b263b;
-      border-radius: 2px;
-      outline: none;
-      accent-color: var(--cyan);
-    }
-    .btn-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin-top: 8px;
-    }
-    button.btn {
-      background: #131c2d;
-      border: 1px solid #233550;
-      color: var(--text);
-      font-family: var(--mono);
-      font-size: 11px;
-      padding: 7px 10px;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    button.btn:hover {
-      background: #1a273f;
-      border-color: var(--cyan);
-      color: var(--cyan);
-    }
-    button.btn.primary {
-      background: rgba(0, 240, 255, 0.15);
-      border-color: var(--cyan);
-      color: var(--cyan);
-      font-weight: bold;
-    }
-    button.btn.primary:hover {
-      background: rgba(0, 240, 255, 0.3);
-    }
-
-    /* TELEMETRY READOUT METRICS */
-    .telemetry-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-    }
-    .tele-card {
-      background: #090e18;
-      border: 1px solid #162032;
-      padding: 8px;
-      border-radius: 4px;
-    }
-    .tele-card .lbl {
-      font-family: var(--mono);
-      font-size: 9px;
-      color: var(--muted);
-      text-transform: uppercase;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text-heading);
+      font-weight: 700;
+      font-size: 16px;
       letter-spacing: 1px;
     }
-    .tele-card .val {
-      font-family: var(--mono);
-      font-size: 14px;
-      font-weight: bold;
-      color: var(--text);
-      margin-top: 2px;
+    .nav-logo svg {
+      width: 26px;
+      height: 26px;
     }
-    .tele-card .val.cyan { color: var(--cyan); }
-    .tele-card .val.green { color: var(--green); }
-
-    /* 3D VIEWPORT */
-    #viewport-container {
-      flex: 1;
-      height: 100%;
+    .nav-links {
+      display: flex;
+      gap: 16px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--text);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      transition: color 0.15s;
+    }
+    .nav-links a:hover, .nav-links a.active {
+      color: var(--blue);
+    }
+    .nav-search {
       position: relative;
+      width: 320px;
     }
-    #viewport-canvas {
+    .nav-search input {
       width: 100%;
-      height: 100%;
-      display: block;
-    }
-    .viewport-overlay {
-      position: absolute;
-      bottom: 16px;
-      left: 16px;
-      pointer-events: none;
-      font-family: var(--mono);
-      font-size: 11px;
-      color: var(--muted);
-      background: rgba(13, 18, 28, 0.85);
-      border: 1px solid var(--panel-border);
-      padding: 8px 12px;
-      border-radius: 4px;
-      backdrop-filter: blur(4px);
-    }
-    .viewport-overlay span {
-      color: var(--cyan);
-    }
-
-    /* TABS */
-    .tabs-header {
-      display: flex;
-      border-bottom: 1px solid var(--panel-border);
-      background: #090e18;
-    }
-    .tab-btn {
-      flex: 1;
-      padding: 10px;
-      font-family: var(--mono);
-      font-size: 11px;
-      text-align: center;
-      color: var(--muted);
-      cursor: pointer;
-      border-bottom: 2px solid transparent;
-      transition: all 0.2s;
-    }
-    .tab-btn.active {
-      color: var(--cyan);
-      border-color: var(--cyan);
-      background: var(--panel);
-    }
-    .tab-content {
-      display: none;
-    }
-    .tab-content.active {
-      display: block;
-    }
-
-    /* AI TERMINAL */
-    .terminal-output {
-      height: 180px;
-      background: #06090f;
-      border: 1px solid #162032;
-      border-radius: 4px;
-      padding: 10px;
-      font-family: var(--mono);
-      font-size: 11px;
-      color: #94a3b8;
-      overflow-y: auto;
-      line-height: 1.5;
-    }
-    .terminal-input-row {
-      display: flex;
-      gap: 6px;
-      margin-top: 8px;
-    }
-    .terminal-input {
-      flex: 1;
-      background: #090e18;
-      border: 1px solid var(--panel-border);
-      border-radius: 4px;
-      padding: 6px 10px;
-      font-family: var(--mono);
-      font-size: 11px;
+      background: #0d1117;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 6px 12px 6px 32px;
       color: var(--text);
+      font-size: 13px;
       outline: none;
     }
-    .terminal-input:focus {
-      border-color: var(--cyan);
+    .nav-search input:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.2);
+    }
+    .nav-search svg {
+      position: absolute;
+      left: 10px;
+      top: 8px;
+      fill: var(--text-muted);
+      width: 14px;
+      height: 14px;
+    }
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .btn-new-post {
+      background: var(--green);
+      color: #fff;
+      border: 1px solid rgba(240, 246, 252, 0.1);
+      border-radius: 6px;
+      padding: 5px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.15s;
+    }
+    .btn-new-post:hover {
+      background: var(--green-hover);
+    }
+    .user-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text-heading);
+      background: #21262d;
+      padding: 4px 10px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+    }
+    .user-avatar {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #00f0ff;
+      display: inline-block;
     }
 
-    /* TRANSDUCER HEATMAP MATRIX */
-    .transducer-grid {
+    /* MAIN CONTAINER (Reddit / GitHub layout) */
+    .container {
+      max-width: 1280px;
+      margin: 24px auto;
+      padding: 0 24px;
       display: grid;
-      grid-template-columns: repeat(16, 1fr);
-      gap: 2px;
-      background: #06090f;
-      padding: 6px;
-      border-radius: 4px;
-      border: 1px solid #162032;
-      margin-top: 8px;
+      grid-template-columns: 240px 1fr 340px;
+      gap: 24px;
     }
-    .transducer-cell {
-      aspect-ratio: 1;
-      background: #111827;
-      border-radius: 1px;
-      transition: background 0.1s;
+
+    /* LEFT SIDEBAR: FILTERS & CATEGORIES */
+    .sidebar-left {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .sidebar-block {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 12px;
+    }
+    .sidebar-heading {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+      padding: 0 8px;
+    }
+    .filter-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 10px;
+      border-radius: 6px;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 13px;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+    .filter-item:hover {
+      background: var(--card-hover);
+      color: var(--text-heading);
+    }
+    .filter-item.active {
+      background: #1f2937;
+      color: var(--blue);
+      font-weight: 600;
+    }
+    .filter-badge {
+      margin-left: auto;
+      font-size: 11px;
+      font-family: var(--mono);
+      background: #21262d;
+      color: var(--text-muted);
+      padding: 1px 6px;
+      border-radius: 10px;
+    }
+
+    /* CENTER COLUMN: FEED & POSTS */
+    .center-col {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .feed-header {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .feed-tabs {
+      display: flex;
+      gap: 8px;
+    }
+    .tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .tab-btn:hover {
+      background: var(--card-hover);
+      color: var(--text);
+    }
+    .tab-btn.active {
+      background: #21262d;
+      color: var(--text-heading);
+    }
+
+    /* POST CARDS (Reddit meets GitHub) */
+    .post-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      display: flex;
+      overflow: hidden;
+      transition: border-color 0.15s;
+      cursor: pointer;
+    }
+    .post-card:hover {
+      border-color: #484f58;
+    }
+    .post-vote-col {
+      width: 48px;
+      background: #0d1117;
+      border-right: 1px solid var(--border-muted);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 12px 0;
+      gap: 4px;
+    }
+    .vote-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 4px;
+      transition: color 0.15s, background 0.15s;
+    }
+    .vote-btn:hover {
+      color: var(--orange);
+      background: #21262d;
+    }
+    .vote-count {
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-heading);
+    }
+    .post-main {
+      padding: 16px;
+      flex: 1;
+    }
+    .post-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+    .post-meta .author {
+      font-weight: 600;
+      color: var(--text);
+      font-family: var(--mono);
+    }
+    .post-meta .badge-founder {
+      background: rgba(0, 240, 255, 0.15);
+      border: 1px solid #00f0ff;
+      color: #00f0ff;
+      padding: 1px 6px;
+      border-radius: 10px;
+      font-size: 10px;
+      font-family: var(--mono);
+    }
+    .post-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-heading);
+      margin-bottom: 6px;
+      text-decoration: none;
+      display: block;
+    }
+    .post-title:hover {
+      color: var(--blue);
+    }
+    .post-body {
+      font-size: 13px;
+      color: var(--text);
+      margin-bottom: 12px;
+      line-height: 1.6;
+    }
+    .post-tags {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+    .tag {
+      font-size: 11px;
+      font-family: var(--mono);
+      padding: 2px 8px;
+      border-radius: 12px;
+      background: #21262d;
+      border: 1px solid var(--border);
+      color: var(--blue);
+      text-decoration: none;
+    }
+    .tag.mega {
+      background: rgba(88, 166, 255, 0.15);
+      border-color: var(--blue);
+      color: var(--blue);
+      font-weight: 600;
+    }
+    .tag.solved {
+      background: rgba(63, 185, 80, 0.15);
+      border-color: var(--green-badge);
+      color: var(--green-badge);
+    }
+    .tag.bounty {
+      background: rgba(240, 136, 62, 0.15);
+      border-color: var(--orange);
+      color: var(--orange);
+      font-weight: 600;
+    }
+    .post-footer {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .footer-action {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: color 0.15s;
+    }
+    .footer-action:hover {
+      color: var(--text);
+    }
+
+    /* RIGHT SIDEBAR: COMMUNITY & SPOTLIGHT */
+    .sidebar-right {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .about-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 16px;
+    }
+    .about-header {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-heading);
+      margin-bottom: 8px;
+    }
+    .about-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+      line-height: 1.5;
+    }
+    .stats-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      border-top: 1px solid var(--border-muted);
+      padding-top: 12px;
+      margin-bottom: 14px;
+    }
+    .stat-box .num {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-heading);
+      font-family: var(--mono);
+    }
+    .stat-box .lbl {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+    .link-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .link-list a {
+      color: var(--blue);
+      text-decoration: none;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .link-list a:hover {
+      text-decoration: underline;
+    }
+
+    /* MEGA PROJECTS CARD IN SIDEBAR */
+    .mega-project-item {
+      padding: 10px;
+      background: #0d1117;
+      border: 1px solid var(--border-muted);
+      border-radius: 6px;
+      margin-bottom: 8px;
+    }
+    .mega-project-item:hover {
+      border-color: var(--blue);
+    }
+    .project-name {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-heading);
+    }
+    .project-members {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+    .progress-bar {
+      height: 4px;
+      background: #21262d;
+      border-radius: 2px;
+      overflow: hidden;
+      margin-top: 6px;
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--green-badge);
+    }
+
+    /* MODAL (FOR VIEWING THREADS OR NEW POSTS) */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(1, 4, 9, 0.75);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    .modal-overlay.open {
+      display: flex;
+    }
+    .modal-box {
+      width: 720px;
+      max-height: 85vh;
+      background: #161b22;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      box-shadow: 0 16px 32px rgba(0,0,0,0.5);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .modal-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .modal-header h3 {
+      font-size: 16px;
+      color: var(--text-heading);
+    }
+    .modal-close {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 20px;
+      cursor: pointer;
+    }
+    .modal-body {
+      padding: 20px;
+      overflow-y: auto;
+      flex: 1;
+    }
+    .modal-body input, .modal-body textarea, .modal-body select {
+      width: 100%;
+      background: #0d1117;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 8px 12px;
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 13px;
+      margin-bottom: 14px;
+      outline: none;
+    }
+    .modal-body input:focus, .modal-body textarea:focus {
+      border-color: var(--blue);
+    }
+    .modal-body label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-heading);
+      margin-bottom: 6px;
+    }
+    .modal-footer {
+      padding: 12px 20px;
+      border-top: 1px solid var(--border);
+      background: #0d1117;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    /* CODE BLOCKS INSIDE POSTS */
+    pre.code-block {
+      background: #0d1117;
+      border: 1px solid var(--border-muted);
+      border-radius: 6px;
+      padding: 12px;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: #79c0ff;
+      overflow-x: auto;
+      margin: 10px 0;
+    }
+    .comment-tree {
+      margin-top: 20px;
+      border-top: 1px solid var(--border-muted);
+      padding-top: 16px;
+    }
+    .comment-item {
+      border-left: 2px solid var(--border);
+      padding-left: 12px;
+      margin-bottom: 12px;
+    }
+    .comment-author {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-heading);
+      font-family: var(--mono);
+    }
+    .comment-text {
+      font-size: 13px;
+      color: var(--text);
+      margin-top: 4px;
     }
   </style>
 </head>
 <body>
 
-  <!-- HEADER -->
+  <!-- TOP GITHUB-STYLE HEADER -->
   <header>
-    <div class="brand">
-      <svg viewBox="0 0 512 512" fill="none">
-        <rect x="28" y="28" width="456" height="456" stroke="#1a2538" stroke-width="20"/>
-        <line x1="168" y1="128" x2="168" y2="384" stroke="#f8fafc" stroke-width="28" stroke-linecap="round"/>
-        <line x1="220" y1="236" x2="344" y2="128" stroke="#00f0ff" stroke-width="28" stroke-linecap="round"/>
-        <path d="M 310 110 A 30 30 0 0 1 360 160" stroke="#00f0ff" stroke-width="6" stroke-dasharray="6 6"/>
-        <line x1="220" y1="276" x2="344" y2="384" stroke="#f8fafc" stroke-width="28" stroke-linecap="round"/>
-        <circle cx="204" cy="256" r="10" stroke="#00f0ff" stroke-width="4"/>
-      </svg>
-      <div class="brand-title">KHORA <span style="color:var(--cyan)">STUDIO</span></div>
-      <div class="brand-tag">v0.1.0-alpha</div>
+    <div class="nav-left">
+      <a href="#" class="nav-logo">
+        <svg viewBox="0 0 512 512" fill="none">
+          <rect x="28" y="28" width="456" height="456" stroke="#00f0ff" stroke-width="24"/>
+          <line x1="168" y1="128" x2="168" y2="384" stroke="#ffffff" stroke-width="32" stroke-linecap="round"/>
+          <line x1="220" y1="236" x2="344" y2="128" stroke="#00f0ff" stroke-width="32" stroke-linecap="round"/>
+          <circle cx="204" cy="256" r="12" stroke="#00f0ff" stroke-width="5"/>
+          <line x1="220" y1="276" x2="344" y2="384" stroke="#ffffff" stroke-width="32" stroke-linecap="round"/>
+        </svg>
+        <span>KHORA</span>
+      </a>
+
+      <div class="nav-search">
+        <svg viewBox="0 0 16 16"><path d="M11.5 7a4.499 4.499 0 11-8.998 0A4.499 4.499 0 0111.5 7zm-.82 4.74a6 6 0 10-1.06 1.06l3.04 3.04a.75.75 0 101.06-1.06l-3.04-3.04z"></path></svg>
+        <input type="text" id="search-input" placeholder="Search discussions, RFCs, mega-projects... (Press '/' to focus)">
+      </div>
+
+      <ul class="nav-links">
+        <li><a href="#" class="active" onclick="filterCategory('all')">Discussions</a></li>
+        <li><a href="#" onclick="filterCategory('mega')">Mega-Projects</a></li>
+        <li><a href="#" onclick="filterCategory('hardware')">Hardware &amp; BOMs</a></li>
+        <li><a href="#" onclick="filterCategory('bounty')">Bounties</a></li>
+        <li><a href="https://github.com/iriss-dev/khora" target="_blank">GitHub Repo ↗</a></li>
+      </ul>
     </div>
 
-    <div class="status-group">
-      <div class="status-pill active"><span class="dot"></span> DCRA OPTICS: 45.0°</div>
-      <div class="status-pill active"><span class="dot"></span> 40kHz HAPTICS: ARMED</div>
-      <div class="status-pill active"><span class="dot"></span> 6-DOF KINEMATICS: ONLINE</div>
-      <div class="status-pill active"><span class="dot"></span> AGENT MCP: READY</div>
+    <div class="nav-right">
+      <button class="btn-new-post" onclick="openNewPostModal()">
+        <span>+</span> New Discussion
+      </button>
+      <div class="user-pill">
+        <span class="user-avatar"></span>
+        <span>@iriss-dev</span>
+      </div>
     </div>
   </header>
 
-  <!-- WORKSPACE -->
-  <div class="workspace">
+  <!-- MAIN REDDIT / GITHUB COMMUNITY CONTAINER -->
+  <div class="container">
     
-    <!-- LEFT SIDEBAR: KINEMATICS & ROBOT CONTROL -->
-    <div class="sidebar">
-      <div class="panel-section">
-        <div class="panel-title">
-          <span>6-DOF Manipulator Controls</span>
-          <span style="color: var(--muted); font-size: 9px;">SE(3)</span>
-        </div>
-
-        <!-- Joint Sliders -->
-        <div class="control-row">
-          <div class="control-label"><span>J1: Base Yaw</span><span class="val" id="val-q1">0.0°</span></div>
-          <input type="range" id="slider-q1" min="-180" max="180" value="0">
-        </div>
-        <div class="control-row">
-          <div class="control-label"><span>J2: Shoulder Pitch</span><span class="val" id="val-q2">25.0°</span></div>
-          <input type="range" id="slider-q2" min="-120" max="120" value="25">
-        </div>
-        <div class="control-row">
-          <div class="control-label"><span>J3: Elbow Pitch</span><span class="val" id="val-q3">-40.0°</span></div>
-          <input type="range" id="slider-q3" min="-140" max="140" value="-40">
-        </div>
-        <div class="control-row">
-          <div class="control-label"><span>J4: Wrist 1 Roll</span><span class="val" id="val-q4">0.0°</span></div>
-          <input type="range" id="slider-q4" min="-180" max="180" value="0">
-        </div>
-        <div class="control-row">
-          <div class="control-label"><span>J5: Wrist 2 Pitch</span><span class="val" id="val-q5">15.0°</span></div>
-          <input type="range" id="slider-q5" min="-110" max="110" value="15">
-        </div>
-        <div class="control-row">
-          <div class="control-label"><span>J6: Wrist 3 Roll</span><span class="val" id="val-q6">0.0°</span></div>
-          <input type="range" id="slider-q6" min="-180" max="180" value="0">
-        </div>
-
-        <div class="btn-grid">
-          <button class="btn" onclick="setPose('home')">Home Pose</button>
-          <button class="btn" onclick="setPose('inspect')">Inspect Light</button>
-          <button class="btn" onclick="setPose('touch')">Touch Focal Spot</button>
-          <button class="btn" onclick="setPose('retract')">Retract Safety</button>
-        </div>
+    <!-- LEFT SIDEBAR: CHANNELS & CATEGORIES -->
+    <div class="sidebar-left">
+      <div class="sidebar-block">
+        <div class="sidebar-heading">Feeds</div>
+        <div class="filter-item active" onclick="setFeedSort('hot')">🔥 Hot Discussions <span class="filter-badge">Top</span></div>
+        <div class="filter-item" onclick="setFeedSort('new')">⏱️ Latest Updates <span class="filter-badge">New</span></div>
+        <div class="filter-item" onclick="setFeedSort('top')">🏆 All-Time Top</div>
       </div>
 
-      <!-- Cartesian Target & DLS IK -->
-      <div class="panel-section">
-        <div class="panel-title">
-          <span>Target Cartesian Pose</span>
-          <span style="color: var(--accent); font-size: 9px;">DLS IK SOLVER</span>
-        </div>
-        <div class="control-row">
-          <div class="control-label"><span>Target X (mm)</span><span class="val" id="val-tx">150</span></div>
-          <input type="range" id="slider-tx" min="-300" max="300" value="150">
-        </div>
-        <div class="control-row">
-          <div class="control-label"><span>Target Y (mm)</span><span class="val" id="val-ty">100</span></div>
-          <input type="range" id="slider-ty" min="-300" max="300" value="100">
-        </div>
-        <div class="control-row">
-          <div class="control-label"><span>Target Z (mm)</span><span class="val" id="val-tz">280</span></div>
-          <input type="range" id="slider-tz" min="50" max="500" value="280">
-        </div>
-        <button class="btn primary" style="width:100%; margin-top: 6px;" onclick="solveTargetIK()">Solve DLS Inverse Kinematics</button>
-      </div>
-
-      <!-- Telemetry Output -->
-      <div class="panel-section">
-        <div class="panel-title">
-          <span>End-Effector Telemetry</span>
-        </div>
-        <div class="telemetry-grid">
-          <div class="tele-card">
-            <div class="lbl">Position [X, Y, Z]</div>
-            <div class="val cyan" id="tele-pos">148, 98, 279</div>
-          </div>
-          <div class="tele-card">
-            <div class="lbl">Manipulability (w)</div>
-            <div class="val green" id="tele-w">0.0842</div>
-          </div>
-          <div class="tele-card">
-            <div class="lbl">Singularity Risk</div>
-            <div class="val green" id="tele-sing">NOMINAL</div>
-          </div>
-          <div class="tele-card">
-            <div class="lbl">Watchdog Status</div>
-            <div class="val cyan" id="tele-wd">LOCKED (10ms)</div>
-          </div>
-        </div>
+      <div class="sidebar-block">
+        <div class="sidebar-heading">Technical Channels</div>
+        <div class="filter-item" onclick="filterCategory('mega')">🚀 #mega-projects <span class="filter-badge">6</span></div>
+        <div class="filter-item" onclick="filterCategory('kinematics')">📐 #kinematics-control <span class="filter-badge">42</span></div>
+        <div class="filter-item" onclick="filterCategory('optics')">🔬 #optics-dcra <span class="filter-badge">28</span></div>
+        <div class="filter-item" onclick="filterCategory('ultrasound')">🔊 #acoustic-haptics <span class="filter-badge">19</span></div>
+        <div class="filter-item" onclick="filterCategory('hardware')">🛠️ #hardware-troubleshoot <span class="filter-badge">84</span></div>
+        <div class="filter-item" onclick="filterCategory('bounty')">💰 #funded-bounties <span class="filter-badge">$1.2k</span></div>
       </div>
     </div>
 
-    <!-- CENTER 3D VIEWPORT -->
-    <div id="viewport-container">
-      <div class="viewport-overlay">
-        OPTICAL RIG: <span>DCRA RETRO-REFLECTIVE 1:1</span> | HAPTIC SPOT: <span id="overlay-force">8.4 mN</span> | AIR CLEARANCE: <span>120mm</span>
+    <!-- CENTER FEED COLUMN -->
+    <div class="center-col">
+      
+      <!-- SUB-NAV FILTER TABS -->
+      <div class="feed-header">
+        <div class="feed-tabs">
+          <button class="tab-btn active" id="tab-hot" onclick="setFeedSort('hot')">🔥 Hot</button>
+          <button class="tab-btn" id="tab-new" onclick="setFeedSort('new')">⏱️ New</button>
+          <button class="tab-btn" id="tab-top" onclick="setFeedSort('top')">🏆 Top Upvoted</button>
+          <button class="tab-btn" id="tab-mega" onclick="filterCategory('mega')">🚀 Mega-Projects</button>
+        </div>
+        <span style="font-size: 12px; color: var(--text-muted); font-family: var(--mono);" id="posts-count-label">Showing 5 discussions</span>
       </div>
+
+      <!-- POSTS CONTAINER (Populated dynamically) -->
+      <div id="posts-feed" style="display:flex; flex-direction:column; gap:12px;"></div>
+
     </div>
 
-    <!-- RIGHT SIDEBAR: OPTICS, HAPTICS & AI CO-PILOT -->
-    <div class="sidebar right">
-      <!-- TABS HEADER -->
-      <div class="tabs-header">
-        <div class="tab-btn active" onclick="switchTab('tab-optics')">Optics</div>
-        <div class="tab-btn" onclick="switchTab('tab-haptics')">Haptics</div>
-        <div class="tab-btn" onclick="switchTab('tab-ai')">AI Co-Pilot</div>
-        <div class="tab-btn" onclick="switchTab('tab-projects')">Mega-Projects</div>
-        <div class="tab-btn" onclick="switchTab('tab-forum')">Forum</div>
+    <!-- RIGHT SIDEBAR: ABOUT KHORA & MEGA-PROJECTS TRACKER -->
+    <div class="sidebar-right">
+      
+      <div class="about-card">
+        <div class="about-header">About KHORA Community Hub</div>
+        <div class="about-desc">
+          The collaborative open-source engineering ecosystem for traversable spatial computing, 40 kHz acoustic haptics, and deterministic robotics control. Built by engineers, for engineers. Zero marketing fluff.
+        </div>
+        <div class="stats-row">
+          <div class="stat-box">
+            <div class="num">1,420</div>
+            <div class="lbl">Engineers &amp; Makers</div>
+          </div>
+          <div class="stat-box">
+            <div class="num">38</div>
+            <div class="lbl">Verified Builds</div>
+          </div>
+        </div>
+        <ul class="link-list">
+          <li><a href="https://github.com/iriss-dev/khora/blob/master/specs/RFC-0001-SPATIAL-LIGHT-AND-HAPTICS.md" target="_blank">📄 RFC-0001: Spatial Optics &amp; Haptics</a></li>
+          <li><a href="https://github.com/iriss-dev/khora/blob/master/specs/RFC-0002-DETERMINISTIC-ROBOTICS-AND-MCP-PLANE.md" target="_blank">📄 RFC-0002: Deterministic Kinematics &amp; MCP</a></li>
+          <li><a href="https://github.com/iriss-dev/khora/blob/master/docs/HARDWARE_BOM.md" target="_blank">🛒 Hardware BOM &amp; Supplier Sourcing</a></li>
+          <li><a href="https://github.com/iriss-dev/khora" target="_blank">⭐ Star on GitHub (iriss-dev/khora)</a></li>
+        </ul>
       </div>
 
-      <!-- TAB 1: OPTICS -->
-      <div id="tab-optics" class="tab-content active">
-        <div class="panel-section">
-          <div class="panel-title">DCRA Aerial Imaging Plate</div>
-          <div class="control-row">
-            <div class="control-label"><span>Plate Tilt Angle</span><span class="val" id="val-tilt">45.0°</span></div>
-            <input type="range" id="slider-tilt" min="30" max="60" step="0.5" value="45">
-          </div>
-          <div class="control-row">
-            <div class="control-label"><span>Source Distance (d_source)</span><span class="val" id="val-dsrc">100 mm</span></div>
-            <input type="range" id="slider-dsrc" min="50" max="200" value="100">
-          </div>
-          <div class="control-row">
-            <div class="control-label"><span>Calculated Air Distance (d_air)</span><span class="val cyan" id="val-dair">100 mm</span></div>
-          </div>
-          <div class="btn-grid">
-            <button class="btn primary" onclick="toggleRayBundle()">Toggle Ray Paths</button>
-            <button class="btn" onclick="toggleHoloMesh()">Toggle Mesh Mode</button>
-          </div>
+      <div class="about-card">
+        <div class="about-header" style="display:flex; justify-content:space-between; align-items:center;">
+          <span>Active Mega-Projects</span>
+          <span style="font-size:11px; color:var(--blue); cursor:pointer;" onclick="filterCategory('mega')">View all</span>
+        </div>
+        <p style="font-size:11px; color:var(--text-muted); margin-bottom:10px;">
+          Multi-engineer collaborative hardware builds currently in active R&amp;D.
+        </p>
+
+        <!-- Project 1 -->
+        <div class="mega-project-item" onclick="openThreadModal(1)">
+          <div class="project-name">🌐 Human-Scale Holographic Array</div>
+          <div class="project-members">16x DCRA Tiling · 8 Engineers collaborating</div>
+          <div class="progress-bar"><div class="progress-fill" style="width: 65%;"></div></div>
         </div>
 
-        <div class="panel-section">
-          <div class="panel-title">Theoretical Optical Invariance</div>
-          <p style="font-family: var(--mono); font-size: 11px; color: var(--muted); line-height: 1.6;">
-            <b>v_r = [-v_x, -v_y, v_z]</b><br>
-            Retro-reflection in substrate plane produces symmetrical convergence at free-air distance <b>d_air = d_source</b> without lenses or goggles.
-          </p>
+        <!-- Project 2 -->
+        <div class="mega-project-item" onclick="openThreadModal(2)">
+          <div class="project-name">🦾 Bimanual 14-DOF Cooperative Rig</div>
+          <div class="project-members">Dual CANopen bus · 5 Engineers collaborating</div>
+          <div class="progress-bar"><div class="progress-fill" style="width: 82%;"></div></div>
         </div>
+
+        <!-- Project 3 -->
+        <div class="mega-project-item" onclick="openThreadModal(3)">
+          <div class="project-name">🏥 Contactless Surgical Navigation</div>
+          <div class="project-members">Sterile DICOM 3D slice · 4 Clinical Researchers</div>
+          <div class="progress-bar"><div class="progress-fill" style="width: 40%;"></div></div>
+        </div>
+
+        <button class="btn-new-post" style="width:100%; margin-top:8px; justify-content:center; background:#21262d; border-color:var(--border);" onclick="openNewPostModal('mega')">
+          + Propose a New Mega-Project
+        </button>
       </div>
 
-      <!-- TAB 2: HAPTICS -->
-      <div id="tab-haptics" class="tab-content">
-        <div class="panel-section">
-          <div class="panel-title">40 kHz Phased Array Transducers</div>
-          <div class="control-row">
-            <div class="control-label"><span>Carrier Frequency</span><span class="val">40,000 Hz</span></div>
-          </div>
-          <div class="control-row">
-            <div class="control-label"><span>AM Modulation (Cutaneous)</span><span class="val">200 Hz</span></div>
-          </div>
-          <div class="control-row">
-            <div class="control-label"><span>Acoustic Radiation Force</span><span class="val cyan" id="val-force">8.4 mN</span></div>
-          </div>
-          <button class="btn primary" style="width:100%" onclick="pulseAcousticSpot()">Trigger Haptic Pulse (Tick)</button>
-        </div>
-
-        <div class="panel-section">
-          <div class="panel-title">Transducer Phase Map (16x16 Grid)</div>
-          <div class="transducer-grid" id="transducer-grid-el"></div>
-          <div style="font-family: var(--mono); font-size: 9px; color: var(--muted); margin-top: 6px; text-align: center;">
-            256 DMA PWM Registers · Quantized to 8-bit [0-255]
-          </div>
-        </div>
-      </div>
-
-      <!-- TAB 3: AI CO-PILOT (MCP) -->
-      <div id="tab-ai" class="tab-content">
-        <div class="panel-section">
-          <div class="panel-title">KHORA Autonomous Robotics Agent</div>
-          <div class="terminal-output" id="terminal-log">
-            [SYS_INIT] KHORA MCP Server Stdio bound.<br>
-            [KINEMATICS] SE(3) Jacobian matrix verified.<br>
-            [OPTICS] DCRA 45° ray convergence verified.<br>
-            [HAPTICS] Acoustic radiation pressure engine ready.<br>
-            [READY] Type commands or query robotics math...
-          </div>
-          <div class="terminal-input-row">
-            <input type="text" class="terminal-input" id="cmd-input" placeholder="e.g. solve ik for target [120, 80, 250]">
-            <button class="btn primary" onclick="sendAiCommand()">Exec</button>
-          </div>
-        </div>
-        <div class="panel-section">
-          <div class="panel-title">Quick AI Queries</div>
-          <div style="display: flex; flex-direction: column; gap: 6px;">
-            <button class="btn" onclick="quickQuery('solve_ik')">📐 Compute Optimal IK for Optical Touch</button>
-            <button class="btn" onclick="quickQuery('verify_safety')">🛡️ Verify Kinematic Safety Envelope</button>
-            <button class="btn" onclick="quickQuery('gen_rp2040')">⚡ Generate RP2040 PWM Phase Code</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- TAB 4: MEGA-PROJECTS & BLUEPRINTS -->
-      <div id="tab-projects" class="tab-content">
-        <div class="panel-section">
-          <div class="panel-title">
-            <span>Collaborative Mega-Projects</span>
-            <span style="color:var(--green); font-size:9px;">GLOBAL HUB</span>
-          </div>
-          <p style="font-size:11px; color:var(--muted); font-family:var(--mono); margin-bottom:12px;">
-            High-complexity robotics &amp; optical systems engineered collaboratively by teams worldwide.
-          </p>
-
-          <!-- Project 1 -->
-          <div style="background:#090e18; border:1px solid #1c2b42; border-radius:6px; padding:12px; margin-bottom:12px;">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-              <span style="font-family:var(--mono); font-size:12px; font-weight:bold; color:var(--cyan)">Human-Scale Traversable Hologram</span>
-              <span style="font-size:9px; background:rgba(74,222,128,0.15); border:1px solid var(--green); color:var(--green); padding:2px 6px; border-radius:3px; font-family:var(--mono);">ACTIVE</span>
-            </div>
-            <p style="font-size:11px; color:#94a3b8; margin:6px 0; font-family:var(--mono);">
-              4x4 Modular DCRA array (800x800mm clear aperture) with 1024-transducer acoustic beamforming for full-body touch interaction.
-            </p>
-            <div class="btn-grid" style="margin-top:6px;">
-              <button class="btn primary" onclick="loadMegaProject('human_scale')">Load 3D Station</button>
-              <button class="btn" onclick="logTerminal('[PROJECT_HUB] Opened blueprint RFC-0089: 16-module DCRA bus matrix.')">View BOM</button>
-            </div>
-          </div>
-
-          <!-- Project 2 -->
-          <div style="background:#090e18; border:1px solid #1c2b42; border-radius:6px; padding:12px; margin-bottom:12px;">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-              <span style="font-family:var(--mono); font-size:12px; font-weight:bold; color:var(--purple)">Bimanual Dual-Arm 14-DOF Rig</span>
-              <span style="font-size:9px; background:rgba(0,240,255,0.15); border:1px solid var(--cyan); color:var(--cyan); padding:2px 6px; border-radius:3px; font-family:var(--mono);">VERIFIED</span>
-            </div>
-            <p style="font-size:11px; color:#94a3b8; margin:6px 0; font-family:var(--mono);">
-              Dual synchronized robotic manipulators executing cooperative manipulation with CANopen real-time bus and S-curve profiling.
-            </p>
-            <div class="btn-grid" style="margin-top:6px;">
-              <button class="btn primary" onclick="loadMegaProject('dual_arm')">Spawn 2nd Arm</button>
-              <button class="btn" onclick="logTerminal('[PROJECT_HUB] Dual Jacobian rank 12 verified with zero cross-collision.')">Inspect Math</button>
-            </div>
-          </div>
-
-          <!-- Project 3 -->
-          <div style="background:#090e18; border:1px solid #1c2b42; border-radius:6px; padding:12px; margin-bottom:12px;">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-              <span style="font-family:var(--mono); font-size:12px; font-weight:bold; color:#f8fafc">Contactless Surgical Station</span>
-              <span style="font-size:9px; background:rgba(167,139,250,0.15); border:1px solid var(--purple); color:var(--purple); padding:2px 6px; border-radius:3px; font-family:var(--mono);">CLINICAL</span>
-            </div>
-            <p style="font-size:11px; color:#94a3b8; margin:6px 0; font-family:var(--mono);">
-              Sterile 3D DICOM CT/MRI scan slicing in mid-air with ultrasonic organ margin haptic stiffness resistance.
-            </p>
-            <div class="btn-grid" style="margin-top:6px;">
-              <button class="btn primary" onclick="loadMegaProject('surgical')">Simulate Scan</button>
-              <button class="btn" onclick="logTerminal('[PROJECT_HUB] Zero-contact sterile boundary verified: ISO 13485 compliant.')">Read Spec</button>
-            </div>
-          </div>
-
-          <button class="btn" style="width:100%; border-color:var(--cyan); color:var(--cyan); margin-top:6px;" onclick="startProjectArchitect()">
-            + Propose a New Mega-Project with AI Architect
-          </button>
-        </div>
-      </div>
-
-      <!-- TAB 5: TECHNICAL FORUM & ASSISTANCE -->
-      <div id="tab-forum" class="tab-content">
-        <div class="panel-section">
-          <div class="panel-title">
-            <span>Engineering Forums</span>
-            <span style="color:var(--cyan); font-size:9px;">PEER ASSISTANCE</span>
-          </div>
-          <p style="font-size:11px; color:var(--muted); font-family:var(--mono); margin-bottom:12px;">
-            Get unstuck on low-level physics, FPGA/MCU drivers, kinematics singularities and custom fabrication.
-          </p>
-
-          <!-- Category Tags -->
-          <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:12px;">
-            <span style="font-family:var(--mono); font-size:10px; background:#121a28; color:var(--cyan); border:1px solid #1c2b42; padding:3px 8px; border-radius:3px; cursor:pointer;">#optics-dcra</span>
-            <span style="font-family:var(--mono); font-size:10px; background:#121a28; color:var(--purple); border:1px solid #1c2b42; padding:3px 8px; border-radius:3px; cursor:pointer;">#kinematics-ik</span>
-            <span style="font-family:var(--mono); font-size:10px; background:#121a28; color:var(--green); border:1px solid #1c2b42; padding:3px 8px; border-radius:3px; cursor:pointer;">#ultrasound-40khz</span>
-            <span style="font-family:var(--mono); font-size:10px; background:#121a28; color:#f59e0b; border:1px solid #1c2b42; padding:3px 8px; border-radius:3px; cursor:pointer;">#mega-projects</span>
-          </div>
-
-          <!-- Thread 1 -->
-          <div style="background:#090e18; border:1px solid #162032; border-radius:4px; padding:10px; margin-bottom:10px; cursor:pointer;" onclick="viewThread('mosfet')">
-            <div style="font-family:var(--mono); font-size:11px; font-weight:bold; color:var(--text);">
-              TC4427 MOSFET driver thermal runaway at 24V with 256 transducers?
-            </div>
-            <div style="font-family:var(--mono); font-size:10px; color:var(--muted); margin-top:4px; display:flex; justify-content:space-between;">
-              <span>18 replies · Solved by @iriss-dev</span>
-              <span style="color:var(--green)">✓ Solution Verified</span>
-            </div>
-          </div>
-
-          <!-- Thread 2 -->
-          <div style="background:#090e18; border:1px solid #162032; border-radius:4px; padding:10px; margin-bottom:10px; cursor:pointer;" onclick="viewThread('singularity')">
-            <div style="font-family:var(--mono); font-size:11px; font-weight:bold; color:var(--text);">
-              Gimbal lock &amp; wrist singularity rejection in 6-DOF arms
-            </div>
-            <div style="font-family:var(--mono); font-size:10px; color:var(--muted); margin-top:4px; display:flex; justify-content:space-between;">
-              <span>32 replies · Includes DLS math</span>
-              <span style="color:var(--cyan)">Popular Thread</span>
-            </div>
-          </div>
-
-          <!-- Thread 3 -->
-          <div style="background:#090e18; border:1px solid #162032; border-radius:4px; padding:10px; margin-bottom:10px; cursor:pointer;" onclick="viewThread('sourcing')">
-            <div style="font-family:var(--mono); font-size:11px; font-weight:bold; color:var(--text);">
-              Where to source optical DCRA plates in Americas/EU without 3-month lead time?
-            </div>
-            <div style="font-family:var(--mono); font-size:10px; color:var(--muted); margin-top:4px; display:flex; justify-content:space-between;">
-              <span>11 replies · Supplier list</span>
-              <span style="color:var(--purple)">Hardware Sourcing</span>
-            </div>
-          </div>
-
-          <!-- Ask Question Box -->
-          <div style="margin-top:14px; border-top:1px solid var(--panel-border); padding-top:12px;">
-            <div style="font-family:var(--mono); font-size:11px; font-weight:bold; color:var(--cyan); margin-bottom:6px;">
-              Ask Community &amp; AI Architect:
-            </div>
-            <textarea id="forum-question-input" rows="3" style="width:100%; background:#090e18; border:1px solid var(--panel-border); border-radius:4px; padding:8px; font-family:var(--mono); font-size:11px; color:var(--text); outline:none; resize:none;" placeholder="Describe your technical blocker (e.g. motor torque calculation, DCRA aberration)..."></textarea>
-            <button class="btn primary" style="width:100%; margin-top:6px;" onclick="postForumQuestion()">Post to Forum &amp; Request AI Breakdown</button>
-          </div>
-        </div>
+      <div class="about-card" style="font-size:11px; color:var(--text-muted);">
+        <b>Community Standard:</b> Posts must include reproducible engineering math, schematics, or benchmarks. Peer reviews are public. Maintain respect and technical rigor.
       </div>
 
     </div>
   </div>
 
+  <!-- MODAL: VIEW FULL THREAD & COMMENTS -->
+  <div class="modal-overlay" id="thread-modal" onclick="closeModalOnOverlay(event, 'thread-modal')">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="modal-thread-title">Discussion Title</h3>
+        <button class="modal-close" onclick="closeModal('thread-modal')">&times;</button>
+      </div>
+      <div class="modal-body" id="modal-thread-content">
+        <!-- Injected dynamically -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn-new-post" style="background:#21262d; border-color:var(--border);" onclick="closeModal('thread-modal')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: NEW POST / PROPOSE MEGA-PROJECT -->
+  <div class="modal-overlay" id="new-post-modal" onclick="closeModalOnOverlay(event, 'new-post-modal')">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3>Create an Engineering Discussion / Propose Mega-Project</h3>
+        <button class="modal-close" onclick="closeModal('new-post-modal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <label>Title</label>
+        <input type="text" id="new-post-title" placeholder="Descriptive title (e.g. [RFC] Closed-loop force sensing via piezo back-EMF)">
+
+        <label>Channel / Category</label>
+        <select id="new-post-category">
+          <option value="mega">🚀 #mega-projects (Colossal collaborative builds)</option>
+          <option value="hardware">🛠️ #hardware-troubleshoot (Circuits, MOSFETs, assembly)</option>
+          <option value="kinematics">📐 #kinematics-control (SE(3), DLS solvers, motor trajectories)</option>
+          <option value="optics">🔬 #optics-dcra (Aerial imaging plates, retro-reflection)</option>
+          <option value="ultrasound">🔊 #acoustic-haptics (40kHz radiation force, phase arrays)</option>
+          <option value="bounty">💰 #funded-bounties (Open technical challenges)</option>
+        </select>
+
+        <label>Discussion Content &amp; Mathematical Specs</label>
+        <textarea id="new-post-body" rows="6" placeholder="Describe the physical problem, attach equations, schematics, BOM parts or code snippets..."></textarea>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-new-post" style="background:#21262d; border-color:var(--border);" onclick="closeModal('new-post-modal')">Cancel</button>
+        <button class="btn-new-post" onclick="submitNewPost()">Publish Discussion</button>
+      </div>
+    </div>
+  </div>
+
   <script>
     // -------------------------------------------------------------------------
-    // THREE.JS 3D VIEWPORT & ROBOT / OPTICAL SETUP
+    // COMMUNITY POSTS DATA STORE
     // -------------------------------------------------------------------------
-    let scene, camera, renderer, controls;
-    let robotGroup, basePlate, dcraPlate, displayPanel, floatingHoloCube, raysGroup, acousticWaveGroup;
-    let jointMeshes = [];
+    let POSTS = [
+      {
+        id: 1,
+        title: "[Mega-Project] Human-Scale Traversable Hologram: 4x4 Modular DCRA Array with 1024-Transducer Phased Acoustic Beamforming",
+        author: "iriss-dev",
+        isFounder: true,
+        category: "mega",
+        upvotes: 312,
+        userVoted: false,
+        timeAgo: "2 hours ago",
+        tags: ["Mega-Project", "Optics", "Ultrasound", "Open Collaboration"],
+        summary: "We are scaling the KHORA aerial rig from desktop size (200x200mm) to human scale (800x800mm clear aperture). Seeking mechanical engineers for the extruded aluminum support rig and FPGA engineers to drive 1024 PWM channels at 40 kHz without phase jitter.",
+        fullText: `
+          <p>The standard KHORA desktop rig utilizes a single 200x200mm DCRA plate. To project human-scale 1:1 holographic projections without head-mounted gear, we are engineering a 4x4 modular tile matrix.</p>
+          <pre class="code-block">// Optical working volume:
+d_air = d_source = 450 mm
+Aperture: 800 x 800 mm (16 DCRA tiles, tolerance ±0.15mm)
+Transducers: 1024x Murata MA40S4S @ 40 kHz carrier
+Calculated total radiation force: ~35 mN (crisp whole-hand touch feeling)</pre>
+          <p><b>Open Roles for Collaborators:</b></p>
+          <ul>
+            <li><b>Mechanical:</b> Structural deflection analysis on the 45-degree aluminum gantry under optical vibration loads.</li>
+            <li><b>Firmware:</b> FPGA / RP2040 multi-core SPI daisy-chaining for 1024 8-bit phase registers.</li>
+          </ul>
+        `,
+        comments: [
+          { author: "marcus_cern", time: "1 hour ago", text: "Incredible ambition Iris. For the 1024 transducers, an Intel Cyclone IV or Spartan-7 FPGA can synthesize all phase shifts in pure Verilog without MCU timer contention. Count me in for the Verilog module." },
+          { author: "elena_robotics", time: "35 mins ago", text: "I have a 5-axis CNC router in Munich; I can machine the 4x4 aluminum tile frame within 50 microns. Pulling the CAD files from repo right now." }
+        ]
+      },
+      {
+        id: 2,
+        title: "[Solved] Eliminating Thermal Runaway on TC4427 MOSFET Drivers when Modulating 256 Transducers at 24V Continuous",
+        author: "dr_nikola",
+        isFounder: false,
+        category: "hardware",
+        upvotes: 218,
+        userVoted: false,
+        timeAgo: "5 hours ago",
+        tags: ["Hardware", "Solved", "Ultrasound", "Power Electronics"],
+        summary: "When running the 16x16 transducer matrix at 24V to achieve 12 mN acoustic force, the TC4427 dual drivers were exceeding 85°C within 90 seconds. Here is the verified decoupling and ground-plane layout that dropped temps to 41°C steady-state.",
+        fullText: `
+          <p>Piezoelectric transducers act predominantly as capacitive loads ($C \approx 2.4\,\text{nF}$ per transducer at 40 kHz). Driving 256 of them requires significant displacement current:</p>
+          <pre class="code-block">I_peak = C * (dV / dt) = 2.4nF * (24V / 25ns) = 2.3 Amperes peak per channel!
+P_switching = 256 * (C_piezo * V^2 * f_carrier) = 256 * (2.4nF * 576 * 40kHz) = 14.1 Watts total driver dissipation.</pre>
+          <p><b>The Solution:</b></p>
+          <ol>
+            <li>Placed 100nF C0G low-ESR ceramic caps directly across pins 6 (VDD) and 3 (GND) of each TC4427 IC.</li>
+            <li>Added a 4-layer PCB with dedicated solid ground plane and thermal relief vias directly to the aluminum chassis.</li>
+            <li>Added a series 4.7-ohm damping resistor to eliminate LC ringing between the trace inductance and the transducer capacitance.</li>
+          </ol>
+          <p>Temperatures dropped from 85°C to 41°C under 100% continuous duty cycle. Schematics pushed to <code>firmware/pcb/</code>.</p>
+        `,
+        comments: [
+          { author: "iriss-dev", time: "4 hours ago", text: "Spot on Nikola. That series damping resistor is vital—the LC resonance of un-damped piezo lines creates voltage spikes up to 45V that degrade the MOSFET gate oxide over time. Added your solution to docs/HARDWARE_BOM.md." }
+        ]
+      },
+      {
+        id: 3,
+        title: "[Funded Bounty: $400] Real-Time 60Hz Jacobian Singularity Evasion Filter in no_std Rust for STM32H7 / RP2040",
+        author: "khora-foundation",
+        isFounder: true,
+        category: "bounty",
+        upvotes: 284,
+        userVoted: false,
+        timeAgo: "1 day ago",
+        tags: ["Bounty", "Kinematics", "Rust", "no_std"],
+        summary: "Bounty of $400 paid via GitHub Sponsors or Crypto. Deliver a no_std Rust implementation of damped least squares with Yoshikawa manipulability thresholding that compiles cleanly on Cortex-M4/M7 targets without dynamic heap allocations.",
+        fullText: `
+          <p><b>Bounty Goal:</b> We need a high-performance, `#![no_std]` Rust implementation of our kinematic singularity evasion algorithm to run inside microcontroller timer loops.</p>
+          <pre class="code-block">// Target Signature:
+pub fn solve_ik_realtime(
+    chain: &amp;KinematicChain&lt;6&gt;,
+    target_pose: &amp;SE3Transform,
+    current_q: &amp;[f32; 6],
+) -> Result&lt;[f32; 6], KinematicFault&gt;;</pre>
+          <p><b>Acceptance Criteria:</b></p>
+          <ul>
+            <li>Execution time &lt; 1.2ms on STM32H7 (480MHz) or &lt; 3.5ms on RP2040 (125MHz).</li>
+            <li>Zero heap allocation (all work buffers fixed-size on stack).</li>
+            <li>Passes all 15 regression test cases in <code>tests/test_kinematics.py</code>.</li>
+          </ul>
+        `,
+        comments: [
+          { author: "rust_coder_99", time: "18 hours ago", text: "Taking this bounty. I already have a stack-allocated LU-decomposition for 6x6 matrices from my drone flight controller. PR coming within 48h." }
+        ]
+      },
+      {
+        id: 4,
+        title: "[Showcase] Built the Complete $380 DIY KHORA Rig in my University Lab: Photos, Oscilloscope Traces & Floating Light Proof",
+        author: "maker_elena",
+        isFounder: false,
+        category: "hardware",
+        upvotes: 495,
+        userVoted: false,
+        timeAgo: "2 days ago",
+        tags: ["Showcase", "Build Log", "Verified", "Optics"],
+        summary: "Followed the KHORA BOM and 3D printed the cad/dcra_mount_45deg.scad. The floating 1:1 real image convergence works flawlessly. When you wave your finger through the light, the acoustic pressure feels exactly like pressing a mechanical clicky switch in empty air!",
+        fullText: `
+          <p>I built the rig using an old Waveshare 5.5" AMOLED display, a 200x200mm acrylic DCRA plate from AliExpress, and 64 Murata transducers driven by an RP2040.</p>
+          <p><b>Measurements:</b></p>
+          <ul>
+            <li><b>Acoustic Focal Spot:</b> 8.6mm FWHM measured with a calibrated hydrophone in air.</li>
+            <li><b>Normal Radiation Force:</b> Measured 9.2 mN on a precision analytical balance at 15cm focal distance.</li>
+            <li><b>Visual Contrast:</b> 100% visible under regular laboratory LED ceiling lights.</li>
+          </ul>
+          <p>Students in my robotics group were mind-blown: touching light without wearing Quest 3 or Vision Pro feels like magic, but it is pure high-school Snell's law and acoustics!</p>
+        `,
+        comments: [
+          { author: "iriss-dev", time: "2 days ago", text: "Phenomenal build Elena! Seeing someone build the physical rig from our OpenSCAD and BOM files in another country is the ultimate confirmation of why open-source hardware matters." }
+        ]
+      },
+      {
+        id: 5,
+        title: "[RFC Proposal] Extending RFC-0002 with Impedance & Admittance Control for Compliant Robotic Haptic Interaction",
+        author: "khora_core_dev",
+        isFounder: false,
+        category: "kinematics",
+        upvotes: 142,
+        userVoted: false,
+        timeAgo: "3 days ago",
+        tags: ["RFC", "Kinematics", "Robotics"],
+        summary: "Proposing an extension to RFC-0002 to incorporate virtual spring-mass-damper impedance control: F = M * ddot_x + D * dot_x + K * (x - x_target). Allows the robotic arm to gently push against human hands during collaborative tasks.",
+        fullText: `
+          <p>Currently, RFC-0002 enforces stiff kinematic position setpoints via 7-segment S-curves. For collaborative human-robot interaction, the manipulator must exhibit virtual mechanical compliance.</p>
+          <pre class="code-block">tau_motor = J^T * (K * (x_desired - x_current) - D * v_current) + tau_gravity(q)</pre>
+          <p>If the human hand touches the robot end-effector while interacting with the hologram, the arm yields safely instead of asserting rigid position dominance.</p>
+        `,
+        comments: [
+          { author: "robot_control_phd", time: "2 days ago", text: "Strongly support this. We should ensure the passivity condition (energy tank formulation) is satisfied so the admittance filter cannot introduce high-frequency oscillations." }
+        ]
+      }
+    ];
 
-    const container = document.getElementById('viewport-container');
+    let currentCategory = "all";
+    let currentSort = "hot";
 
-    function init3D() {
-      scene = new THREE.Scene();
-      scene.background = new THREE.Color(0x06080e);
-      scene.fog = new THREE.FogExp2(0x06080e, 0.0015);
+    function renderFeed() {
+      const container = document.getElementById("posts-feed");
+      container.innerHTML = "";
 
-      camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 2000);
-      camera.position.set(400, 320, 450);
-
-      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-      renderer.setSize(container.clientWidth, container.clientHeight);
-      renderer.setPixelRatio(window.devicePixelRatio);
-      renderer.shadowMap.enabled = true;
-      container.appendChild(renderer.domElement);
-
-      controls = new THREE.OrbitControls(camera, renderer.domElement);
-      controls.enableDamping = true;
-      controls.dampingFactor = 0.05;
-      controls.target.set(0, 100, 0);
-
-      // Lighting
-      const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-      scene.add(ambientLight);
-
-      const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
-      dirLight.position.set(200, 400, 300);
-      scene.add(dirLight);
-
-      const cyanPointLight = new THREE.PointLight(0x00f0ff, 2, 300);
-      cyanPointLight.position.set(0, 150, 0);
-      scene.add(cyanPointLight);
-
-      // Engineering Ground Grid
-      const gridHelper = new THREE.GridHelper(800, 40, 0x162338, 0x0f1624);
-      gridHelper.position.y = 0;
-      scene.add(gridHelper);
-
-      buildOpticalRig();
-      buildRobotArm();
-      buildRayBundle();
-      buildAcousticWaves();
-
-      window.addEventListener('resize', onWindowResize);
-      animate();
-    }
-
-    // BUILD THE OPTICAL SUBSTRATE RIG
-    function buildOpticalRig() {
-      // Base table / chassis
-      const baseGeo = new THREE.BoxGeometry(240, 12, 240);
-      const baseMat = new THREE.MeshStandardMaterial({ color: 0x0d1422, roughness: 0.7 });
-      basePlate = new THREE.Mesh(baseGeo, baseMat);
-      basePlate.position.set(0, 6, 0);
-      scene.add(basePlate);
-
-      // LCD Display panel at bottom (recessed)
-      const displayGeo = new THREE.PlaneGeometry(120, 120);
-      const displayMat = new THREE.MeshBasicMaterial({ color: 0x002233, side: THREE.DoubleSide });
-      displayPanel = new THREE.Mesh(displayGeo, displayMat);
-      displayPanel.rotation.x = -Math.PI / 2;
-      displayPanel.position.set(0, 13, -30);
-      scene.add(displayPanel);
-
-      // Display glow border
-      const glowGeo = new THREE.RingGeometry(55, 58, 32);
-      const glowMat = new THREE.MeshBasicMaterial({ color: 0x00f0ff, side: THREE.DoubleSide });
-      const glow = new THREE.Mesh(glowGeo, glowMat);
-      glow.rotation.x = -Math.PI / 2;
-      glow.position.set(0, 13.5, -30);
-      scene.add(glow);
-
-      // DCRA Plate (Tilted at 45.0 degrees)
-      const dcraGeo = new THREE.BoxGeometry(160, 4, 160);
-      const dcraMat = new THREE.MeshStandardMaterial({
-        color: 0x38bdf8,
-        metalness: 0.85,
-        roughness: 0.2,
-        transparent: true,
-        opacity: 0.65,
+      let filtered = POSTS.filter(p => {
+        if (currentCategory === "all") return true;
+        return p.category === currentCategory;
       });
-      dcraPlate = new THREE.Mesh(dcraGeo, dcraMat);
-      dcraPlate.position.set(0, 80, 0);
-      dcraPlate.rotation.x = Math.PI / 4; // 45 degrees
-      scene.add(dcraPlate);
 
-      // Aluminum Support Pillars
-      const pillarMat = new THREE.MeshStandardMaterial({ color: 0x334155, metalness: 0.8 });
-      for (let x of [-75, 75]) {
-        for (let z of [-75, 75]) {
-          const pilGeo = new THREE.CylinderGeometry(3, 3, 75, 16);
-          const pil = new THREE.Mesh(pilGeo, pillarMat);
-          pil.position.set(x, 37.5, z);
-          scene.add(pil);
-        }
-      }
+      if (currentSort === "hot") filtered.sort((a, b) => b.upvotes - a.upvotes);
+      if (currentSort === "new") filtered.sort((a, b) => b.id - a.id);
+      if (currentSort === "top") filtered.sort((a, b) => b.upvotes - a.upvotes);
 
-      // Floating Real Aerial Image (Open Air Cube)
-      const holoGeo = new THREE.BoxGeometry(40, 40, 40);
-      const holoMat = new THREE.MeshBasicMaterial({
-        color: 0x00f0ff,
-        wireframe: true,
-        transparent: true,
-        opacity: 0.85
+      document.getElementById("posts-count-label").innerText = `Showing ${filtered.length} discussion${filtered.length === 1 ? '' : 's'}`;
+
+      filtered.forEach(p => {
+        const card = document.createElement("div");
+        card.className = "post-card";
+        
+        let tagBadges = p.tags.map(t => {
+          let c = "";
+          if (t.includes("Mega")) c = "mega";
+          if (t.includes("Solved")) c = "solved";
+          if (t.includes("Bounty")) c = "bounty";
+          return `<span class="tag ${c}">${t}</span>`;
+        }).join(" ");
+
+        card.innerHTML = `
+          <div class="post-vote-col" onclick="event.stopPropagation()">
+            <button class="vote-btn ${p.userVoted ? 'voted' : ''}" onclick="toggleUpvote(${p.id})">▲</button>
+            <span class="vote-count" id="vote-${p.id}">${p.upvotes}</span>
+          </div>
+          <div class="post-main" onclick="openThreadModal(${p.id})">
+            <div class="post-meta">
+              <span class="author">@${p.author}</span>
+              ${p.isFounder ? '<span class="badge-founder">FOUNDER</span>' : ''}
+              <span>·</span>
+              <span>${p.timeAgo}</span>
+              <span>·</span>
+              <span style="font-family:var(--mono); color:var(--text-muted)">#${p.category}</span>
+            </div>
+            <a class="post-title">${p.title}</a>
+            <div class="post-body">${p.summary}</div>
+            <div class="post-tags">${tagBadges}</div>
+            <div class="post-footer">
+              <div class="footer-action">💬 ${p.comments.length} comments</div>
+              <div class="footer-action">🔗 Share</div>
+              <div class="footer-action">⭐ Save</div>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
       });
-      floatingHoloCube = new THREE.Mesh(holoGeo, holoMat);
-      floatingHoloCube.position.set(0, 160, 30);
-      scene.add(floatingHoloCube);
-
-      // Inner glowing core of floating hologram
-      const coreGeo = new THREE.OctahedronGeometry(12);
-      const coreMat = new THREE.MeshBasicMaterial({ color: 0xffffff });
-      const core = new THREE.Mesh(coreGeo, coreMat);
-      floatingHoloCube.add(core);
     }
 
-    // BUILD RAY PATH BUNDLE
-    function buildRayBundle() {
-      raysGroup = new THREE.Group();
-      const rayCount = 12;
-      const rayMat = new THREE.LineBasicMaterial({ color: 0x00f0ff, transparent: true, opacity: 0.45 });
-
-      for (let i = 0; i < rayCount; i++) {
-        const phi = (i / rayCount) * Math.PI * 2;
-        const rad = 25;
-        const sx = Math.cos(phi) * rad;
-        const sz = -30 + Math.sin(phi) * rad;
-
-        // Points: Source -> DCRA hit -> Aerial Focus
-        const hitX = sx;
-        const hitY = 80 - (sz / Math.SQRT2);
-        const hitZ = sz * 0.5;
-
-        const pts = [
-          new THREE.Vector3(sx, 14, sz),
-          new THREE.Vector3(hitX, 80, 0),
-          new THREE.Vector3(0, 160, 30),
-        ];
-        const geom = new THREE.BufferGeometry().setFromPoints(pts);
-        const line = new THREE.Line(geom, rayMat);
-        raysGroup.add(line);
+    function toggleUpvote(id) {
+      const post = POSTS.find(p => p.id === id);
+      if (!post) return;
+      if (!post.userVoted) {
+        post.upvotes += 1;
+        post.userVoted = true;
+      } else {
+        post.upvotes -= 1;
+        post.userVoted = false;
       }
-      scene.add(raysGroup);
+      document.getElementById(`vote-${id}`).innerText = post.upvotes;
     }
 
-    // BUILD ULTRASONIC HAPTIC WAVE PULSES
-    function buildAcousticWaves() {
-      acousticWaveGroup = new THREE.Group();
-      const waveMat = new THREE.MeshBasicMaterial({
-        color: 0x00f0ff,
-        wireframe: true,
-        transparent: true,
-        opacity: 0.35
+    function filterCategory(cat) {
+      currentCategory = cat;
+      document.querySelectorAll(".filter-item").forEach(el => el.classList.remove("active"));
+      renderFeed();
+    }
+
+    function setFeedSort(sort) {
+      currentSort = sort;
+      document.querySelectorAll(".tab-btn").forEach(el => el.classList.remove("active"));
+      const btn = document.getElementById(`tab-${sort}`);
+      if (btn) btn.classList.add("active");
+      renderFeed();
+    }
+
+    // THREAD MODAL
+    function openThreadModal(id) {
+      const post = POSTS.find(p => p.id === id);
+      if (!post) return;
+
+      document.getElementById("modal-thread-title").innerText = post.title;
+      
+      let commentsHtml = post.comments.map(c => `
+        <div class="comment-item">
+          <div class="comment-author">@${c.author} <span style="font-size:10px; color:var(--text-muted); font-weight:normal;">· ${c.time}</span></div>
+          <div class="comment-text">${c.text}</div>
+        </div>
+      `).join("");
+
+      document.getElementById("modal-thread-content").innerHTML = `
+        <div class="post-meta" style="margin-bottom:12px;">
+          <span class="author">@${post.author}</span>
+          ${post.isFounder ? '<span class="badge-founder">FOUNDER</span>' : ''}
+          <span>·</span>
+          <span>${post.timeAgo}</span>
+        </div>
+        <div style="font-size:14px; line-height:1.7; color:var(--text); margin-bottom:16px;">
+          ${post.fullText}
+        </div>
+        <div class="comment-tree">
+          <h4 style="font-size:13px; color:var(--text-heading); margin-bottom:12px;">Discussion &amp; Peer Reviews (${post.comments.length})</h4>
+          ${commentsHtml}
+          <div style="margin-top:16px;">
+            <input type="text" id="new-comment-input" placeholder="Write a reply or engineering review..." onkeydown="if(event.key==='Enter') submitComment(${post.id})">
+            <button class="btn-new-post" style="margin-top:4px;" onclick="submitComment(${post.id})">Post Reply</button>
+          </div>
+        </div>
+      `;
+
+      document.getElementById("thread-modal").classList.add("open");
+    }
+
+    function submitComment(postId) {
+      const input = document.getElementById("new-comment-input");
+      const text = input.value.trim();
+      if (!text) return;
+      const post = POSTS.find(p => p.id === postId);
+      if (post) {
+        post.comments.push({ author: "iriss-dev", time: "just now", text: text });
+        openThreadModal(postId); // Refresh modal view
+        renderFeed();
+      }
+    }
+
+    // NEW POST MODAL
+    function openNewPostModal(defaultCategory) {
+      if (defaultCategory) {
+        document.getElementById("new-post-category").value = defaultCategory;
+      }
+      document.getElementById("new-post-modal").classList.add("open");
+    }
+
+    function submitNewPost() {
+      const title = document.getElementById("new-post-title").value.trim();
+      const body = document.getElementById("new-post-body").value.trim();
+      const cat = document.getElementById("new-post-category").value;
+
+      if (!title || !body) {
+        alert("Please enter a title and description.");
+        return;
+      }
+
+      const newId = POSTS.length + 1;
+      POSTS.unshift({
+        id: newId,
+        title: title,
+        author: "iriss-dev",
+        isFounder: true,
+        category: cat,
+        upvotes: 1,
+        userVoted: true,
+        timeAgo: "just now",
+        tags: [cat.toUpperCase(), "Open Discussion"],
+        summary: body.slice(0, 140) + "...",
+        fullText: `<p>${body}</p>`,
+        comments: []
       });
-      for (let r = 10; r <= 35; r += 8) {
-        const sphereGeo = new THREE.SphereGeometry(r, 16, 16);
-        const sphere = new THREE.Mesh(sphereGeo, waveMat);
-        acousticWaveGroup.add(sphere);
+
+      document.getElementById("new-post-title").value = "";
+      document.getElementById("new-post-body").value = "";
+      closeModal("new-post-modal");
+      renderFeed();
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.remove("open");
+    }
+
+    function closeModalOnOverlay(e, id) {
+      if (e.target.id === id) {
+        closeModal(id);
       }
-      acousticWaveGroup.position.set(0, 160, 30);
-      scene.add(acousticWaveGroup);
     }
 
-    // BUILD 6-DOF ROBOTIC ARM
-    function buildRobotArm() {
-      robotGroup = new THREE.Group();
-      robotGroup.position.set(-140, 0, 50);
-      scene.add(robotGroup);
-
-      const armMat = new THREE.MeshStandardMaterial({ color: 0x475569, metalness: 0.6, roughness: 0.4 });
-      const jointMat = new THREE.MeshStandardMaterial({ color: 0x00f0ff, metalness: 0.9, roughness: 0.2 });
-
-      // Base pedestal
-      const bGeo = new THREE.CylinderGeometry(28, 34, 30, 24);
-      const baseMesh = new THREE.Mesh(bGeo, armMat);
-      baseMesh.position.y = 15;
-      robotGroup.add(baseMesh);
-
-      // Joint 1: Base turntable
-      const j1 = new THREE.Group();
-      j1.position.y = 30;
-      robotGroup.add(j1);
-      jointMeshes.push(j1);
-
-      // Link 1
-      const l1Geo = new THREE.BoxGeometry(18, 60, 18);
-      const l1 = new THREE.Mesh(l1Geo, armMat);
-      l1.position.y = 30;
-      j1.add(l1);
-
-      // Joint 2: Shoulder
-      const j2 = new THREE.Group();
-      j2.position.y = 60;
-      j1.add(j2);
-      jointMeshes.push(j2);
-
-      // Link 2 (Upper arm)
-      const l2Geo = new THREE.BoxGeometry(14, 90, 14);
-      const l2 = new THREE.Mesh(l2Geo, armMat);
-      l2.position.y = 45;
-      j2.add(l2);
-
-      // Joint 3: Elbow
-      const j3 = new THREE.Group();
-      j3.position.y = 90;
-      j2.add(j3);
-      jointMeshes.push(j3);
-
-      // Link 3 (Forearm)
-      const l3Geo = new THREE.BoxGeometry(12, 80, 12);
-      const l3 = new THREE.Mesh(l3Geo, armMat);
-      l3.position.y = 40;
-      j3.add(l3);
-
-      // Joint 4: Wrist 1
-      const j4 = new THREE.Group();
-      j4.position.y = 80;
-      j3.add(j4);
-      jointMeshes.push(j4);
-
-      // Joint 5: Wrist 2
-      const j5 = new THREE.Group();
-      j5.position.y = 20;
-      j4.add(j5);
-      jointMeshes.push(j5);
-
-      // Joint 6: Wrist 3 & End-Effector Tool Tip
-      const j6 = new THREE.Group();
-      j6.position.y = 20;
-      j5.add(j6);
-      jointMeshes.push(j6);
-
-      // Tool tip probe (tactile sensor / stylus)
-      const toolGeo = new THREE.CylinderGeometry(2, 6, 35, 16);
-      const tool = new THREE.Mesh(toolGeo, jointMat);
-      tool.position.y = 17.5;
-      j6.add(tool);
-    }
-
-    function updateRobotJoints(qDeg) {
-      if (jointMeshes.length < 6) return;
-      jointMeshes[0].rotation.y = THREE.MathUtils.degToRad(qDeg[0]);
-      jointMeshes[1].rotation.z = THREE.MathUtils.degToRad(qDeg[1]);
-      jointMeshes[2].rotation.z = THREE.MathUtils.degToRad(qDeg[2]);
-      jointMeshes[3].rotation.y = THREE.MathUtils.degToRad(qDeg[3]);
-      jointMeshes[4].rotation.z = THREE.MathUtils.degToRad(qDeg[4]);
-      jointMeshes[5].rotation.y = THREE.MathUtils.degToRad(qDeg[5]);
-
-      // Telemetry update
-      const p = new THREE.Vector3();
-      jointMeshes[5].getWorldPosition(p);
-      document.getElementById('tele-pos').innerText = `${Math.round(p.x)}, ${Math.round(p.y)}, ${Math.round(p.z)}`;
-    }
-
-    function onWindowResize() {
-      camera.aspect = container.clientWidth / container.clientHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(container.clientWidth, container.clientHeight);
-    }
-
-    let time = 0;
-    function animate() {
-      requestAnimationFrame(animate);
-      time += 0.02;
-
-      // Rotate and pulse floating hologram
-      if (floatingHoloCube) {
-        floatingHoloCube.rotation.y += 0.015;
-        floatingHoloCube.rotation.x = Math.sin(time) * 0.1;
-      }
-
-      // Animate acoustic spherical waves
-      if (acousticWaveGroup) {
-        acousticWaveGroup.children.forEach((mesh, idx) => {
-          mesh.scale.setScalar(1.0 + 0.15 * Math.sin(time * 3 + idx));
-        });
-      }
-
-      controls.update();
-      renderer.render(scene, camera);
-    }
-
-    // -------------------------------------------------------------------------
-    // USER CONTROLS & INTERFACE LOGIC
-    // -------------------------------------------------------------------------
-    const sliders = [1,2,3,4,5,6].map(i => document.getElementById(`slider-q${i}`));
-    const vals = [1,2,3,4,5,6].map(i => document.getElementById(`val-q${i}`));
-
-    sliders.forEach((slider, idx) => {
-      slider.addEventListener('input', () => {
-        vals[idx].innerText = `${slider.value}°`;
-        const q = sliders.map(s => parseFloat(s.value));
-        updateRobotJoints(q);
+    // Search filter
+    document.getElementById("search-input").addEventListener("input", (e) => {
+      const q = e.target.value.toLowerCase();
+      document.querySelectorAll(".post-card").forEach((card, idx) => {
+        const post = POSTS[idx];
+        if (!post) return;
+        const match = post.title.toLowerCase().includes(q) || post.summary.toLowerCase().includes(q);
+        card.style.display = match ? "flex" : "none";
       });
     });
 
-    function setPose(poseName) {
-      let q = [0, 0, 0, 0, 0, 0];
-      if (poseName === 'home') q = [0, 25, -40, 0, 15, 0];
-      if (poseName === 'inspect') q = [45, 35, -55, 10, 20, 0];
-      if (poseName === 'touch') q = [28, 48, -42, 5, -6, 0];
-      if (poseName === 'retract') q = [-90, -10, 10, 0, 0, 0];
-
-      q.forEach((val, i) => {
-        sliders[i].value = val;
-        vals[i].innerText = `${val}°`;
-      });
-      updateRobotJoints(q);
-    }
-
-    // DLS IK Solver trigger
-    function solveTargetIK() {
-      const tx = parseFloat(document.getElementById('slider-tx').value);
-      const ty = parseFloat(document.getElementById('slider-ty').value);
-      const tz = parseFloat(document.getElementById('slider-tz').value);
-
-      // Smooth kinematic approximation for interactive web responsiveness
-      const q1 = Math.atan2(ty, tx) * (180 / Math.PI);
-      const dist = Math.sqrt(tx*tx + ty*ty);
-      const q2 = Math.min(60, Math.max(-45, (tz - 200) * 0.25));
-      const q3 = -q2 * 1.4;
-
-      const q = [Math.round(q1), Math.round(q2), Math.round(q3), 0, 10, 0];
-      q.forEach((val, i) => {
-        sliders[i].value = val;
-        vals[i].innerText = `${val}°`;
-      });
-      updateRobotJoints(q);
-      logTerminal(`[IK_SOLVE] Target [${tx}, ${ty}, ${tz}] -> Solved in 6 iters. Error: 0.08mm`);
-    }
-
-    // TABS
-    function switchTab(tabId) {
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-      event.target.classList.add('active');
-      document.getElementById(tabId).classList.add('active');
-    }
-
-    // OPTICS SLIDERS
-    document.getElementById('slider-tilt').addEventListener('input', (e) => {
-      const deg = parseFloat(e.target.value);
-      document.getElementById('val-tilt').innerText = `${deg}°`;
-      if (dcraPlate) dcraPlate.rotation.x = THREE.MathUtils.degToRad(deg);
+    // Keyboard shortcut '/'
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "/" && document.activeElement.tagName !== "INPUT" && document.activeElement.tagName !== "TEXTAREA") {
+        e.preventDefault();
+        document.getElementById("search-input").focus();
+      }
     });
 
-    document.getElementById('slider-dsrc').addEventListener('input', (e) => {
-      const d = parseFloat(e.target.value);
-      document.getElementById('val-dsrc').innerText = `${d} mm`;
-      document.getElementById('val-dair').innerText = `${d} mm`;
-      if (floatingHoloCube) floatingHoloCube.position.y = 80 + d * 0.8;
-    });
-
-    function toggleRayBundle() {
-      if (raysGroup) raysGroup.visible = !raysGroup.visible;
-    }
-    function toggleHoloMesh() {
-      if (floatingHoloCube) floatingHoloCube.material.wireframe = !floatingHoloCube.material.wireframe;
-    }
-
-    // HAPTICS TRANSDUCER HEATMAP GENERATION
-    const gridEl = document.getElementById('transducer-grid-el');
-    for (let i = 0; i < 256; i++) {
-      const cell = document.createElement('div');
-      cell.className = 'transducer-cell';
-      const r = Math.floor(i / 16);
-      const c = i % 16;
-      const phase = Math.floor(((r - 8)**2 + (c - 8)**2) * 3) % 256;
-      const hue = 185; // Cyan
-      const lightness = 10 + (phase / 256) * 55;
-      cell.style.background = `hsl(${hue}, 90%, ${lightness}%)`;
-      gridEl.appendChild(cell);
-    }
-
-    function pulseAcousticSpot() {
-      const orig = floatingHoloCube.scale.clone();
-      floatingHoloCube.scale.set(1.3, 1.3, 1.3);
-      setTimeout(() => floatingHoloCube.scale.copy(orig), 150);
-      logTerminal("[HAPTIC_EVENT] 40kHz Radiation Pulse: 11.2 mN on contact mesh.");
-    }
-
-    // MEGA-PROJECTS & DYNAMIC 3D SCENE SPAWNING
-    let secondaryRobotArm = null;
-    let anatomicalOrganMesh = null;
-
-    function loadMegaProject(type) {
-      if (type === 'human_scale') {
-        logTerminal("[MEGA_PROJECT] Loading Human-Scale Traversable Holographic Matrix (800x800mm)...");
-        if (dcraPlate) {
-          dcraPlate.scale.set(2.5, 1, 2.5);
-          dcraPlate.position.set(0, 110, 0);
-        }
-        if (floatingHoloCube) {
-          floatingHoloCube.scale.set(3, 3, 3);
-          floatingHoloCube.position.set(0, 240, 50);
-        }
-        logTerminal("[MEGA_PROJECT] 4x4 DCRA Tiling active. Optical working volume: 800x800x600mm. Acoustic array: 1024 channels.");
-      } else if (type === 'dual_arm') {
-        logTerminal("[MEGA_PROJECT] Spawning 2nd Synchronized 6-DOF Manipulator (Bimanual cooperative control)...");
-        if (!secondaryRobotArm) {
-          secondaryRobotArm = robotGroup.clone();
-          secondaryRobotArm.position.set(140, 0, 50);
-          secondaryRobotArm.rotation.y = Math.PI; // Face opposite
-          scene.add(secondaryRobotArm);
-        } else {
-          secondaryRobotArm.visible = !secondaryRobotArm.visible;
-        }
-        logTerminal("[MEGA_PROJECT] Dual-arm SE(3) synchronized trajectory engine: 12-DOF online. Real-time collision envelope ACTIVE.");
-      } else if (type === 'surgical') {
-        logTerminal("[MEGA_PROJECT] Loading Contactless Surgical Navigation Scenario...");
-        if (floatingHoloCube) {
-          floatingHoloCube.material.color.setHex(0xf87171); // Red anatomical color
-        }
-        pulseAcousticSpot();
-        logTerminal("[MEGA_PROJECT] DICOM volumetric slice projected into open air. Organ margin stiffness feedback: 14.5 mN.");
-      }
-    }
-
-    // FORUM LOGIC
-    function viewThread(id) {
-      switchTab('tab-ai');
-      if (id === 'mosfet') {
-        logTerminal("<br><b style='color:var(--cyan)'>[FORUM THREAD #402] TC4427 Thermal Runaway</b>");
-        logTerminal("<b>@tech_lead_99:</b> Drivers getting hot (>75C) when modulating 256 transducers at 24V.");
-        logTerminal("<b>@iriss-dev:</b> Solution: Calculate gate charge Q_g = C_in * V_gate * f_sw. At 40kHz, P_drive = 256 * Q_g * V * f. Add 100nF low-ESR ceramic caps adjacent to VDD pins + 4-layer PCB ground plane with thermal vias.");
-      } else if (id === 'singularity') {
-        logTerminal("<br><b style='color:var(--cyan)'>[FORUM THREAD #318] Wrist Singularity Rejection</b>");
-        logTerminal("<b>@robotics_dan:</b> Det(J*J^T) approaches 0 when joints 4 and 6 align.");
-        logTerminal("<b>@iriss-dev:</b> Implemented in KHORA DLS: w_thresh = 0.005. When w < w_thresh, dynamic damping lambda^2 = lambda_0 + 0.01*(1 - w/w_thresh)^2. Eliminates infinite velocity spikes.");
-      } else if (id === 'sourcing') {
-        logTerminal("<br><b style='color:var(--cyan)'>[FORUM THREAD #109] DCRA Optical Plate Sourcing</b>");
-        logTerminal("<b>@laser_marcus:</b> ASKA3D leads times are 12 weeks. Alternatives?");
-        logTerminal("<b>@iriss-dev:</b> Documented in docs/HARDWARE_BOM.md: Parallax 200x200mm acrylic DCRA plates or custom micro-dihedral retro-reflector sheets from Shenzhen optical suppliers.");
-      }
-    }
-
-    function postForumQuestion() {
-      const input = document.getElementById('forum-question-input');
-      const q = input.value.trim();
-      if (!q) return;
-      input.value = '';
-      logTerminal(`<br><b style='color:var(--green)'>[FORUM POSTED]</b> ${q}`);
-      logTerminal("[AI_ARCHITECT] Analyzing question physics...");
-      setTimeout(() => {
-        logTerminal(`<b>[AI_ARCHITECT BREAKDOWN]:</b> For "${q.slice(0, 35)}...", KHORA recommends evaluating mechanical torque T = J_motor * alpha + T_load, verifying DCRA focal plane z_air = z_source, and maintaining 50ms watchdog timeout.`);
-        switchTab('tab-ai');
-      }, 500);
-    }
-
-    function startProjectArchitect() {
-      switchTab('tab-ai');
-      logTerminal("<br><b style='color:var(--cyan)'>[PROJECT ARCHITECT WIZARD]</b>");
-      logTerminal("Describe your dream robotics / optical system: target DOF, payload, scale, or application.");
-      logTerminal("Type in the box below to generate a full engineering feasibility analysis and BOM.");
-    }
-    function logTerminal(msg) {
-      const log = document.getElementById('terminal-log');
-      log.innerHTML += `<br>${msg}`;
-      log.scrollTop = log.scrollHeight;
-    }
-
-    function sendAiCommand() {
-      const input = document.getElementById('cmd-input');
-      const val = input.value.trim();
-      if (!val) return;
-      logTerminal(`> <span style="color:var(--text)">${val}</span>`);
-      input.value = '';
-
-      setTimeout(() => {
-        if (val.toLowerCase().includes('ik') || val.toLowerCase().includes('solve')) {
-          logTerminal(`[MCP_RES] DLS IK converged. Evaluated Jacobian rank: 6. Singularities: 0.`);
-          setPose('touch');
-        } else if (val.toLowerCase().includes('rp2040') || val.toLowerCase().includes('code')) {
-          logTerminal(`[MCP_RES] RP2040 Timer PWM: generated 256 phase registers with 200Hz AM LUT.`);
-        } else {
-          logTerminal(`[MCP_RES] Intent acknowledged: verifying physical trajectory against 50ms watchdog.`);
-        }
-      }, 350);
-    }
-
-    function quickQuery(type) {
-      if (type === 'solve_ik') {
-        logTerminal('> solve ik for optical touch target');
-        setTimeout(() => {
-          logTerminal(`[MCP_RES] Target focal spot [0, 160, 30] mm. Joint trajectory planned via S-Curve.`);
-          setPose('touch');
-        }, 300);
-      } else if (type === 'verify_safety') {
-        logTerminal('> verify kinematic safety envelope');
-        setTimeout(() => {
-          logTerminal(`[MCP_RES] Safety Envelope: APPROVED. All 6 axes within physical hardstops. Manipulability: 0.084.`);
-        }, 300);
-      } else if (type === 'gen_rp2040') {
-        logTerminal('> generate rp2040 phase table');
-        setTimeout(() => {
-          logTerminal(`[MCP_RES] Generated khora_phased_array.c header. Base clock: 125MHz, TOP: 3125 ticks.`);
-        }, 300);
-      }
-    }
-
-    // Initialize on load
     window.onload = () => {
-      init3D();
-      setPose('home');
+      renderFeed();
     };
   </script>
 </body>
