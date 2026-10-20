@@ -454,10 +454,13 @@
 
     <!-- RIGHT SIDEBAR: OPTICS, HAPTICS & AI CO-PILOT -->
     <div class="sidebar right">
+      <!-- TABS HEADER -->
       <div class="tabs-header">
         <div class="tab-btn active" onclick="switchTab('tab-optics')">Optics</div>
         <div class="tab-btn" onclick="switchTab('tab-haptics')">Haptics</div>
         <div class="tab-btn" onclick="switchTab('tab-ai')">AI Co-Pilot</div>
+        <div class="tab-btn" onclick="switchTab('tab-projects')">Mega-Projects</div>
+        <div class="tab-btn" onclick="switchTab('tab-forum')">Forum</div>
       </div>
 
       <!-- TAB 1: OPTICS -->
@@ -537,6 +540,131 @@
             <button class="btn" onclick="quickQuery('solve_ik')">📐 Compute Optimal IK for Optical Touch</button>
             <button class="btn" onclick="quickQuery('verify_safety')">🛡️ Verify Kinematic Safety Envelope</button>
             <button class="btn" onclick="quickQuery('gen_rp2040')">⚡ Generate RP2040 PWM Phase Code</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 4: MEGA-PROJECTS & BLUEPRINTS -->
+      <div id="tab-projects" class="tab-content">
+        <div class="panel-section">
+          <div class="panel-title">
+            <span>Collaborative Mega-Projects</span>
+            <span style="color:var(--green); font-size:9px;">GLOBAL HUB</span>
+          </div>
+          <p style="font-size:11px; color:var(--muted); font-family:var(--mono); margin-bottom:12px;">
+            High-complexity robotics &amp; optical systems engineered collaboratively by teams worldwide.
+          </p>
+
+          <!-- Project 1 -->
+          <div style="background:#090e18; border:1px solid #1c2b42; border-radius:6px; padding:12px; margin-bottom:12px;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span style="font-family:var(--mono); font-size:12px; font-weight:bold; color:var(--cyan)">Human-Scale Traversable Hologram</span>
+              <span style="font-size:9px; background:rgba(74,222,128,0.15); border:1px solid var(--green); color:var(--green); padding:2px 6px; border-radius:3px; font-family:var(--mono);">ACTIVE</span>
+            </div>
+            <p style="font-size:11px; color:#94a3b8; margin:6px 0; font-family:var(--mono);">
+              4x4 Modular DCRA array (800x800mm clear aperture) with 1024-transducer acoustic beamforming for full-body touch interaction.
+            </p>
+            <div class="btn-grid" style="margin-top:6px;">
+              <button class="btn primary" onclick="loadMegaProject('human_scale')">Load 3D Station</button>
+              <button class="btn" onclick="logTerminal('[PROJECT_HUB] Opened blueprint RFC-0089: 16-module DCRA bus matrix.')">View BOM</button>
+            </div>
+          </div>
+
+          <!-- Project 2 -->
+          <div style="background:#090e18; border:1px solid #1c2b42; border-radius:6px; padding:12px; margin-bottom:12px;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span style="font-family:var(--mono); font-size:12px; font-weight:bold; color:var(--purple)">Bimanual Dual-Arm 14-DOF Rig</span>
+              <span style="font-size:9px; background:rgba(0,240,255,0.15); border:1px solid var(--cyan); color:var(--cyan); padding:2px 6px; border-radius:3px; font-family:var(--mono);">VERIFIED</span>
+            </div>
+            <p style="font-size:11px; color:#94a3b8; margin:6px 0; font-family:var(--mono);">
+              Dual synchronized robotic manipulators executing cooperative manipulation with CANopen real-time bus and S-curve profiling.
+            </p>
+            <div class="btn-grid" style="margin-top:6px;">
+              <button class="btn primary" onclick="loadMegaProject('dual_arm')">Spawn 2nd Arm</button>
+              <button class="btn" onclick="logTerminal('[PROJECT_HUB] Dual Jacobian rank 12 verified with zero cross-collision.')">Inspect Math</button>
+            </div>
+          </div>
+
+          <!-- Project 3 -->
+          <div style="background:#090e18; border:1px solid #1c2b42; border-radius:6px; padding:12px; margin-bottom:12px;">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span style="font-family:var(--mono); font-size:12px; font-weight:bold; color:#f8fafc">Contactless Surgical Station</span>
+              <span style="font-size:9px; background:rgba(167,139,250,0.15); border:1px solid var(--purple); color:var(--purple); padding:2px 6px; border-radius:3px; font-family:var(--mono);">CLINICAL</span>
+            </div>
+            <p style="font-size:11px; color:#94a3b8; margin:6px 0; font-family:var(--mono);">
+              Sterile 3D DICOM CT/MRI scan slicing in mid-air with ultrasonic organ margin haptic stiffness resistance.
+            </p>
+            <div class="btn-grid" style="margin-top:6px;">
+              <button class="btn primary" onclick="loadMegaProject('surgical')">Simulate Scan</button>
+              <button class="btn" onclick="logTerminal('[PROJECT_HUB] Zero-contact sterile boundary verified: ISO 13485 compliant.')">Read Spec</button>
+            </div>
+          </div>
+
+          <button class="btn" style="width:100%; border-color:var(--cyan); color:var(--cyan); margin-top:6px;" onclick="startProjectArchitect()">
+            + Propose a New Mega-Project with AI Architect
+          </button>
+        </div>
+      </div>
+
+      <!-- TAB 5: TECHNICAL FORUM & ASSISTANCE -->
+      <div id="tab-forum" class="tab-content">
+        <div class="panel-section">
+          <div class="panel-title">
+            <span>Engineering Forums</span>
+            <span style="color:var(--cyan); font-size:9px;">PEER ASSISTANCE</span>
+          </div>
+          <p style="font-size:11px; color:var(--muted); font-family:var(--mono); margin-bottom:12px;">
+            Get unstuck on low-level physics, FPGA/MCU drivers, kinematics singularities and custom fabrication.
+          </p>
+
+          <!-- Category Tags -->
+          <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:12px;">
+            <span style="font-family:var(--mono); font-size:10px; background:#121a28; color:var(--cyan); border:1px solid #1c2b42; padding:3px 8px; border-radius:3px; cursor:pointer;">#optics-dcra</span>
+            <span style="font-family:var(--mono); font-size:10px; background:#121a28; color:var(--purple); border:1px solid #1c2b42; padding:3px 8px; border-radius:3px; cursor:pointer;">#kinematics-ik</span>
+            <span style="font-family:var(--mono); font-size:10px; background:#121a28; color:var(--green); border:1px solid #1c2b42; padding:3px 8px; border-radius:3px; cursor:pointer;">#ultrasound-40khz</span>
+            <span style="font-family:var(--mono); font-size:10px; background:#121a28; color:#f59e0b; border:1px solid #1c2b42; padding:3px 8px; border-radius:3px; cursor:pointer;">#mega-projects</span>
+          </div>
+
+          <!-- Thread 1 -->
+          <div style="background:#090e18; border:1px solid #162032; border-radius:4px; padding:10px; margin-bottom:10px; cursor:pointer;" onclick="viewThread('mosfet')">
+            <div style="font-family:var(--mono); font-size:11px; font-weight:bold; color:var(--text);">
+              TC4427 MOSFET driver thermal runaway at 24V with 256 transducers?
+            </div>
+            <div style="font-family:var(--mono); font-size:10px; color:var(--muted); margin-top:4px; display:flex; justify-content:space-between;">
+              <span>18 replies · Solved by @iriss-dev</span>
+              <span style="color:var(--green)">✓ Solution Verified</span>
+            </div>
+          </div>
+
+          <!-- Thread 2 -->
+          <div style="background:#090e18; border:1px solid #162032; border-radius:4px; padding:10px; margin-bottom:10px; cursor:pointer;" onclick="viewThread('singularity')">
+            <div style="font-family:var(--mono); font-size:11px; font-weight:bold; color:var(--text);">
+              Gimbal lock &amp; wrist singularity rejection in 6-DOF arms
+            </div>
+            <div style="font-family:var(--mono); font-size:10px; color:var(--muted); margin-top:4px; display:flex; justify-content:space-between;">
+              <span>32 replies · Includes DLS math</span>
+              <span style="color:var(--cyan)">Popular Thread</span>
+            </div>
+          </div>
+
+          <!-- Thread 3 -->
+          <div style="background:#090e18; border:1px solid #162032; border-radius:4px; padding:10px; margin-bottom:10px; cursor:pointer;" onclick="viewThread('sourcing')">
+            <div style="font-family:var(--mono); font-size:11px; font-weight:bold; color:var(--text);">
+              Where to source optical DCRA plates in Americas/EU without 3-month lead time?
+            </div>
+            <div style="font-family:var(--mono); font-size:10px; color:var(--muted); margin-top:4px; display:flex; justify-content:space-between;">
+              <span>11 replies · Supplier list</span>
+              <span style="color:var(--purple)">Hardware Sourcing</span>
+            </div>
+          </div>
+
+          <!-- Ask Question Box -->
+          <div style="margin-top:14px; border-top:1px solid var(--panel-border); padding-top:12px;">
+            <div style="font-family:var(--mono); font-size:11px; font-weight:bold; color:var(--cyan); margin-bottom:6px;">
+              Ask Community &amp; AI Architect:
+            </div>
+            <textarea id="forum-question-input" rows="3" style="width:100%; background:#090e18; border:1px solid var(--panel-border); border-radius:4px; padding:8px; font-family:var(--mono); font-size:11px; color:var(--text); outline:none; resize:none;" placeholder="Describe your technical blocker (e.g. motor torque calculation, DCRA aberration)..."></textarea>
+            <button class="btn primary" style="width:100%; margin-top:6px;" onclick="postForumQuestion()">Post to Forum &amp; Request AI Breakdown</button>
           </div>
         </div>
       </div>
@@ -933,7 +1061,80 @@
       logTerminal("[HAPTIC_EVENT] 40kHz Radiation Pulse: 11.2 mN on contact mesh.");
     }
 
-    // AI CO-PILOT TERMINAL
+    // MEGA-PROJECTS & DYNAMIC 3D SCENE SPAWNING
+    let secondaryRobotArm = null;
+    let anatomicalOrganMesh = null;
+
+    function loadMegaProject(type) {
+      if (type === 'human_scale') {
+        logTerminal("[MEGA_PROJECT] Loading Human-Scale Traversable Holographic Matrix (800x800mm)...");
+        if (dcraPlate) {
+          dcraPlate.scale.set(2.5, 1, 2.5);
+          dcraPlate.position.set(0, 110, 0);
+        }
+        if (floatingHoloCube) {
+          floatingHoloCube.scale.set(3, 3, 3);
+          floatingHoloCube.position.set(0, 240, 50);
+        }
+        logTerminal("[MEGA_PROJECT] 4x4 DCRA Tiling active. Optical working volume: 800x800x600mm. Acoustic array: 1024 channels.");
+      } else if (type === 'dual_arm') {
+        logTerminal("[MEGA_PROJECT] Spawning 2nd Synchronized 6-DOF Manipulator (Bimanual cooperative control)...");
+        if (!secondaryRobotArm) {
+          secondaryRobotArm = robotGroup.clone();
+          secondaryRobotArm.position.set(140, 0, 50);
+          secondaryRobotArm.rotation.y = Math.PI; // Face opposite
+          scene.add(secondaryRobotArm);
+        } else {
+          secondaryRobotArm.visible = !secondaryRobotArm.visible;
+        }
+        logTerminal("[MEGA_PROJECT] Dual-arm SE(3) synchronized trajectory engine: 12-DOF online. Real-time collision envelope ACTIVE.");
+      } else if (type === 'surgical') {
+        logTerminal("[MEGA_PROJECT] Loading Contactless Surgical Navigation Scenario...");
+        if (floatingHoloCube) {
+          floatingHoloCube.material.color.setHex(0xf87171); // Red anatomical color
+        }
+        pulseAcousticSpot();
+        logTerminal("[MEGA_PROJECT] DICOM volumetric slice projected into open air. Organ margin stiffness feedback: 14.5 mN.");
+      }
+    }
+
+    // FORUM LOGIC
+    function viewThread(id) {
+      switchTab('tab-ai');
+      if (id === 'mosfet') {
+        logTerminal("<br><b style='color:var(--cyan)'>[FORUM THREAD #402] TC4427 Thermal Runaway</b>");
+        logTerminal("<b>@tech_lead_99:</b> Drivers getting hot (>75C) when modulating 256 transducers at 24V.");
+        logTerminal("<b>@iriss-dev:</b> Solution: Calculate gate charge Q_g = C_in * V_gate * f_sw. At 40kHz, P_drive = 256 * Q_g * V * f. Add 100nF low-ESR ceramic caps adjacent to VDD pins + 4-layer PCB ground plane with thermal vias.");
+      } else if (id === 'singularity') {
+        logTerminal("<br><b style='color:var(--cyan)'>[FORUM THREAD #318] Wrist Singularity Rejection</b>");
+        logTerminal("<b>@robotics_dan:</b> Det(J*J^T) approaches 0 when joints 4 and 6 align.");
+        logTerminal("<b>@iriss-dev:</b> Implemented in KHORA DLS: w_thresh = 0.005. When w < w_thresh, dynamic damping lambda^2 = lambda_0 + 0.01*(1 - w/w_thresh)^2. Eliminates infinite velocity spikes.");
+      } else if (id === 'sourcing') {
+        logTerminal("<br><b style='color:var(--cyan)'>[FORUM THREAD #109] DCRA Optical Plate Sourcing</b>");
+        logTerminal("<b>@laser_marcus:</b> ASKA3D leads times are 12 weeks. Alternatives?");
+        logTerminal("<b>@iriss-dev:</b> Documented in docs/HARDWARE_BOM.md: Parallax 200x200mm acrylic DCRA plates or custom micro-dihedral retro-reflector sheets from Shenzhen optical suppliers.");
+      }
+    }
+
+    function postForumQuestion() {
+      const input = document.getElementById('forum-question-input');
+      const q = input.value.trim();
+      if (!q) return;
+      input.value = '';
+      logTerminal(`<br><b style='color:var(--green)'>[FORUM POSTED]</b> ${q}`);
+      logTerminal("[AI_ARCHITECT] Analyzing question physics...");
+      setTimeout(() => {
+        logTerminal(`<b>[AI_ARCHITECT BREAKDOWN]:</b> For "${q.slice(0, 35)}...", KHORA recommends evaluating mechanical torque T = J_motor * alpha + T_load, verifying DCRA focal plane z_air = z_source, and maintaining 50ms watchdog timeout.`);
+        switchTab('tab-ai');
+      }, 500);
+    }
+
+    function startProjectArchitect() {
+      switchTab('tab-ai');
+      logTerminal("<br><b style='color:var(--cyan)'>[PROJECT ARCHITECT WIZARD]</b>");
+      logTerminal("Describe your dream robotics / optical system: target DOF, payload, scale, or application.");
+      logTerminal("Type in the box below to generate a full engineering feasibility analysis and BOM.");
+    }
     function logTerminal(msg) {
       const log = document.getElementById('terminal-log');
       log.innerHTML += `<br>${msg}`;
