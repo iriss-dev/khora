@@ -1,0 +1,18 @@
+[package]
+name = "khora-core"
+version = "0.1.0-alpha"
+edition = "2021"
+authors = ["iriss-dev <contact@iriss.dev>"]
+description = "Deterministic spatial kinematics, DCRA optical retro-reflection, and ultrasonic mid-air haptics"
+license = "MIT"
+repository = "https://github.com/iriss-dev/khora"
+readme = "../../README.md"
+keywords = ["robotics", "kinematics", "spatial-computing", "haptics", "optics"]
+categories = ["embedded", "science", "hardware-support", "no-std"]
+
+[features]
+default = ["std"]
+std = []
+
+[dependencies]
+# Zero mandatory external dependencies for core no_std deterministic math
