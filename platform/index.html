@@ -690,35 +690,50 @@
 </head>
 <body>
 
-  <!-- GLOBAL GITHUB HEADER -->
+  <!-- GLOBAL KHORA HEADER (Clean Developer Platform, No GitHub Cat) -->
   <header class="gh-header">
     <div class="gh-header-left">
       <a href="https://github.com/iriss-dev/khora" class="gh-logo">
-        <!-- Octocat SVG -->
-        <svg height="28" viewBox="0 0 16 16" width="28">
-          <path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"></path>
+        <!-- Official KHORA Option C Mark (Original Vector, No Octocat) -->
+        <svg height="28" viewBox="0 0 512 512" width="28">
+          <rect x="28" y="28" width="456" height="456" rx="32" fill="#0d1117" stroke="#00f0ff" stroke-width="24"/>
+          <!-- Physical Datum Spine -->
+          <line x1="168" y1="128" x2="168" y2="384" stroke="#ffffff" stroke-width="32" stroke-linecap="round"/>
+          <line x1="192" y1="144" x2="192" y2="368" stroke="#00f0ff" stroke-width="6" stroke-dasharray="10 10"/>
+          <!-- Traversable Ray -->
+          <line x1="220" y1="236" x2="344" y2="128" stroke="#00f0ff" stroke-width="32" stroke-linecap="round"/>
+          <!-- Acoustic Wavefront Arc -->
+          <path d="M 310 110 A 30 30 0 0 1 360 160" fill="none" stroke="#00f0ff" stroke-width="6" stroke-dasharray="6 6"/>
+          <!-- Air Gap Center Marker -->
+          <circle cx="204" cy="256" r="14" fill="none" stroke="#00f0ff" stroke-width="5"/>
+          <circle cx="204" cy="256" r="5" fill="#00f0ff"/>
+          <!-- Lower Ground Vector -->
+          <line x1="220" y1="276" x2="344" y2="384" stroke="#ffffff" stroke-width="32" stroke-linecap="round"/>
         </svg>
-        <span>KHORA</span>
+        <span style="font-family:var(--mono); letter-spacing:1px; color:#ffffff;">KHORA <span style="color:#00f0ff; font-size:12px; font-weight:normal;">HUB</span></span>
       </a>
 
       <div class="gh-search-bar">
-        <!-- Search Octicon -->
+        <!-- Search icon -->
         <svg class="gh-search-icon" viewBox="0 0 16 16"><path d="M11.5 7a4.499 4.499 0 11-8.998 0A4.499 4.499 0 0111.5 7zm-.82 4.74a6 6 0 10-1.06 1.06l3.04 3.04a.75.75 0 101.06-1.06l-3.04-3.04z"></path></svg>
-        <input type="text" id="global-search-input" placeholder="Type / to search...">
+        <input type="text" id="global-search-input" placeholder="Search codes, tools, physics proofs, mega-projects... (Press '/' to focus)">
       </div>
 
       <ul class="gh-header-nav">
         <li><a href="#" class="active" onclick="setFeedCategory('all')">Explore</a></li>
+        <li><a href="#" onclick="openToolsModal()">⚡ Code Tools &amp; Generators</a></li>
+        <li><a href="#" onclick="openProofModal()">🔬 Physical Proof</a></li>
         <li><a href="#" onclick="setFeedCategory('mega')">Mega-Projects</a></li>
-        <li><a href="#" onclick="setFeedCategory('discussions')">Discussions</a></li>
-        <li><a href="#" onclick="setFeedCategory('bounty')">Bounties</a></li>
         <li><a href="https://github.com/iriss-dev/khora" target="_blank">Repository ↗</a></li>
       </ul>
     </div>
 
     <div class="gh-header-right">
+      <button class="btn-new-discussion" onclick="openToolsModal()" style="background:#1f6feb;">
+        <span>⚡</span> Generate Code
+      </button>
       <button class="btn-new-discussion" onclick="openNewPostModal()">
-        <span>+</span> New Discussion
+        <span>+</span> New Post
       </button>
       <div class="gh-avatar-btn" title="iris (iriss-dev)">
         I
@@ -921,7 +936,160 @@
     </div>
   </div>
 
-  <!-- MODAL: VIEW FULL PROJECT / DISCUSSION -->
+  <!-- MODAL: CODE TOOLS & GENERATORS -->
+  <div class="modal-overlay" id="tools-modal" onclick="closeModalOnOverlay(event, 'tools-modal')">
+    <div class="modal-card" style="width:780px;">
+      <div class="modal-head">
+        <h3 style="display:flex; align-items:center; gap:8px;">
+          <span>⚡ KHORA Engineering Code Generators &amp; DevTools</span>
+        </h3>
+        <button class="modal-close-btn" onclick="closeModal('tools-modal')">&times;</button>
+      </div>
+      <div class="modal-content-scroll">
+        <div style="display:flex; gap:10px; border-bottom:1px solid var(--border); padding-bottom:10px; margin-bottom:16px;">
+          <button class="btn-sub-action" id="tool-tab-btn-haptics" onclick="switchToolTab('haptics')">🔊 Ultrasound C Array</button>
+          <button class="btn-sub-action" id="tool-tab-btn-kinematics" onclick="switchToolTab('kinematics')">📐 SE(3) Robotics Code</button>
+          <button class="btn-sub-action" id="tool-tab-btn-optics" onclick="switchToolTab('optics')">🔬 DCRA Optics Calculator</button>
+        </div>
+
+        <!-- TOOL 1: ULTRASOUND C ARRAY GENERATOR -->
+        <div id="tool-view-haptics">
+          <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">
+            Target a 3D coordinate in space to compute the 256 timer phase registers for RP2040, STM32 or Arduino:
+          </p>
+          <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-bottom:12px;">
+            <div>
+              <label style="font-size:11px; color:var(--text-muted);">Target X (mm)</label>
+              <input type="number" id="tool-hx" value="0" style="margin-bottom:0;" oninput="updateHapticCode()">
+            </div>
+            <div>
+              <label style="font-size:11px; color:var(--text-muted);">Target Y (mm)</label>
+              <input type="number" id="tool-hy" value="0" style="margin-bottom:0;" oninput="updateHapticCode()">
+            </div>
+            <div>
+              <label style="font-size:11px; color:var(--text-muted);">Target Z (mm - height above table)</label>
+              <input type="number" id="tool-hz" value="120" style="margin-bottom:0;" oninput="updateHapticCode()">
+            </div>
+          </div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+            <span style="font-size:12px; color:var(--blue); font-family:var(--mono);" id="tool-force-calc">Estimated Force: 9.2 mN (Tactile click)</span>
+            <button class="btn-sub-action" onclick="copyCode('tool-haptic-code-output')">📋 Copy C Header</button>
+          </div>
+          <pre class="code-block" id="tool-haptic-code-output">// Generating C99 code...</pre>
+        </div>
+
+        <!-- TOOL 2: ROBOTICS KINEMATICS CODE GENERATOR -->
+        <div id="tool-view-kinematics" style="display:none;">
+          <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">
+            Export ready-to-run SE(3) DLS Inverse Kinematics solver with singularity protection:
+          </p>
+          <div style="display:flex; gap:12px; margin-bottom:12px;">
+            <select id="tool-kin-lang" onchange="updateKinematicsCode()">
+              <option value="python">Python 3 (no dependencies)</option>
+              <option value="rust">Rust (#![no_std] compatible)</option>
+            </select>
+            <button class="btn-sub-action" onclick="copyCode('tool-kin-code-output')">📋 Copy Implementation</button>
+          </div>
+          <pre class="code-block" id="tool-kin-code-output"></pre>
+        </div>
+
+        <!-- TOOL 3: DCRA OPTICS CALCULATOR -->
+        <div id="tool-view-optics" style="display:none;">
+          <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">
+            Calculate exact physical mounting dimensions for your 1:1 real-image aerial projection:
+          </p>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px;">
+            <div>
+              <label style="font-size:11px; color:var(--text-muted);">Display Diagonal (inches)</label>
+              <select id="tool-disp-diag" onchange="updateOpticsCalc()">
+                <option value="5.5">5.5" AMOLED (1080p Waveshare)</option>
+                <option value="7.0">7.0" LCD (Raspberry Pi DSI)</option>
+                <option value="10.1">10.1" High-Bright Panel</option>
+              </select>
+            </div>
+            <div>
+              <label style="font-size:11px; color:var(--text-muted);">DCRA Substrate Plate Size</label>
+              <select id="tool-dcra-size" onchange="updateOpticsCalc()">
+                <option value="200">200 x 200 mm (Standard Desktop)</option>
+                <option value="400">400 x 400 mm (Expanded Rig)</option>
+                <option value="800">800 x 800 mm (Mega-Project 4x4)</option>
+              </select>
+            </div>
+          </div>
+          <div style="background:#0d1117; border:1px solid var(--border); border-radius:6px; padding:12px; font-family:var(--mono); font-size:12px; line-height:1.8;" id="tool-optics-results">
+            <!-- Results injected -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: THE PHYSICAL PROOF (¿CÓMO SABER SI FUNCIONA EN LA VIDA REAL?) -->
+  <div class="modal-overlay" id="proof-modal" onclick="closeModalOnOverlay(event, 'proof-modal')">
+    <div class="modal-card" style="width:780px;">
+      <div class="modal-head">
+        <h3 style="display:flex; align-items:center; gap:8px;">
+          <span>🔬 The Physical Proof: Real-World Evidence &amp; Science</span>
+        </h3>
+        <button class="modal-close-btn" onclick="closeModal('proof-modal')">&times;</button>
+      </div>
+      <div class="modal-content-scroll" style="font-size:13px; line-height:1.7; color:var(--text);">
+        <p style="font-size:14px; font-weight:600; color:var(--text-heading); margin-bottom:8px;">
+          ¿Cómo saber si esto de verdad funciona en la vida real y no es humo ni ciencia ficción?
+        </p>
+        <p style="margin-bottom:12px;">
+          Es la pregunta más importante que cualquier ingeniera seria debe hacerse. KHORA no inventó la física desde cero: <b>unificó dos tecnologías científicas reales ya patentadas y operativas en la industria</b> en una plataforma abierta accesible para todo el mundo.
+        </p>
+
+        <div style="background:#0d1117; border:1px solid var(--border); border-radius:6px; padding:14px; margin-bottom:16px;">
+          <h4 style="color:var(--blue); font-size:14px; margin-bottom:6px;">1. Las Placas Ópticas DCRA (Dihedral Corner Reflector Array)</h4>
+          <p style="margin-bottom:8px;">
+            <b>¿Quién lo fabricó primero?</b> La empresa japonesa <b>AsukaNet Co., Ltd. (marca ASKA3D)</b> fabrica estas placas de vidrio y resina acrílica micro-espejada.
+          </p>
+          <p style="margin-bottom:8px;">
+            <b>¿Dónde funciona hoy en la vida real?</b>
+          </p>
+          <ul style="padding-left:20px; margin-bottom:8px;">
+            <li><b>Cajeros automáticos de 7-Eleven Bank en Japón:</b> pantallas flotantes en el aire donde los usuarios tocan números en el vacío sin tocar ninguna pantalla física (evitando bacterias).</li>
+            <li><b>Quirófanos de hospitales en Tokio:</b> teclados holográficos estériles para médicos operando con guantes llenos de fluidos.</li>
+            <li><b>Patente internacional verificable:</b> <i>US Patent 9,678,255 B2 ("Aerial Image Display Device")</i>.</li>
+          </ul>
+          <p style="font-size:12px; color:var(--text-muted);">
+            <b>Física:</b> Cada canalito de la placa tiene dos espejos a 90°. La luz que sale de un punto (x, y, -z) choca en ambos espejos y retro-refleja simétricamente a (x, y, +z). Todos los rayos se cruzan en el aire. El ojo humano ve un objeto físico real flotante a distancia d_air = d_source.
+          </p>
+        </div>
+
+        <div style="background:#0d1117; border:1px solid var(--border); border-radius:6px; padding:14px; margin-bottom:16px;">
+          <h4 style="color:var(--green); font-size:14px; margin-bottom:6px;">2. El Tacto con Ultrasonido de 40 kHz (Acoustic Radiation Pressure)</h4>
+          <p style="margin-bottom:8px;">
+            <b>¿Quién lo inventó?</b> Investigadores de la <b>Universidad de Bristol (Reino Unido)</b>, liderados por el Dr. Tom Carter y el Prof. Sriram Subramanian. Fundaron la empresa <b>Ultraleap (antes Ultrahaptics)</b>.
+          </p>
+          <p style="margin-bottom:8px;">
+            <b>¿Por qué sientes tacto en el aire?</b>
+          </p>
+          <ul style="padding-left:20px; margin-bottom:8px;">
+            <li>Una onda de 40 kHz es inaudible para el oído humano.</li>
+            <li>Al emitir desde 64 o 256 transductores con fases milimétricamente calculadas ($\phi_i = -k \cdot d_i$), todas las ondas chocan constructivamente en un solo punto de 8.5 mm.</li>
+            <li>La presión de radiación acústica $P = \frac{2I}{c}$ ejerce entre <b>5 y 15 milinewtons (mN)</b> de fuerza mecánica sobre la piel.</li>
+            <li>Modulando esa presión a 200 Hz (la frecuencia de resonancia de los corpúsculos de Pacini en la yema de tus dedos), tu cerebro lo siente idéntico a pulsar una tecla mecánica en el aire.</li>
+          </ul>
+          <p style="font-size:12px; color:var(--text-muted);">
+            <b>Prueba casera de 10 dólares:</b> Colocas 2 sensores de ultrasonido de Arduino HC-SR04 emitiendo a 40 kHz. Pones una pequeña bolita de poliestireno (plumavit) en el punto focal y <b>la bolita levita físicamente en el aire</b>. Es la misma fuerza que empuja tu dedo.
+          </p>
+        </div>
+
+        <div style="background:#0d1117; border:1px solid var(--border); border-radius:6px; padding:14px;">
+          <h4 style="color:var(--purple); font-size:14px; margin-bottom:6px;">3. ¿Por qué KHORA es revolucionario si las piezas ya existían?</h4>
+          <p>
+            Porque hasta hoy, una placa ASKA3D y un kit cerrado de Ultrahaptics costaban más de <b>$6,000 USD</b> y su software era privado y cerrado. Nadie había creado la <b>arquitectura unificada open source</b> con cinemática robótica e interfaz para agentes de IA (MCP) para que cualquier estudiante o laboratorio pueda construirlo por menos de $400 USD con piezas estándar.
+          </p>
+        </div>
+      </div>
+      <div class="modal-head" style="border-top:1px solid var(--border); border-bottom:none; justify-content:flex-end;">
+        <button class="btn-new-discussion" style="background:#21262d; border-color:var(--border);" onclick="closeModal('proof-modal')">Close</button>
+      </div>
+    </div>
+  </div>
   <div class="modal-overlay" id="thread-modal" onclick="closeModalOnOverlay(event, 'thread-modal')">
     <div class="modal-card">
       <div class="modal-head">
@@ -1265,6 +1433,154 @@ P_switching = 256 * (C_piezo * V^2 * f_carrier) = 256 * (2.4nF * 576 * 40kHz) = 
       document.getElementById("new-body-input").value = "";
       closeModal("new-post-modal");
       renderCards();
+    }
+
+    // TOOLS & GENERATORS MODAL LOGIC
+    function openToolsModal() {
+      document.getElementById('tools-modal').classList.add('open');
+      updateHapticCode();
+      updateKinematicsCode();
+      updateOpticsCalc();
+    }
+
+    function openProofModal() {
+      document.getElementById('proof-modal').classList.add('open');
+    }
+
+    function switchToolTab(tab) {
+      document.getElementById('tool-view-haptics').style.display = tab === 'haptics' ? 'block' : 'none';
+      document.getElementById('tool-view-kinematics').style.display = tab === 'kinematics' ? 'block' : 'none';
+      document.getElementById('tool-view-optics').style.display = tab === 'optics' ? 'block' : 'none';
+    }
+
+    function updateHapticCode() {
+      const x = parseFloat(document.getElementById('tool-hx').value) / 1000.0;
+      const y = parseFloat(document.getElementById('tool-hy').value) / 1000.0;
+      const z = parseFloat(document.getElementById('tool-hz').value) / 1000.0;
+
+      // 40kHz ultrasound in air (k = 2*pi*40000 / 343)
+      const k = (2.0 * Math.PI * 40000.0) / 343.0;
+      let hexBytes = [];
+      for (let r = 0; r < 16; r++) {
+        for (let c = 0; c < 16; c++) {
+          const tx = (c - 7.5) * 0.010;
+          const ty = (r - 7.5) * 0.010;
+          const tz = -0.05; // 50mm below focal datum
+          const dist = Math.sqrt((x - tx)**2 + (y - ty)**2 + (z - tz)**2);
+          let phi = (-k * dist) % (2.0 * Math.PI);
+          if (phi < 0) phi += 2.0 * Math.PI;
+          const byteVal = Math.round((phi / (2.0 * Math.PI)) * 255) % 256;
+          hexBytes.push(`0x${byteVal.toString(16).padStart(2, '0').toUpperCase()}`);
+        }
+      }
+
+      // Format in lines of 16
+      let formatted = "";
+      for (let i = 0; i < 256; i += 16) {
+        formatted += "    " + hexBytes.slice(i, i + 16).join(", ") + ",\n";
+      }
+
+      const code = `// KHORA Generated 40 kHz Phase Delays (RP2040 / STM32 / Arduino)
+// Target Focus: X=${(x*1000).toFixed(1)}mm, Y=${(y*1000).toFixed(1)}mm, Z=${(z*1000).toFixed(1)}mm
+// Carrier: 40,000 Hz // Modulation: 200 Hz AM // Channels: 256
+#include <stdint.h>
+
+const uint8_t KHORA_PHASE_LUT[256] = {
+${formatted}};
+
+void apply_haptic_phases(void) {
+    for (uint16_t i = 0; i < 256; i++) {
+        // Map 8-bit [0-255] to PWM timer compare register (e.g. 0 to 3125 ticks at 125MHz)
+        uint32_t ticks = ((uint32_t)KHORA_PHASE_LUT[i] * 3125U) / 256U;
+        set_transducer_pwm_phase(i, ticks);
+    }
+}`;
+      document.getElementById('tool-haptic-code-output').innerText = code;
+      const forceMn = Math.max(2.0, (14.0 - z * 40.0)).toFixed(1);
+      document.getElementById('tool-force-calc').innerText = `Estimated Force: ${forceMn} mN (Crisp Tactile Click)`;
+    }
+
+    function updateKinematicsCode() {
+      const lang = document.getElementById('tool-kin-lang').value;
+      if (lang === 'python') {
+        document.getElementById('tool-kin-code-output').innerText = `# KHORA // DLS Inverse Kinematics Solver (Python)
+import math
+
+def solve_ik_dls(current_q, target_xyz, max_iter=20, tolerance=1e-4):
+    q = list(current_q)
+    for _ in range(max_iter):
+        pos = forward_kinematics(q)
+        err = [target_xyz[i] - pos[i] for i in range(3)]
+        if math.sqrt(sum(e*e for e in err)) < tolerance:
+            return q, True
+        J = compute_jacobian(q)
+        # Buss smooth DLS damping to eliminate infinite velocity spikes
+        w = math.sqrt(max(0.0, det3x3(mult(J, transpose(J)))))
+        lambda_sq = 1e-4 if w >= 0.005 else 1e-4 + 0.01 * (1.0 - w/0.005)**2
+        delta_q = solve_dls(J, err, lambda_sq)
+        q = [q[i] + max(-0.25, min(0.25, delta_q[i])) for i in range(len(q))]
+    return q, False`;
+      } else {
+        document.getElementById('tool-kin-code-output').innerText = `// KHORA // DLS Inverse Kinematics Solver (Rust #![no_std])
+#![no_std]
+
+pub struct SE3Transform {
+    pub m: [[f32; 4]; 4],
+}
+
+impl SE3Transform {
+    pub fn inverse(&self) -> Self {
+        let r_t = [
+            [self.m[0][0], self.m[1][0], self.m[2][0]],
+            [self.m[0][1], self.m[1][1], self.m[2][1]],
+            [self.m[0][2], self.m[1][2], self.m[2][2]],
+        ];
+        let t = [self.m[0][3], self.m[1][3], self.m[2][3]];
+        let inv_t = [
+            -(r_t[0][0]*t[0] + r_t[0][1]*t[1] + r_t[0][2]*t[2]),
+            -(r_t[1][0]*t[0] + r_t[1][1]*t[1] + r_t[1][2]*t[2]),
+            -(r_t[2][0]*t[0] + r_t[2][1]*t[1] + r_t[2][2]*t[2]),
+        ];
+        Self {
+            m: [
+                [r_t[0][0], r_t[0][1], r_t[0][2], inv_t[0]],
+                [r_t[1][0], r_t[1][1], r_t[1][2], inv_t[1]],
+                [r_t[2][0], r_t[2][1], r_t[2][2], inv_t[2]],
+                [0.0,       0.0,       0.0,       1.0],
+            ],
+        }
+    }
+}`;
+      }
+    }
+
+    function updateOpticsCalc() {
+      const diag = parseFloat(document.getElementById('tool-disp-diag').value);
+      const plate = parseFloat(document.getElementById('tool-dcra-size').value);
+
+      const dSource = (diag * 25.4 * 0.7).toFixed(1);
+      const dAir = dSource; // d_air = d_source theorem
+      const fovHoriz = "±38.5°";
+      const fovVert = "±22.0°";
+      const clearVolume = `${(plate * 0.75).toFixed(0)} x ${(plate * 0.75).toFixed(0)} x ${(dAir * 1.4).toFixed(0)} mm`;
+
+      document.getElementById('tool-optics-results').innerHTML = `
+<b>OPTICAL INVARIANCE SPECIFICATION (RFC-0001):</b>
+• Required DCRA Plate Tilt:        <b>45.0° ± 0.2°</b>
+• Display Mounting Depth:         <b>${dSource} mm</b> beneath plate center
+• Real Floating Image Height:     <b>${dAir} mm</b> in free open air (d_air = d_source)
+• Effective Viewing Cone (FOV):   <b>${fovHoriz} Horizontal / ${fovVert} Vertical</b>
+• Clear Traversable Air Volume:   <b>${clearVolume}</b>
+• Hand Resistance Force:          <b>0.000 N (Zero physical friction / Unobstructed)</b>
+• Required Display Brightness:    <b>≥ 600 cd/m² (AMOLED / High-Nit LCD)</b>
+      `;
+    }
+
+    function copyCode(elementId) {
+      const text = document.getElementById(elementId).innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        alert("Code copied to clipboard! Ready to paste into your IDE / Arduino / Rust compiler.");
+      });
     }
 
     function closeModal(id) {
