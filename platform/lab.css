@@ -1,0 +1,45 @@
+.lab-nav {
+  max-width: 1280px;
+  margin: auto;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+.lab-brand { display: flex; align-items: center; gap: 12px; font-weight: 750; letter-spacing: 2px; color: #f3f4f6; text-decoration: none; }
+.lab-brand span { color: #83868e; font: 11px var(--mono); letter-spacing: 1px; }
+.lab-nav nav { display: flex; gap: 24px; align-items: center; }
+.lab-nav nav a { color: #a7a9ae; text-decoration: none; font-size: 12px; }
+.lab-nav nav a:hover { color: #ff5722; }
+.main-grid { display: block; max-width: 1280px; margin: 14px auto 64px; }
+.field-lab { border-radius: 3px; }
+.field-header { padding: 28px; }
+.field-header h1 { font-size: clamp(26px,4vw,40px); font-weight: 450; letter-spacing: -1.5px; }
+.field-layout { grid-template-columns: minmax(0,1fr) 260px; }
+.field-view { max-width: 740px; padding: 28px; }
+.field-metrics { padding: 8px 28px; }
+.field-metric { padding: 26px 0; }
+.field-metric dd { font-size: 28px; }
+.field-metric small { font-size: 11px; }
+.field-presets { display: flex; gap: 8px; padding: 16px 24px; border-top: 1px solid var(--border); flex-wrap: wrap; align-items: center; }
+.field-presets span { font: 10px var(--mono); color: #8a8d94; letter-spacing: 1px; margin-right: 12px; }
+.field-presets button { font: 11px var(--mono); border: 1px solid #282b31; background: transparent; color: #c9cbd0; padding: 8px 12px; cursor: pointer; }
+.field-presets button:hover { color: #ff5722; border-color: #ff5722; }
+.field-plot { touch-action: none; cursor: crosshair; }
+.field-controls { padding: 22px 28px; }
+.field-footer { padding: 12px 28px; }
+.serial-panel { padding: 20px 28px; }
+.field-help { padding: 0 28px 22px; max-width: 100ch; }
+.experiment-heading { margin-top: 28px; }
+@media (max-width: 760px) {
+  .lab-nav { padding: 18px 16px; flex-wrap: wrap; gap: 18px; }
+  .lab-nav nav { gap: 16px; flex-wrap: wrap; }
+  .field-layout { grid-template-columns: 1fr; }
+  .field-view { padding: 16px; }
+  .field-header { padding: 20px; }
+  .field-metrics { padding: 0 18px; }
+  .field-metric { padding: 18px 0; }
+  .field-metric dd { font-size: 23px; }
+  .field-controls { padding: 18px; }
+}

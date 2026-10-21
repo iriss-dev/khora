@@ -1,0 +1,23 @@
+name: Experiment or measurement
+description: Propose a reproducible experiment or share measured results.
+title: "[Experiment] "
+body:
+  - type: textarea
+    id: question
+    attributes:
+      label: Research question
+      description: What assumption or behavior are you investigating?
+    validations:
+      required: true
+  - type: textarea
+    id: setup
+    attributes:
+      label: Method and equipment
+      description: Include geometry, units, calibration, and uncertainty. State whether this is a proposal, simulation, or physical measurement.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Data and reproduction
+      description: Attach raw data or link to scripts, conditions, and results.

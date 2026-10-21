@@ -152,6 +152,8 @@ def handle_tool_call(name: str, arguments: Dict[str, Any]) -> Dict[str, Any]:
             "transducers": synth["transducer_count"],
             "normal_force_mn": round(synth["estimated_normal_force_mn"], 2),
             "tactile_discernible": synth["tactile_discernible"],
+            "model_status": synth["model_status"],
+            "force_patch_side_mm": synth["force_patch_side_mm"],
             "spl_db": round(synth["spl_db"], 1),
             "sample_phases_8bit": synth["phases_8bit"][:8],
             "am_modulation_hz": synth["recommended_am_modulation_hz"],

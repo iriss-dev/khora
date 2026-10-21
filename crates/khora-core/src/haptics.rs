@@ -24,7 +24,7 @@ pub fn compute_phase_8bit(focal_pt: &Vector3, transducer_pt: &Vector3, freq_hz: 
         phi += two_pi;
     }
 
-    let quant = ((phi / two_pi) * 255.0).round() as u32;
+    let quant = ((phi / two_pi) * 256.0).round() as u32;
     (quant % 256) as u8
 }
 

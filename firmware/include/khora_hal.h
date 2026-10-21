@@ -76,13 +76,15 @@ typedef struct {
 /* HAL Function Prototypes */
 void khora_hal_init(void);
 void khora_watchdog_init(khora_watchdog_ctx_t *ctx);
-void khora_watchdog_feed(khora_watchdog_ctx_t *ctx, uint32_t seq);
+void khora_watchdog_feed(khora_watchdog_ctx_t *ctx, uint32_t seq, uint32_t now_ms);
 bool khora_watchdog_check(khora_watchdog_ctx_t *ctx, uint32_t current_time_ms);
 void khora_emergency_braking_trigger(khora_watchdog_ctx_t *ctx, uint8_t fault_reason);
 
 void khora_phased_array_init(void);
 void khora_phased_array_update_phases(const uint8_t *phases_8bit, uint16_t count);
 void khora_phased_array_set_am_depth(float depth_0_to_1);
+void khora_phased_array_disable(void);
+void khora_phased_array_modulation_tick_isr(void);
 
 #ifdef __cplusplus
 }

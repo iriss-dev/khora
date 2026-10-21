@@ -33,9 +33,9 @@ To project light into open air while keeping hardware components recessed out of
 ### Key Dimensional Tolerances
 1. **Source Distance = Aerial Image Distance**:
    $$d_{air} = d_{source}$$
-   If the display is placed $100\,\text{mm}$ beneath the center of the DCRA plate, the aerial image will float exactly $100\,\text{mm}$ directly above the plate in free space.
+   Both distances are perpendicular to the plate. In world coordinates the image is the reflection of the source across the plate plane; it need not lie vertically above the source.
 2. **Angular Alignment Tolerance**:
-   Plate tilt error must remain below $\Delta \theta \le \pm 0.2^\circ$. Angular deviation manifests as a sheared coordinate focal distortion $\Delta y = 2 d \cdot \Delta \theta$.
+   The nominal ±0.2° tolerance is a proposed alignment budget. For a specified pivot, $2 d \Delta\theta$ estimates a small-angle registration displacement; it is not an astigmatism law. Rigidly rotating an ideal plate preserves image scale and changes its conjugate pose. See [the audit](ENGINEERING_AUDIT.md).
 
 ---
 
@@ -54,14 +54,11 @@ To project light into open air while keeping hardware components recessed out of
 ### Step 3: Ultrasonic Phased Array Integration
 1. Mount the 40 kHz transducer PCB directly beneath the focal aperture or behind an acoustically transparent, optically reflective cold mirror if co-axial propagation is used.
 2. For the standard offset geometry, position the array at $(0, 0, -50\,\text{mm})$ angled toward the focal zone.
-3. Wire transducer columns and rows to the TC4427 driver board and RP2040 GPIO pins.
+3. Use an independently phased driver fabric with a shared timing reference. Connecting rows and columns to MCU GPIO does not provide 256 independently controlled channels. The repository does not include a complete board driver.
 
 ### Step 4: Stereo IR Tracking Calibration
 1. Fasten the Ultraleap Stereo IR sensor to the forward chassis bracket facing the open-air working volume.
-2. Run the spatial calibration script:
-   ```bash
-   python -m khora.mcp_server
-   ```
+2. Implement a sensor-to-array rigid-transform calibration using independently measured landmarks. `khora.mcp_server` exposes analytical tools; it is not a sensor calibration script.
 3. Use a physical calibration wand with a retro-reflective spherical tip ($5\,\text{mm}$) placed at the optical focal plane. Verify that sensor readings match simulated coordinates within $\pm 0.5\,\text{mm}$.
 
 ---

@@ -13,11 +13,24 @@ All technical specifications, mathematical models, kinematic solvers, CAD design
 
 Nothing within this repository constitutes a certified consumer product, medical device, industrial automation guarantee, or commercial turnkey system.
 
-### 1.2 Acoustic Wave & Ultrasonic Radiation Safety (OSHA & IEC Standards)
-KHORA describes the generation of focused ultrasonic acoustic radiation pressure at frequencies around 40 kHz. Users and builders must adhere to the following mandatory physiological safety limits:
-* **OSHA Standard 1910.95 (Occupational Noise Exposure)** and **IEC 60601-2-5**: Airborne ultrasound exceeding 140 dB SPL at close range or sub-harmonic audible frequencies (due to inter-modulation or transducer casing resonance) can cause hearing strain, nausea, or localized epidermal heating if improperly focused.
-* **Maximum Permissible Radiation Force**: The beamforming phase array algorithms must never be modified to focus continuous wave energy exceeding **20 milinewtons (mN)** on unprotected human biological tissue.
-* **Modulation Duty Cycle**: Acoustic stimulation must operate under pulsed or amplitude-modulated envelopes with duty cycles $\le 25\%$ and modulation frequencies restricted to the mechanoreceptor sensory bandwidth (150–250 Hz). Continuous uninterrupted wave exposure on human skin is strictly unauthorized.
+### 1.2 Acoustic Exposure and Scope of Standards
+
+No acoustic exposure assessment or hardware certification accompanies this
+repository. Force and modulation settings do not independently define safe
+human exposure. The previously listed 20 mN and 25% duty settings were project
+assumptions, not established limits from the standards cited here.
+
+[OSHA 1910.95](https://www.osha.gov/laws-regs/regulations/standardnumber/1910/1910.95)
+addresses occupational noise exposure. A 50 ms software timeout does not
+establish compliance. [IEC 60601-2-5:2009](https://webstore.iec.ch/en/publication/2668)
+specifies requirements for ultrasonic physiotherapy equipment; citing it does
+not certify an airborne haptic prototype.
+
+A device-specific assessment requires calibrated acoustic measurements,
+frequency-resolved audible and ultrasonic exposure, geometry and duration,
+electrical/thermal limits and verified hardware shutdown. The current serial
+protocol stages phases with outputs disabled. See
+[the engineering audit](ENGINEERING_AUDIT.md) for model assumptions.
 
 ### 1.3 High-Current Electrical & Thermal Hazard Disclaimers
 The hardware architectures described herein utilize **24V DC power rails** driving high-speed MOSFET switching matrices (e.g., Microchip TC4427 or discrete H-bridges) with instantaneous peak current draws reaching 8 to 15 Amperes:
@@ -104,16 +117,19 @@ For European Union residents:
 
 ---
 
-## 6. Client-Side Security Sandboxing & OWASP ASVS Level 3
+## 6. Client Security and Controller Interlocks
 
-### 6.1 Cross-Site Scripting (XSS) Prevention
-* All user-submitted text (discussion titles, markdown bodies, comment trees) is sanitized using strict entity encoding before rendering into the DOM.
-* Direct `innerHTML` evaluations of untrusted content are prohibited. Dynamic DOM updates utilize `textContent` or whitelisted tag parsers.
+Titles, submitted bodies and replies are encoded as text at their HTML sinks.
+Resources are served locally and network connections are restricted to the
+same origin. The legacy page still permits inline scripts and uses HTML
+rendering for bundled articles. No independent OWASP ASVS Level 3 assessment
+has been performed; local dependencies alone do not establish that level.
 
-### 6.2 50-Millisecond Hardware Watchdog Interlock
-To protect human operators interacting with floating holographic projections:
-* RFC-0002 mandates that any robotic arm operating in co-presence with an optical DCRA volume must run a deterministic 50ms heartbeat watchdog.
-* If communication between the spatial telemetry tracker (e.g. Leap Motion / stereo camera) and the robotic controller is interrupted for $\ge 50\text{ ms}$, joint velocities must decelerate along an emergency S-curve profile to a complete stop ($v = 0$).
+The portable firmware models a 50 ms timeout with monotonic controller ticks,
+sequence checks and a latched fault. It disables software channel state. A
+board adapter must implement physical output-enable cutoff, periodic checks,
+and any robot-specific braking. The Python tracking model has no hardware
+watchdog. Neither a browser timer nor a UI badge verifies an interlock.
 
 ---
 

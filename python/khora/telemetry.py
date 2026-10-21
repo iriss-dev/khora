@@ -1,6 +1,7 @@
 """
 High-Frequency Spatial Telemetry & Contactless Hand Interaction Bridge (RFC-0001).
-Filters sub-5ms 3D hand tracking coordinates and calculates virtual haptic collision forces.
+Filters supplied 3D coordinates and calculates virtual contact commands.
+No sensor driver, real-time deadline or hardware interlock is implemented here.
 """
 
 import math
@@ -17,10 +18,10 @@ class SpatialKalmanFilter:
         self.alpha = alpha  # Higher = more responsive, lower = smoother
         self.filtered_pos: Optional[List[float]] = None
         self.velocity: List[float] = [0.0, 0.0, 0.0]
-        self.last_timestamp: float = time.time()
+        self.last_timestamp: float = time.monotonic()
 
     def update(self, raw_pos: List[float], timestamp: Optional[float] = None) -> List[float]:
-        t = timestamp if timestamp is not None else time.time()
+        t = timestamp if timestamp is not None else time.monotonic()
         dt = max(1e-4, t - self.last_timestamp)
         self.last_timestamp = t
 
@@ -120,9 +121,11 @@ class SpatialInteractionManager:
 
         if is_inside:
             force_data = self.volume.compute_haptic_force(depth, normal)
-            synth = self.array.synthesize_focus(smooth_pos)
+            # Full patch quadrature belongs to analysis, not the tracking update.
+            synth = self.array.synthesize_focus(smooth_pos, integrate_force=False)
             haptic_result = {
                 "force_mn": force_data["force_mn"],
+                "force_status": "virtual_command_not_measured_output",
                 "depth_mm": force_data["depth_mm"],
                 "spl_db": synth["spl_db"],
             }

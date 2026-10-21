@@ -30,8 +30,8 @@
 
 | Item | Component | Specification | Quantity | Estimated Cost | Source / Notes |
 | :--- | :--- | :--- | :---: | :---: | :--- |
-| **MCU-01** | **Core Microcontroller** | Raspberry Pi Pico (RP2040 Dual ARM Cortex-M0+ @ 125MHz) or STM32F401 | 1 | $5 - $12 | Runs `firmware/` with high-frequency timer PWM phase synthesis. |
-| **TRK-01** | **Spatial Tracking Sensor** | Ultraleap Stereo IR 170 / Leap Motion Controller 2 (Sub-5ms, $170^\circ$ FOV) | 1 | $90 - $140 | Direct 3D fingertip coordinate ingestion. |
+| **MCU-01** | **Core Microcontroller** | Raspberry Pi Pico (RP2040 Dual ARM Cortex-M0+ @ 125MHz) or STM32F401 | 1 | $5 - $12 | Candidate coordinator for an external phase driver fabric; target-specific firmware is not implemented. |
+| **TRK-01** | **Spatial Tracking Sensor** | Ultraleap Stereo IR 170 / Leap Motion Controller 2 (tracking latency must be measured) | 1 | $90 - $140 | Direct 3D fingertip coordinate ingestion. |
 | **PWR-01** | **Bench Power Supply** | $12\,\text{V} / 5\,\text{A}$ regulated switching DC supply | 1 | $15 - $25 | Standard barrel jack or XT60 connector. |
 
 ---
