@@ -1,26 +1,30 @@
 # KHORA
 
-Open tools for aerial imaging and mid-air haptics.
+Browser simulations, AI tools and RP2040 firmware for spatial-computing experiments.
 
-**[Try the demo](https://iriss-dev.github.io/khora/)** · **[Open the lab](https://iriss-dev.github.io/khora/platform/lab.html)** · [Engineering audit](docs/ENGINEERING_AUDIT.md) · [Contribute](CONTRIBUTING.md)
+**[Try the website](https://iriss-dev.github.io/khora/)** · **[Robot + AI demo](https://iriss-dev.github.io/khora/platform/robot.html)** · **[Acoustic lab](https://iriss-dev.github.io/khora/platform/lab.html)** · **[Pico controller](https://iriss-dev.github.io/khora/platform/hardware.html)** · **[Community forum](https://github.com/iriss-dev/khora/discussions)**
 
-![KHORA acoustic field inspector](assets/press/khora-lab.png)
+[![Validation](https://github.com/iriss-dev/khora/actions/workflows/validate.yml/badge.svg)](https://github.com/iriss-dev/khora/actions/workflows/validate.yml)
 
-Move a focus through a simulated 16 × 16 ultrasonic array. Inspect interference in three planes, compare aperture weighting, estimate radiation force over a patch, and export the 256-channel phase map. The browser calculation runs locally, with no account or external services.
+![KHORA reference robot planning demo](assets/press/khora-robot.gif)
 
-The optical study illustrates a dihedral corner reflector array (DCRA): a real aerial image at the ideal plane-symmetric position. The interactive assembly is a visualization, not a recording of a built device.
+Choose a target for a six-joint robot, inspect its trajectory in 3D, and export or replay a plan from an MCP client. In the acoustic lab, move a simulated ultrasound focus, compare aperture weighting and inspect interference in three planes. Both demos work without signing in.
 
-## What is available
+## What v0.3 adds
 
-- A Spanish/English landing page and a WebGL field inspector with shareable configurations.
-- Python reference models: piston directivity, complex pressure superposition, patch-force integration, and numerical Rayleigh integration for comparison.
-- An ideal DCRA ray model, kinematics utilities, and a Rust numerical core.
-- A versioned Web Serial protocol and C receiver for staging phase data with outputs disabled.
-- Reproducible numerical tests, CAD concepts, and an engineering audit with sources and open questions.
+| Component | Available now | Validation limit |
+| --- | --- | --- |
+| Robotics | Positional DLS, PoE forward kinematics, synchronized quintic plans, 3D playback | Reference geometry; no collision or dynamic model |
+| AI connection | Installable MCP stdio server, tool schemas, lifecycle, numerical validation | AI can plan and stage; no ARM or motor execution tool |
+| Raspberry Pi Pico | 16 parallel 40 kHz channels via one PIO machine and chained DMA, three waveform banks | Compiled with Pico SDK; electrical output not bench-measured |
+| Feetech STS3215 | Calibrated position packets, guarded UART forwarding, telemetry and 50 ms host lease | Requires measured mechanical limits and physical gates |
+| Output interlock | MCU heartbeat expiry, latched faults, physical loop/button, separate acoustic/servo gates | Gate propagation and physical stopping time need measurement |
+| Tracking | Official Ultraleap binding adapter and browser MediaPipe target selection | Webcam coordinates are virtual; real sensor registration is required |
+| Community | Public GitHub Discussions with a visible entry on the website | Original BBS posts remain labelled local examples |
 
-**Status: v0.2.0-alpha.** Pressure and force use an illustrative, uncalibrated emitter amplitude. They do not establish tactile perception, exposure limits, levitation, or a working physical prototype. There is no board-specific output driver or validated end-to-end tracking loop. The serial demo has no ARM command. Rust tests target the default `std` feature; bare-metal support is not validated.
+The physical profile is **16 emitters in a 4 × 4 array at 16 mm pitch**. The original acoustic study models **256 emitters** and has a separate v1 transport. The Pico uses **KH v2**. Pressure/force readouts remain uncalibrated. No physical prototype, tactile threshold, exposure compliance or hard-real-time host performance is established by the demos or CI.
 
-## Run locally
+## Try it locally
 
 ```sh
 git clone https://github.com/iriss-dev/khora.git
@@ -28,44 +32,58 @@ cd khora
 python -m http.server 8765
 ```
 
-Open [the local website](http://localhost:8765/platform/) or [the local lab](http://localhost:8765/platform/lab.html). WebGL is needed for field rendering. Web Serial requires a supporting browser and an explicitly selected device implementing [KH v1](docs/HARDWARE_TRANSPORT.md).
+Open [the website](http://localhost:8765/platform/), [robotics](http://localhost:8765/platform/robot.html) or [the Pico panel](http://localhost:8765/platform/hardware.html). WebGL renders the scenes; numerical functions and exports remain available without it. Camera tracking is optional and downloads its model only when activated.
+
+## Connect an AI client
+
+Python 3.10+:
+
+```sh
+pip install -e .
+khora-mcp --simulate-device
+```
+
+Configure your MCP client to launch that command as a stdio server. The [configuration example](examples/mcp-client.json) also supports launching directly from a checkout. Ask it to call `khora_robot_plan_move` with `{"target_m":[0.25,0.15,0.55]}`, save the returned JSON, and load it in the robot demo. See [AI and robotics](docs/AI_AND_ROBOTICS.md) for all nine tools and the control boundaries.
+
+## Connect hardware
+
+```sh
+pip install -e '.[hardware]'
+khora-hardware                         # protocol simulator, no board required
+khora-hardware --port COM4             # explicitly selected Pico, stage only
+```
+
+The default UF2 has outputs disabled. The [Pico guide](docs/PICO_HARDWARE.md) covers build commands, GPIO mapping, external supply gates, the physical stop loop, ARM conditions and the 50 ms MCU lease. TC4427 needs an external power-disable circuit; firmware alone cannot disconnect its supply. STS3215 and Dynamixel protocols are not interchangeable.
+
+For an Ultraleap sensor, see [tracking setup and registration](docs/TRACKING.md). Real actuator use also needs the arm's actual link geometry, servo zero/direction/limits and independently verified stop circuitry.
 
 ## Validate
 
-Python 3.10+ and Node.js 20+:
-
 ```sh
 python -m unittest discover -s tests -v
-node --test tests/test_platform.cjs
-```
-
-With a C99 compiler, CMake, and Rust installed:
-
-```sh
+node --test tests/test_platform.cjs tests/test_robot.cjs
 cmake -S firmware -B build/firmware
 cmake --build build/firmware
 ctest --test-dir build/firmware --output-on-failure
 cargo test --manifest-path crates/khora-core/Cargo.toml
 ```
 
-The browser tests require Playwright and an installed browser. They default to Microsoft Edge; set `KHORA_BROWSER_CHANNEL=chrome` for Chrome. Make the `playwright` package available through your environment or `NODE_PATH`, then run:
+Set `KHORA_PICO_HOST` to the built `khora_pico_host` executable to run the Python-to-C++ wire-protocol interoperability test. CI builds it before the Python suite. The Pico firmware has a separate cross-compilation job.
+
+Browser checks use Playwright with Edge by default, or `KHORA_BROWSER_CHANNEL=chromium` after installing Playwright Chromium:
 
 ```sh
 node tests/browser_smoke.cjs
 node tests/landing_smoke.cjs
+node tests/workspace_smoke.cjs
 ```
 
-## Work with the project
+The workspace suite exercises plan import/export and replay, stopping, invalid requests, the 16-channel simulator, forum/archive links, mobile layout, and camera target wiring with a mocked detector/video stream. This is not evidence of real sensor accuracy or hardware operation.
 
-The most useful next contribution is a reproducible single-emitter calibration: amplitude, directivity, phase delay, measurement geometry, and uncertainty. Optical alignment measurements and board-driver implementations are also welcome. [Open an experiment or bug report](https://github.com/iriss-dev/khora/issues/new/choose).
+## Join the project
 
-| Area | Entry point |
-| --- | --- |
-| Acoustic reference | [python/khora/acoustic_field.py](python/khora/acoustic_field.py) |
-| Browser model and shader | [platform/acoustic-field.js](platform/acoustic-field.js) |
-| Transport and receiver | [docs/HARDWARE_TRANSPORT.md](docs/HARDWARE_TRANSPORT.md) |
-| Assumptions and limitations | [docs/ENGINEERING_AUDIT.md](docs/ENGINEERING_AUDIT.md) |
-| Hardware planning | [docs/HARDWARE_BOM.md](docs/HARDWARE_BOM.md) |
-| Launch material | [docs/LAUNCH.md](docs/LAUNCH.md) |
+**[Open the community forum](https://github.com/iriss-dev/khora/discussions)** to ask a question or share a setup. You can read without an account. The [website's forum page](https://iriss-dev.github.io/khora/platform/community.html) explains the categories and links to the original BBS examples.
 
-Code and original launch assets are [MIT licensed](LICENSE). Bundled Three.js retains its upstream license notices.
+Useful contributions include single-emitter calibration, logic-analyzer captures of phase and gate timing, mechanical calibration datasets, and collision checks for the reference arm. See [the contribution guide](CONTRIBUTING.md) and [open issues](https://github.com/iriss-dev/khora/issues).
+
+Methods: [engineering audit](docs/ENGINEERING_AUDIT.md), [Pico hardware](docs/PICO_HARDWARE.md), [AI/robotics](docs/AI_AND_ROBOTICS.md), [tracking](docs/TRACKING.md). Original code/assets are [MIT licensed](LICENSE); bundled libraries retain their upstream notices.

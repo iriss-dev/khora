@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval' https://cdn.jsdelivr.net; style-src 'self'; img-src 'self' data:; connect-src 'self' https://cdn.jsdelivr.net https://storage.googleapis.com; media-src 'self' blob:; object-src 'none'; base-uri 'self'"
+    />
+    <title>KHORA — Robótica e IA</title>
+    <link rel="icon" href="../assets/logo/khora-mark.svg" />
+    <link rel="stylesheet" href="landing.css?v=20261021c" />
+    <link rel="stylesheet" href="workspace.css" />
+    <script defer src="vendor/three.min.js"></script>
+    <script defer src="vendor/OrbitControls.js"></script>
+    <script defer src="robot-model.js"></script>
+    <script defer src="workspace-ui.js"></script>
+    <script defer src="robot.js"></script>
+    <script defer src="camera-tracking.js"></script>
+  </head>
+  <body>
+    <header class="site-header workspace-header">
+      <a class="brand" href="index.html">KHORA / ROBOT</a>
+      <nav>
+        <a href="lab.html" data-en="Acoustics">Acústica</a><a href="hardware.html">RP2040</a
+        ><a href="community.html" data-en="Community / Forum">Comunidad / Foro</a>
+      </nav>
+      <div class="language-switch" role="group" aria-label="Idioma / Language">
+        <button data-language="es" aria-pressed="true">Español</button
+        ><button data-language="en" aria-pressed="false">English</button>
+      </div>
+    </header>
+    <main class="workspace-main">
+      <p class="eyebrow" data-en="REFERENCE ARM · SIX JOINTS">
+        BRAZO DE REFERENCIA · SEIS ARTICULACIONES
+      </p>
+      <h1 data-en="Plan a robot move and inspect it before execution.">
+        Planifica un movimiento del robot y revísalo antes de ejecutarlo.
+      </h1>
+      <p
+        class="workspace-intro"
+        data-en="This browser demo solves positional inverse kinematics and simulates a synchronized trajectory. Python exposes the same reference geometry to AI clients over MCP. Physical servo control requires your measured geometry and joint calibration."
+      >
+        Esta demo resuelve la cinemática inversa de posición y simula una trayectoria sincronizada.
+        Python expone la misma geometría de referencia a clientes de IA mediante MCP. El control
+        físico de los servos necesita las medidas del brazo y la calibración de cada articulación.
+      </p>
+      <div class="workspace-grid">
+        <section class="workspace-card">
+          <div class="workspace-toolbar">
+            <span>KHORA REFERENCE 6R / SE(3)</span
+            ><span class="workspace-state" id="robot-state" data-state="idle">SIMULACIÓN</span>
+          </div>
+          <div class="robot-scene">
+            <canvas
+              id="robot-canvas"
+              aria-label="Brazo robótico simulado en tres dimensiones"
+            ></canvas>
+            <div
+              id="robot-fallback"
+              class="robot-fallback"
+              hidden
+              data-en="WebGL unavailable. Planning and JSON export remain available."
+            >
+              WebGL no disponible. La planificación y la exportación JSON siguen disponibles.
+            </div>
+            <span
+              class="robot-scene-note"
+              data-en="Drag to orbit · cyan: target · orange: tool position"
+              >Arrastra para girar · cian: objetivo · naranja: posición de la herramienta</span
+            >
+          </div>
+          <dl class="workspace-data">
+            <div>
+              <dt data-en="Plan duration">Duración del plan</dt>
+              <dd id="robot-duration">—</dd>
+            </div>
+            <div>
+              <dt data-en="Target error">Error al objetivo</dt>
+              <dd id="robot-error">—</dd>
+            </div>
+            <div>
+              <dt data-en="Progress">Progreso</dt>
+              <dd id="robot-progress">0%</dd>
+            </div>
+          </dl>
+        </section>
+        <section class="workspace-card workspace-padding">
+          <h2 data-en="Target in the robot base frame">Objetivo en el marco de la base</h2>
+          <div class="workspace-slider">
+            <label for="robot-x">X <output id="robot-x-value">250 mm</output></label
+            ><input id="robot-x" type="range" min="100" max="500" value="250" /><label for="robot-y"
+              >Y <output id="robot-y-value">150 mm</output></label
+            ><input id="robot-y" type="range" min="-350" max="350" value="150" /><label
+              for="robot-z"
+              >Z <output id="robot-z-value">550 mm</output></label
+            ><input id="robot-z" type="range" min="200" max="900" value="550" />
+          </div>
+          <div class="workspace-actions">
+            <button id="robot-plan" class="primary" data-en="Calculate plan">Calcular plan</button
+            ><button id="robot-run" data-en="Simulate" disabled>Simular</button
+            ><button id="robot-stop" class="stop" data-en="Stop">Parar</button>
+          </div>
+          <div class="workspace-actions">
+            <button id="robot-home" data-en="Reset pose">Restablecer postura</button
+            ><button id="robot-export" disabled data-en="Export JSON">Exportar JSON</button
+            ><label class="file-button"
+              ><span data-en="Load MCP plan">Cargar plan MCP</span
+              ><input id="robot-import" type="file" accept="application/json,.json" hidden
+            /></label>
+          </div>
+          <div id="robot-joints" class="joint-values"></div>
+          <p
+            class="workspace-hint"
+            data-en="Limits: 0.8 rad/s velocity, 1.5 rad/s² acceleration, 8 rad/s³ jerk. Joint limits are checked; collisions and the physical robot are not modeled."
+          >
+            Límites: velocidad 0,8 rad/s, aceleración 1,5 rad/s² y jerk 8 rad/s³. Se comprueban los
+            límites articulares; no se modelan colisiones ni el robot físico.
+          </p>
+          <p id="robot-message" class="workspace-error" role="status" aria-live="polite"></p>
+        </section>
+      </div>
+      <section class="workspace-section workspace-card workspace-padding">
+        <h2 data-en="Use your camera to choose a virtual target">
+          Usa la cámara para elegir un objetivo virtual
+        </h2>
+        <p
+          data-en="MediaPipe detects your index fingertip and maps the image position into the simulation. It does not provide a calibrated robot coordinate. The model downloads when activated; video processing runs in your browser."
+        >
+          MediaPipe detecta el índice y convierte su posición en la imagen en un objetivo de la
+          simulación. No proporciona una coordenada calibrada del robot. El modelo se descarga al
+          activar la función y el vídeo se procesa en tu navegador.
+        </p>
+        <div class="workspace-actions">
+          <button id="camera-start" aria-pressed="false" data-en="Use camera to choose the target">
+            Activar cámara para elegir el objetivo
+          </button>
+        </div>
+        <video id="camera-video" autoplay muted playsinline hidden width="320" height="240"></video>
+        <p
+          id="camera-status"
+          class="workspace-hint"
+          role="status"
+          data-en="Optional. You can use the sliders without a camera."
+        >
+          Opcional. Puedes usar los controles sin una cámara.
+        </p>
+      </section>
+      <section class="workspace-section workspace-grid">
+        <div class="workspace-card workspace-padding">
+          <h2 data-en="Inspect an AI tool request">
+            Inspecciona una solicitud de herramienta de IA
+          </h2>
+          <p
+            data-en="Paste a khora_robot_plan_move request. The browser validates and plans it; no language model is running inside this text box."
+          >
+            Pega una solicitud khora_robot_plan_move. El navegador la valida y calcula el plan; este
+            cuadro no ejecuta un modelo de lenguaje.
+          </p>
+          <label for="robot-tool" class="workspace-hint" data-en="Tool request JSON"
+            >Solicitud JSON</label
+          ><textarea id="robot-tool" class="tool-input" spellcheck="false">
+{"name":"khora_robot_plan_move","arguments":{"target_m":[0.25,0.15,0.55]}}</textarea
+          >
+          <div class="workspace-actions">
+            <button id="robot-tool-apply" data-en="Validate and plan">Validar y planificar</button>
+          </div>
+        </div>
+        <div class="workspace-card workspace-padding">
+          <h2 data-en="Connect your AI client over MCP">Conecta tu cliente de IA por MCP</h2>
+          <p
+            data-en="Install KHORA locally and configure your MCP client to launch the server. The AI can calculate trajectories and stage phases; it has no tool for enabling physical outputs."
+          >
+            Instala KHORA localmente y configura el cliente MCP para iniciar el servidor. La IA
+            puede calcular trayectorias y preparar fases; no tiene una herramienta para habilitar
+            las salidas físicas.
+          </p>
+          <pre class="code-block">
+pip install -e .
+khora-mcp --simulate-device</pre
+          >
+          <a
+            class="text-link"
+            href="https://github.com/iriss-dev/khora/blob/master/docs/AI_AND_ROBOTICS.md"
+            data-en="Configuration, tools and examples"
+            >Configuración, herramientas y ejemplos</a
+          >
+        </div>
+      </section>
+      <section class="community-banner">
+        <div>
+          <h2 data-en="Share a trajectory or ask for help in the forum">
+            Comparte una trayectoria o consulta en el foro
+          </h2>
+          <p data-en="The public discussions are on GitHub. You can read them without an account.">
+            Las conversaciones públicas están en GitHub. Puedes leerlas sin tener una cuenta.
+          </p>
+        </div>
+        <a class="button primary" href="community.html" data-en="Open the forum">Entrar al foro</a>
+      </section>
+    </main>
+    <footer class="site-footer">
+      <a href="index.html">KHORA</a><a href="https://github.com/iriss-dev/khora">GitHub</a>
+    </footer>
+  </body>
+</html>

@@ -1317,7 +1317,7 @@
 
   <header class="lab-nav">
     <a class="lab-brand" href="index.html"><img src="../assets/logo/khora-mark.svg" alt="" width="30" height="30">KHORA <span>/ LAB</span></a>
-    <nav aria-label="Laboratory navigation"><a href="index.html">Overview</a><a href="https://github.com/iriss-dev/khora/blob/master/docs/ENGINEERING_AUDIT.md">Methods</a><button class="bbs-btn" onclick="openStudioModal()">Open Studio</button><a href="https://github.com/iriss-dev/khora" target="_blank" rel="noopener noreferrer">Source code</a></nav>
+    <nav aria-label="Laboratory navigation"><a href="index.html">Overview</a><a href="robot.html">Robotics + AI</a><a href="hardware.html">Pico 16</a><a href="community.html">Foro / Community</a><a href="https://github.com/iriss-dev/khora/blob/master/docs/ENGINEERING_AUDIT.md">Methods</a><button class="bbs-btn" onclick="openStudioModal()">Open Studio</button><a href="https://github.com/iriss-dev/khora" target="_blank" rel="noopener noreferrer">Source code</a></nav>
   </header>
   <div class="main-grid">
 
@@ -1436,7 +1436,7 @@
       </div>
 
       </details>
-      <details class="assembly-details notebook-details"><summary>Reference notebook / example discussions</summary>
+      <details class="assembly-details notebook-details"><summary>Archivo BBS / reference examples</summary>
       <div class="experiment-heading"><h2>Engineering notebook</h2><span>EXAMPLE THREADS / SESSION-LOCAL POSTS</span></div>
 
       <div class="create-prompt-bar">
@@ -3774,6 +3774,7 @@ pub fn dls_step(j: &Matrix3xX<f32>, err: Vector3<f32>, lambda_sq: f32) -> Option
     });
     window.addEventListener("resize", resizeCanvas);
     window.addEventListener("DOMContentLoaded", () => {
+      if (new URLSearchParams(location.search).has("notebook")) document.querySelector(".notebook-details").open = true;
       renderBbsFeed();
       resizeCanvas();
     });

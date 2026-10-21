@@ -1,5 +1,10 @@
 # Spatial field and hardware transport audit
 
+This records the v0.2 audit. The v0.3 standalone Pico target, robot/MCP tools
+and tracking adapters are documented in [Pico hardware](PICO_HARDWARE.md),
+[AI and robotics](AI_AND_ROBOTICS.md) and [tracking](TRACKING.md).
+Historical statements about a missing board adapter describe the original v1 target.
+
 Date: 2026-10-20. Baseline: `3c6c96e`. Scope: local platform, acoustic models,
 optical assumptions and portable firmware. Numerical validation is distinct
 from validation of an assembled optical-acoustic instrument.

@@ -1,5 +1,9 @@
 # KHORA: Hardware Bill of Materials (BOM)
 
+The active 16-emitter RP2040 / STS3215 profile and required external power
+gates are specified in [the v0.3 Pico guide](PICO_HARDWARE.md). The larger array
+below is an earlier design study, not the profile assumed by that firmware.
+
 - **Target System**: Desktop Traversable Optical-Haptic Rig (v1.0)
 - **Clearance Working Volume**: $150 \times 150 \times 120\,\text{mm}$ (Unobstructed Free Air)
 - **Acoustic Radiation Force**: $5 \sim 15\,\text{mN}$ (Skin-perceptible touch sensation)

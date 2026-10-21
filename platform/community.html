@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'"
+    />
+    <title>KHORA — Comunidad y foro</title>
+    <link rel="stylesheet" href="landing.css?v=20261021c" />
+    <link rel="stylesheet" href="workspace.css" />
+    <script defer src="workspace-ui.js"></script>
+  </head>
+  <body>
+    <header class="site-header workspace-header">
+      <a class="brand" href="index.html">KHORA / FORO</a>
+      <nav>
+        <a href="robot.html" data-en="Robotics + AI">Robótica + IA</a
+        ><a href="hardware.html">RP2040</a
+        ><a href="lab.html" data-en="Acoustic lab">Laboratorio acústico</a>
+      </nav>
+      <div class="language-switch" role="group" aria-label="Idioma / Language">
+        <button data-language="es" aria-pressed="true">Español</button
+        ><button data-language="en" aria-pressed="false">English</button>
+      </div>
+    </header>
+    <main class="workspace-main">
+      <p class="eyebrow">GITHUB DISCUSSIONS / KHORA</p>
+      <h1 data-en="The public KHORA forum is here.">Aquí está el foro público de KHORA.</h1>
+      <p
+        class="workspace-intro"
+        data-en="Read questions, share your setup or discuss a result. The actual conversations live in GitHub Discussions; this page gives you direct access to each category."
+      >
+        Lee preguntas, comparte tu montaje o comenta un resultado. Las conversaciones reales están
+        en GitHub Discussions; esta página te lleva directamente a cada categoría.
+      </p>
+      <div class="workspace-actions">
+        <a
+          class="button primary"
+          href="https://github.com/iriss-dev/khora/discussions"
+          data-en="Enter the public forum"
+          >Entrar al foro público</a
+        ><a
+          class="button"
+          href="https://github.com/iriss-dev/khora/discussions/new/choose"
+          data-en="Start a discussion"
+          >Crear una conversación</a
+        >
+      </div>
+      <div class="community-categories">
+        <a href="https://github.com/iriss-dev/khora/discussions/categories/q-a"
+          ><h2 data-en="Questions and help">Preguntas y ayuda</h2>
+          <p data-en="Installation, numerical models, firmware, wiring and troubleshooting.">
+            Instalación, modelos numéricos, firmware, cableado y diagnóstico de problemas.
+          </p></a
+        ><a href="https://github.com/iriss-dev/khora/discussions/categories/show-and-tell"
+          ><h2 data-en="Builds and experiments">Montajes y experimentos</h2>
+          <p
+            data-en="Share photos, a trajectory file, measurements or code that others can reproduce."
+          >
+            Comparte fotos, un archivo de trayectoria, mediciones o código que otros puedan
+            reproducir.
+          </p></a
+        ><a href="https://github.com/iriss-dev/khora/discussions/categories/ideas"
+          ><h2 data-en="Ideas and proposals">Ideas y propuestas</h2>
+          <p data-en="Suggest an integration, a better model or an experiment worth running.">
+            Propón una integración, un modelo mejor o un experimento que merezca la pena hacer.
+          </p></a
+        >
+      </div>
+      <section class="workspace-section">
+        <h2 data-en="Start with these discussions">Empieza por estas conversaciones</h2>
+        <div class="thread-table">
+          <a class="thread-row" href="https://github.com/iriss-dev/khora/discussions/2"
+            ><span
+              ><strong data-en="Welcome to the KHORA community"
+                >Bienvenido a la comunidad de KHORA</strong
+              ><small>iriss-dev · Announcements · 2026-10-21</small></span
+            ><span>↗</span></a
+          ><a class="thread-row" href="https://github.com/iriss-dev/khora/issues/1"
+            ><span
+              ><strong data-en="Single-emitter calibration: share reproducible measurements"
+                >Calibración de un emisor: comparte mediciones reproducibles</strong
+              ><small>iriss-dev · Research issue #1</small></span
+            ><span>↗</span></a
+          >
+        </div>
+        <p
+          class="workspace-hint"
+          data-en="These links point to actual public threads. Open GitHub Discussions to see every conversation and its latest replies."
+        >
+          Estos enlaces apuntan a hilos públicos reales. Abre GitHub Discussions para ver todas las
+          conversaciones y las respuestas recientes.
+        </p>
+      </section>
+      <div class="community-instructions">
+        <section class="workspace-card workspace-padding">
+          <h2 data-en="How do I participate?">¿Cómo participo?</h2>
+          <p data-en="1. Reading is public and does not require an account.">
+            1. Puedes leer las conversaciones sin crear una cuenta.
+          </p>
+          <p
+            data-en="2. To post or reply, sign in to GitHub and choose New discussion or a thread's reply box."
+          >
+            2. Para publicar o responder, inicia sesión en GitHub y elige New discussion o el cuadro
+            de respuesta de un hilo.
+          </p>
+          <p
+            data-en="3. Include your hardware, software version, steps and evidence. Separate a proposed experiment from a measured result."
+          >
+            3. Incluye tu hardware, versión del software, pasos y evidencias. Distingue una
+            propuesta de experimento de un resultado medido.
+          </p>
+        </section>
+        <section class="workspace-card workspace-padding">
+          <h2 data-en="Where did the old BBS go?">¿Dónde quedó el BBS anterior?</h2>
+          <p
+            data-en="The original interface's posts remain in the acoustic lab's reference notebook. They are local examples, not messages from actual community members. They do not synchronize between computers."
+          >
+            Las publicaciones de la interfaz original siguen en el cuaderno de referencia del
+            laboratorio acústico. Son ejemplos locales, no mensajes de miembros reales de la
+            comunidad. No se sincronizan entre equipos.
+          </p>
+          <a class="text-link" href="lab.html?notebook=1" data-en="Open the original BBS examples"
+            >Abrir los ejemplos del BBS original</a
+          >
+          <p
+            class="workspace-hint"
+            data-en="Use the public forum above for conversations that other people can read and answer."
+          >
+            Usa el foro público de arriba para que otras personas puedan leer y responder tus
+            conversaciones.
+          </p>
+        </section>
+      </div>
+    </main>
+    <footer class="site-footer">
+      <a href="index.html">KHORA</a
+      ><a href="https://github.com/iriss-dev/khora/discussions">GitHub Discussions</a>
+    </footer>
+  </body>
+</html>

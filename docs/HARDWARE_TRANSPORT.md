@@ -1,5 +1,9 @@
 # KHORA staging transport, version 1
 
+This is the original 256-channel staging target. The standalone 16-channel
+RP2040 firmware uses [KH v2 and a separate commissioning guide](PICO_HARDWARE.md).
+The two targets are explicitly distinguished by protocol version and channel count.
+
 Status: browser client and portable C receiver implemented. USB CDC/UART board
 initialization, physical drivers, sensor acquisition and a native LeapC bridge
 are integration work. This version intentionally has no ARM command. A valid

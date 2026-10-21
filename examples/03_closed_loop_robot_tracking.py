@@ -49,7 +49,7 @@ def main():
     print(f"[+] Jerk Ramp Duration:     {profile['phases']['t_jerk']:.4f} s")
     print(f"[+] Cruise Duration:        {profile['phases']['t_cruise']:.4f} s")
     print(f"[+] Max Jerk Limit:         {profile['parameters']['j_max']} rad/s^3")
-    print("[SUCCESS] Zero mechanical resonance, safe for direct hardware execution.")
+    print("[SIMULATION] Numerical planning complete; validate the measured mechanism before hardware execution.")
 
 
 if __name__ == "__main__":

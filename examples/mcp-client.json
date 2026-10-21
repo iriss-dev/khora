@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "khora": {
+      "command": "python",
+      "args": ["/absolute/path/to/khora/tools/run_mcp.py", "--simulate-device"]
+    }
+  }
+}

@@ -77,6 +77,7 @@ void start_dma() {
 }
 void servo_send(const uint8_t* bytes, size_t size) {
     gpio_put(uart_direction, 1);
+    busy_wait_us_32(2);
     uart_write_blocking(uart1, bytes, size);
     uart_tx_wait_blocking(uart1);
     while (uart_is_readable(uart1)) (void)uart_getc(uart1);
@@ -175,7 +176,7 @@ int main() {
         if (reply.action == khora::Action::arm) {
             start_dma();
             const uint32_t lock = save_and_disable_interrupts();
-            if (control.armed && interlock_closed()) { gpio_put(acoustic_gate, 1); gpio_put(servo_gate, 1); }
+            if (control.armed && interlock_closed()) { gpio_put(acoustic_gate, control.output_mask & 1); gpio_put(servo_gate, (control.output_mask & 2) != 0); }
             else disable_outputs();
             restore_interrupts(lock);
         }

@@ -16,11 +16,18 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: python -m unittest discover -s tests -v
-      - run: node --test tests/test_platform.cjs
+      - run: node --test tests/test_platform.cjs tests/test_robot.cjs
       - run: cmake -S firmware -B build/firmware
       - run: cmake --build build/firmware
       - run: ctest --test-dir build/firmware --output-on-failure
+      - run: python -m unittest discover -s tests -v
+        env:
+          KHORA_PICO_HOST: ${{ github.workspace }}/build/firmware/khora_pico_host
+      - run: pip wheel --no-deps --wheel-dir build/wheels .
+      - uses: actions/upload-artifact@v4
+        with:
+          name: khora-python
+          path: build/wheels/*.whl
       - run: cargo test --manifest-path crates/khora-core/Cargo.toml
   browser:
     runs-on: ubuntu-latest
@@ -37,6 +44,9 @@ jobs:
       - run: node tests/landing_smoke.cjs
         env:
           KHORA_BROWSER_CHANNEL: chromium
+      - run: node tests/workspace_smoke.cjs
+        env:
+          KHORA_BROWSER_CHANNEL: chromium
   pico:
     runs-on: ubuntu-latest
     steps:
@@ -47,6 +57,10 @@ jobs:
         env:
           PICO_SDK_PATH: ${{ runner.temp }}/pico-sdk
       - run: cmake --build build/pico --parallel 2
+      - run: cmake -S firmware/rp2040 -B build/pico-enabled -DPICO_BOARD=pico -DKHORA_ENABLE_OUTPUTS=ON
+        env:
+          PICO_SDK_PATH: ${{ runner.temp }}/pico-sdk
+      - run: cmake --build build/pico-enabled --parallel 2
       - uses: actions/upload-artifact@v4
         with:
           name: khora-pico-dry-run

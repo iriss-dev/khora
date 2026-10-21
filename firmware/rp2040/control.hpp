@@ -15,7 +15,7 @@ inline Wave waveform(const std::array<uint8_t, channels>& phases) {
     for (unsigned sample = 0; sample < 256; ++sample) {
         uint16_t bits = 0;
         for (unsigned channel = 0; channel < channels; ++channel)
-            if (static_cast<uint8_t>(sample + phases[channel]) < 128)
+            if (static_cast<uint8_t>(sample - phases[channel]) < 128)
                 bits |= static_cast<uint16_t>(1u << channel);
         result[sample / 2] |= static_cast<uint32_t>(bits) << (16 * (sample % 2));
     }
@@ -94,10 +94,11 @@ public:
     explicit Control(bool outputs_enabled = false) : allowed(outputs_enabled) {}
     bool armed = false, session = false, staged = false;
     uint8_t fault = 0;
+    uint8_t output_mask = 0;
     uint32_t last_heartbeat = 0;
     std::array<uint8_t, channels> phases{};
 
-    void stop() { armed = false; session = false; }
+    void stop() { armed = false; session = false; output_mask = 0; }
     bool tick(uint32_t now, bool interlock) {
         if (armed && (!interlock || uint32_t(now - last_heartbeat) >= lease_us)) {
             fault = interlock ? 1 : 2;
@@ -124,9 +125,10 @@ public:
         }
         if (type == 3 && n == 0) { stop(); reply.action = Action::stop; return reply; }
         if (type == 9 && n == 0) {
-            reply.type = 0x84; reply.size = 4;
+            reply.type = 0x84; reply.size = 5;
             reply.payload[0] = armed; reply.payload[1] = fault;
             reply.payload[2] = staged; reply.payload[3] = allowed;
+            reply.payload[4] = output_mask;
             return reply;
         }
         const uint32_t advance = seq - sequence;
@@ -135,12 +137,12 @@ public:
         sequence = seq;
         if (type == 2 && n == channels) {
             std::memcpy(phases.data(), p, channels); staged = true; reply.action = Action::phases;
-        } else if (type == 4 && n == 4 && std::memcmp(p, nonce.data(), 4) == 0) {
-            if (!allowed || !interlock || !arm_button || !staged) reply.payload[0] = 3;
-            else { armed = true; last_heartbeat = now; reply.action = Action::arm; }
+        } else if (type == 4 && n == 5 && std::memcmp(p, nonce.data(), 4) == 0) {
+            if (!allowed || !interlock || !arm_button || !staged || p[4] < 1 || p[4] > 3 || armed) reply.payload[0] = 3;
+            else { armed = true; output_mask = p[4]; last_heartbeat = now; reply.action = Action::arm; }
         } else if (type == 5 && n == 0) {
             last_heartbeat = now;
-        } else if (type == 6 && valid_servo_write(p, n, armed)) {
+        } else if (type == 6 && valid_servo_write(p, n, armed && (output_mask & 2))) {
             reply.action = Action::servo_write;
         } else if (type == 8 && n == 1 && p[0] >= 1 && p[0] <= 6) {
             reply.action = Action::servo_read;

@@ -7,6 +7,7 @@ optical aerial simulations, and ultrasound mid-air haptic synthesis via Stdio JS
 import sys
 import json
 import math
+import argparse
 from typing import Dict, Any, List
 
 from .kinematics import (
@@ -14,6 +15,9 @@ from .kinematics import (
 )
 from .optics import DCRASubstrate, simulate_dcra_convergence
 from .haptics import AcousticPhasedArray
+from .robot import plan_move, forward_poe
+from .hardware import PicoClient, SimulatedPico
+from . import __version__
 
 
 def build_default_6dof_manipulator() -> KinematicChain:
@@ -120,8 +124,73 @@ TOOLS = [
     }
 ]
 
+TOOLS += [
+    {"name": "khora_robot_plan_move", "description": "Plan a reference 6R arm move using DLS and synchronized quintic interpolation. Simulation only; does not enable motors or check collisions.",
+     "inputSchema": {"type": "object", "properties": {"target_m": {"type": "array", "items": {"type": "number"}, "minItems": 3, "maxItems": 3}, "start_joints_rad": {"type": "array", "items": {"type": "number"}, "minItems": 6, "maxItems": 6}}, "required": ["target_m"]}},
+    {"name": "khora_robot_forward_poe", "description": "Compute the reference arm's SE(3) pose using a product of screw exponentials. No hardware writes.",
+     "inputSchema": {"type": "object", "properties": {"joints_rad": {"type": "array", "items": {"type": "number"}, "minItems": 6, "maxItems": 6}}, "required": ["joints_rad"]}},
+    {"name": "khora_hardware_status", "description": "Read the explicitly configured Pico connection, firmware capabilities and fault state. Does not enable outputs.",
+     "inputSchema": {"type": "object", "properties": {}}},
+    {"name": "khora_hardware_stage_focus", "description": "Stage 16 phases for the 4x4, 16 mm pitch Pico array with outputs disabled. Requires --simulate-device or an explicitly configured serial port. No ARM tool is exposed.",
+     "inputSchema": {"type": "object", "properties": {"focal_point_m": {"type": "array", "items": {"type": "number"}, "minItems": 3, "maxItems": 3}}, "required": ["focal_point_m"]}}
+]
+for tool in TOOLS:
+    tool['inputSchema']['additionalProperties'] = False
+    tool['annotations'] = {'readOnlyHint': tool['name'] != 'khora_hardware_stage_focus', 'destructiveHint': False}
+    for key, schema in tool['inputSchema']['properties'].items():
+        if schema['type'] == 'array':
+            schema['minItems'] = schema['maxItems'] = 6 if key in ('q_init', 'joint_angles', 'joints_rad', 'start_joints_rad') else 3
+        if key == 'grid_size':
+            schema.update(minimum=1, maximum=32)
+        if key in ('v_max', 'a_max', 'j_max'):
+            schema.update(exclusiveMinimum=0, maximum=100)
+
+_hardware = None
+
+
+def validate_arguments(name, arguments):
+    tool = next((tool for tool in TOOLS if tool['name'] == name), None)
+    if tool is None:
+        raise ValueError(f'Unknown tool: {name}')
+    if not isinstance(arguments, dict):
+        raise ValueError('Tool arguments must be an object')
+    schema = tool['inputSchema']
+    if set(arguments) - set(schema['properties']):
+        raise ValueError('Unexpected tool argument')
+    for key in schema.get('required', []):
+        if key not in arguments:
+            raise ValueError(f'Missing argument: {key}')
+    for key, value in arguments.items():
+        item = schema['properties'][key]
+        if item['type'] == 'array':
+            if not isinstance(value, list) or len(value) != item['minItems']:
+                raise ValueError(f'{key} must contain {item["minItems"]} numbers')
+            numbers = value
+        else:
+            numbers = [value]
+            if item['type'] == 'integer' and type(value) is not int:
+                raise ValueError(f'{key} must be an integer')
+        if any(isinstance(number, bool) or not isinstance(number, (int, float)) or not math.isfinite(number) for number in numbers):
+            raise ValueError(f'{key} must contain finite numbers')
+        if 'minimum' in item and value < item['minimum'] or 'maximum' in item and value > item['maximum'] or 'exclusiveMinimum' in item and value <= item['exclusiveMinimum']:
+            raise ValueError(f'{key} is outside the allowed range')
+
 
 def handle_tool_call(name: str, arguments: Dict[str, Any]) -> Dict[str, Any]:
+    validate_arguments(name, arguments)
+    if name == 'khora_robot_plan_move':
+        return plan_move(**arguments)
+    if name == 'khora_robot_forward_poe':
+        return {'frame': 'metres, robot base', 'transform': forward_poe(arguments['joints_rad'])}
+    if name == 'khora_hardware_status':
+        return _hardware.status() if _hardware else {'connected': False, 'reason': 'No serial port or simulator configured'}
+    if name == 'khora_hardware_stage_focus':
+        if _hardware is None:
+            raise ValueError('Configure --simulate-device or --port before staging phases')
+        status = _hardware.status()
+        if status.get('armed'):
+            raise ValueError('MCP phase staging is allowed only with outputs disabled')
+        return _hardware.stage_focus(arguments['focal_point_m'])
     if name == "khora_kinematic_solve_ik":
         target = arguments.get("target_pos", [0.2, 0.0, 0.5])
         q_init = arguments.get("q_init", [0.0]*6)
@@ -200,66 +269,80 @@ def handle_tool_call(name: str, arguments: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def main():
-    """Stdio JSON-RPC loop for Model Context Protocol."""
-    for line in sys.stdin:
-        line = line.strip()
-        if not line:
-            continue
-        try:
-            req = json.loads(line)
-        except Exception:
-            continue
-
-        req_id = req.get("id")
-        method = req.get("method")
-        params = req.get("params", {})
-
-        if method == "initialize":
-            res = {
-                "jsonrpc": "2.0",
-                "id": req_id,
-                "result": {
-                    "protocolVersion": "2024-11-05",
-                    "serverInfo": {"name": "khora-mcp", "version": "0.1.0"},
-                    "capabilities": {"tools": {}}
-                }
-            }
-        elif method == "tools/list":
-            res = {
-                "jsonrpc": "2.0",
-                "id": req_id,
-                "result": {"tools": TOOLS}
-            }
-        elif method == "tools/call":
-            name = params.get("name")
-            args = params.get("arguments", {})
+    global _hardware
+    parser = argparse.ArgumentParser(description="KHORA MCP stdio server")
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument('--port', help='Explicit local Pico serial device')
+    group.add_argument('--simulate-device', action='store_true')
+    args = parser.parse_args()
+    if args.port:
+        _hardware = PicoClient.open(args.port)
+    elif args.simulate_device:
+        _hardware = PicoClient(SimulatedPico())
+        _hardware.connect()
+    initialized = False
+    ready = False
+    try:
+        for line in sys.stdin:
+            if not line.strip():
+                continue
+            req_id = None
             try:
-                tool_result = handle_tool_call(name, args)
-                res = {
-                    "jsonrpc": "2.0",
-                    "id": req_id,
-                    "result": {
-                        "content": [
-                            {"type": "text", "text": json.dumps(tool_result, indent=2)}
-                        ]
-                    }
-                }
-            except Exception as e:
-                res = {
-                    "jsonrpc": "2.0",
-                    "id": req_id,
-                    "error": {"code": -32000, "message": str(e)}
-                }
-        else:
-            res = {
-                "jsonrpc": "2.0",
-                "id": req_id,
-                "error": {"code": -32601, "message": f"Method {method} not found"}
-            }
+                if len(line) > 1048576:
+                    raise ValueError('Message exceeds 1 MiB')
+                req = json.loads(line, parse_constant=lambda value: (_ for _ in ()).throw(ValueError('Non-finite JSON number')))
+                if not isinstance(req, dict) or req.get('jsonrpc') != '2.0' or not isinstance(req.get('method'), str):
+                    raise ValueError('Invalid JSON-RPC request')
+                req_id = req.get('id')
+                method = req['method']
+                params = req.get('params', {})
+                if req_id is not None and (isinstance(req_id, bool) or not isinstance(req_id, (str, int))):
+                    raise ValueError('Invalid request ID')
+                if not isinstance(params, dict):
+                    raise ValueError('Parameters must be an object')
+                if 'id' not in req:
+                    if method == 'notifications/initialized' and initialized:
+                        ready = True
+                    continue
+                if method == 'initialize':
+                    if initialized:
+                        raise ValueError('Session already initialized')
+                    requested = params.get('protocolVersion')
+                    if not isinstance(requested, str):
+                        raise ValueError('protocolVersion is required')
+                    version = requested if requested in ('2024-11-05', '2025-03-26', '2025-06-18') else '2025-06-18'
+                    result = {'protocolVersion': version, 'serverInfo': {'name': 'khora-mcp', 'version': __version__},
+                              'capabilities': {'tools': {}}, 'instructions': 'Plans are simulations. Hardware staging does not enable outputs. No ARM or motor execution tool is exposed.'}
+                    initialized = True
+                elif method == 'ping':
+                    result = {}
+                elif not ready:
+                    raise ValueError('Initialize and send notifications/initialized first')
+                elif method == 'tools/list':
+                    result = {'tools': TOOLS}
+                elif method == 'tools/call':
+                    try:
+                        output = handle_tool_call(params.get('name'), params.get('arguments', {}))
+                        result = {'content': [{'type': 'text', 'text': json.dumps(output, allow_nan=False)}], 'isError': False}
+                    except (ValueError, RuntimeError, TimeoutError, OSError) as error:
+                        result = {'content': [{'type': 'text', 'text': str(error)}], 'isError': True}
+                else:
+                    response = {'jsonrpc': '2.0', 'id': req_id, 'error': {'code': -32601, 'message': 'Method not found'}}
+                    sys.stdout.write(json.dumps(response)+'\n')
+                    sys.stdout.flush()
+                    continue
+                response = {'jsonrpc': '2.0', 'id': req_id, 'result': result}
+            except (ValueError, TypeError, KeyError) as error:
+                response = {'jsonrpc': '2.0', 'id': req_id, 'error': {'code': -32700 if isinstance(error, json.JSONDecodeError) else -32600, 'message': str(error)}}
+            sys.stdout.write(json.dumps(response, allow_nan=False)+'\n')
+            sys.stdout.flush()
+    finally:
+        if _hardware:
+            try:
+                _hardware.stop()
+            finally:
+                _hardware.close()
 
-        sys.stdout.write(json.dumps(res) + "\n")
-        sys.stdout.flush()
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()

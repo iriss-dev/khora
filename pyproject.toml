@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "khora-spatial"
+version = "0.3.0a1"
+description = "Aerial imaging, acoustic fields and guarded robotics tools"
+requires-python = ">=3.10"
+license = "MIT"
+readme = "README.md"
+authors = [{name = "iriss-dev"}]
+dependencies = []
+
+[project.optional-dependencies]
+hardware = ["pyserial>=3.5,<4"]
+
+[project.scripts]
+khora-mcp = "khora.mcp_server:main"
+khora-hardware = "khora.hardware:main"
+
+[project.urls]
+Homepage = "https://iriss-dev.github.io/khora/"
+Repository = "https://github.com/iriss-dev/khora"
+Discussions = "https://github.com/iriss-dev/khora/discussions"
+
+[tool.setuptools.packages.find]
+where = ["python"]

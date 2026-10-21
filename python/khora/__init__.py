@@ -2,7 +2,7 @@
 KHORA: Deterministic Robotics Kinematics, Spatial Computing & Traversable Light.
 """
 
-__version__ = "0.2.0-alpha"
+__version__ = "0.3.0-alpha"
 __author__ = "iriss-dev <contact@iriss.dev>"
 __license__ = "MIT"
 
