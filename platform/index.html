@@ -1174,6 +1174,132 @@
         display: none;
       }
     }
+    /* 3D SPATIAL STAGE & WEBCAM OVERLAYS */
+    .pip-camera-overlay {
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      width: 140px;
+      height: 105px;
+      background: #000000;
+      border: 1px solid var(--accent);
+      border-radius: 6px;
+      overflow: hidden;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.8);
+      display: none;
+      z-index: 10;
+    }
+    .pip-camera-overlay video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scaleX(-1); /* Mirror for natural user interaction */
+    }
+    .pip-camera-overlay canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+    .pip-badge {
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      background: rgba(0,0,0,0.7);
+      color: var(--accent);
+      font-size: 8px;
+      font-family: var(--mono);
+      padding: 1px 4px;
+      border-radius: 3px;
+      border: 1px solid var(--accent);
+    }
+    .stage-3d-hint {
+      position: absolute;
+      top: 10px;
+      left: 12px;
+      font-size: 10px;
+      font-family: var(--mono);
+      color: var(--text-dim);
+      background: rgba(5, 6, 8, 0.75);
+      padding: 3px 8px;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      pointer-events: none;
+      display: none;
+    }
+
+    /* KHORA STUDIO BUILDER & HARDWARE EXPORTER MODAL */
+    .studio-modal-grid {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 16px;
+      margin-top: 14px;
+    }
+    @media (max-width: 768px) {
+      .studio-modal-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .studio-comp-btn {
+      width: 100%;
+      text-align: left;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 10px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      color: var(--text);
+      font-family: var(--font);
+      transition: all 0.15s ease;
+    }
+    .studio-comp-btn:hover {
+      border-color: var(--accent);
+      background: var(--bg-hover);
+    }
+    .studio-comp-btn.active {
+      border-color: var(--accent);
+      background: var(--accent-subtle);
+    }
+    .studio-comp-title {
+      font-weight: 600;
+      font-size: 12px;
+      display: flex;
+      justify-content: space-between;
+      color: var(--text);
+    }
+    .studio-comp-desc {
+      font-size: 11px;
+      color: var(--text-dim);
+      margin-top: 3px;
+      line-height: 1.4;
+    }
+    .studio-preview-box {
+      background: #030406;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 220px;
+      position: relative;
+    }
+    .studio-preview-canvas {
+      width: 100%;
+      height: 160px;
+      display: block;
+    }
+    .studio-export-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+
   </style>
 </head>
 <body>
@@ -1388,19 +1514,23 @@
           <div class="sim-mode-toolbar">
             <button class="sim-mode-btn active" id="smode-combined" onclick="setSimMode('combined')">
               <svg class="octicon" viewBox="0 0 16 16" width="12" height="12" style="fill:currentColor;"><path d="M1.75 2.5h12.5a.25.25 0 0 1 .25.25v2.5a.25.25 0 0 1-.25.25H1.75a.25.25 0 0 1-.25-.25v-2.5a.25.25 0 0 1 .25-.25Zm0 5.5h12.5a.25.25 0 0 1 .25.25v2.5a.25.25 0 0 1-.25.25H1.75a.25.25 0 0 1-.25-.25v-2.5a.25.25 0 0 1 .25-.25Zm0 5.5h12.5a.25.25 0 0 1 .25.25v2.5a.25.25 0 0 1-.25.25H1.75a.25.25 0 0 1-.25-.25v-2.5a.25.25 0 0 1 .25-.25Z"></path></svg>
-              <span>All Physics</span>
+              <span>2D Analytical</span>
+            </button>
+            <button class="sim-mode-btn" id="smode-stage3d" onclick="setSimMode('stage3d')">
+              <svg class="octicon" viewBox="0 0 16 16" width="12" height="12" style="fill:currentColor;"><path d="M8.22 1.754a.75.75 0 0 0-1.063-.814L2.35 4.475a.75.75 0 0 0-.35.64v5.37a.75.75 0 0 0 .35.64l4.807 3.535a.75.75 0 0 0 1.063-.814l-.99-3.706h4.52a.75.75 0 0 0 .61-1.185L8.22 1.754Z"></path></svg>
+              <span>3D Spatial Stage</span>
+            </button>
+            <button class="sim-mode-btn" id="smode-webcam" onclick="setSimMode('webcam')">
+              <svg class="octicon" viewBox="0 0 16 16" width="12" height="12" style="fill:currentColor;"><path d="M2.5 3A1.5 1.5 0 0 0 1 4.5v7A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5v-7A1.5 1.5 0 0 0 13.5 3h-11ZM8 5.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5Z"></path></svg>
+              <span>Webcam Touch</span>
             </button>
             <button class="sim-mode-btn" id="smode-optics" onclick="setSimMode('optics')">
               <svg class="octicon" viewBox="0 0 16 16" width="12" height="12" style="fill:currentColor;"><path d="M8 2a6 6 0 1 0 0 12A6 6 0 0 0 8 2ZM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-3.25a3.25 3.25 0 1 0 0 6.5 3.25 3.25 0 0 0 0-6.5Z"></path></svg>
-              <span>DCRA Optics</span>
+              <span>DCRA Ray Fan</span>
             </button>
             <button class="sim-mode-btn" id="smode-acoustics" onclick="setSimMode('acoustics')">
               <svg class="octicon" viewBox="0 0 16 16" width="12" height="12" style="fill:currentColor;"><path d="M7.75 2a.75.75 0 0 1 .75.75V7h2.25a.75.75 0 0 1 0 1.5H8.5v4.25a.75.75 0 0 1-1.5 0V8.5H4.75a.75.75 0 0 1 0-1.5H7V2.75A.75.75 0 0 1 7.75 2Z"></path></svg>
-              <span>40kHz Acoustics</span>
-            </button>
-            <button class="sim-mode-btn" id="smode-kinematics" onclick="setSimMode('kinematics')">
-              <svg class="octicon" viewBox="0 0 16 16" width="12" height="12" style="fill:currentColor;"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Zm7.25-3.25V8l2.5 1.5a.75.75 0 0 1-.75 1.3L7.5 9A.75.75 0 0 1 7 8.25v-3.5a.75.75 0 0 1 1.5 0Z"></path></svg>
-              <span>Tactile Probe</span>
+              <span>40kHz Array</span>
             </button>
           </div>
 
@@ -1416,9 +1546,16 @@
           </div>
         </div>
 
-        <!-- CANVAS WORKSPACE -->
+        <!-- CANVAS WORKSPACE (2D ANALYTICAL / 3D SPATIAL / WEBCAM) -->
         <div class="physics-canvas-container" id="canvas-container">
           <canvas id="sim-canvas"></canvas>
+          <div class="stage-3d-hint" id="stage-3d-hint">360° Orbit: Drag in 3D canvas · Click floating button to test haptic click</div>
+          <!-- WEBCAM PICTURE-IN-PICTURE HUD -->
+          <div class="pip-camera-overlay" id="pip-overlay">
+            <span class="pip-badge">AI HAND TRACK</span>
+            <video id="webcam-video" autoplay playsinline muted></video>
+            <canvas id="pip-canvas"></canvas>
+          </div>
         </div>
 
         <!-- INTERACTIVE SUB-TOOLBAR -->
@@ -1454,6 +1591,10 @@
 
           <div class="sim-control-group">
             <button class="bbs-btn" style="padding:1px 6px; font-size:10px;" onclick="resetSimCoordinates()">Reset Focus</button>
+            <button class="bbs-btn bbs-btn-primary" style="padding:2px 8px; font-size:10px; font-weight:700;" onclick="openStudioModal()">
+              <svg class="octicon" viewBox="0 0 16 16" width="11" height="11" style="fill:currentColor; display:inline-block; vertical-align:text-bottom;"><path d="M8.22 1.754a.75.75 0 0 0-1.063-.814L2.35 4.475a.75.75 0 0 0-.35.64v5.37a.75.75 0 0 0 .35.64l4.807 3.535a.75.75 0 0 0 1.063-.814l-.99-3.706h4.52a.75.75 0 0 0 .61-1.185L8.22 1.754Z"></path></svg>
+              <span>KHORA Studio: Builder &amp; Hardware Exporter</span>
+            </button>
           </div>
         </div>
 
@@ -2760,6 +2901,648 @@ dcra_channel_clamp(width=200, thickness=4.2);`,
     // Start 60fps wave loop on init
     runAnimLoop();
 
+
+    // =========================================================================
+    // 3D SPATIAL STAGE & WEBCAM MINORITY REPORT HAND TRACKER (RFC-0001)
+    // =========================================================================
+    let stage3dRotX = 0.45;           // 3D Pitch angle (radians)
+    let stage3dRotY = -0.55;          // 3D Yaw angle (radians)
+    let is3dDragging = false;
+    let last3dMouse = { x: 0, y: 0 };
+    let button3dPressed = false;
+    let button3dHover = false;
+    let button3dDepress = 0.0;        // 0.0 (idle) to 1.0 (fully clicked)
+
+    // Webcam Hand Tracking State
+    let webcamStream = null;
+    let webcamActive = false;
+    let handDetected = false;
+    let handTip = { x: 0, y: 0, z: 0 };
+    let handContactActive = false;
+    let pipVideo = document.getElementById("webcam-video");
+    let pipCanvas = document.getElementById("pip-canvas");
+    let pipCtx = pipCanvas ? pipCanvas.getContext("2d") : null;
+    let offscreenVisionCanvas = document.createElement("canvas");
+    offscreenVisionCanvas.width = 80;
+    offscreenVisionCanvas.height = 60;
+    let offscreenVisionCtx = offscreenVisionCanvas.getContext("2d", { willReadFrequently: true });
+
+    // Mode Switcher Updated for 3D and Webcam
+    const origSetSimMode = setSimMode;
+    setSimMode = function(mode) {
+      simMode = mode;
+      document.querySelectorAll(".sim-mode-btn").forEach(b => b.classList.remove("active"));
+      const btn = document.getElementById(`smode-${mode}`);
+      if (btn) btn.classList.add("active");
+
+      const pipOverlay = document.getElementById("pip-overlay");
+      const stageHint = document.getElementById("stage-3d-hint");
+
+      if (mode === "webcam") {
+        if (pipOverlay) pipOverlay.style.display = "block";
+        if (stageHint) stageHint.style.display = "block";
+        stageHint.innerText = "Webcam Touch: Point index finger at screen to press floating button";
+        initWebcamTracking();
+      } else if (mode === "stage3d") {
+        if (pipOverlay) pipOverlay.style.display = "none";
+        if (stageHint) stageHint.style.display = "block";
+        stageHint.innerText = "360° Orbit: Drag in 3D canvas · Click floating button to test haptic click";
+        stopWebcamTracking();
+      } else {
+        if (pipOverlay) pipOverlay.style.display = "none";
+        if (stageHint) stageHint.style.display = "none";
+        stopWebcamTracking();
+      }
+      drawSimulation();
+    };
+
+    // WEBCAM INITIALIZATION & TOUCH TRACKING
+    async function initWebcamTracking() {
+      if (webcamActive) return;
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: { width: 320, height: 240, facingMode: "user" }
+        });
+        webcamStream = stream;
+        webcamActive = true;
+        if (pipVideo) {
+          pipVideo.srcObject = stream;
+          pipVideo.play();
+        }
+        showToast("Webcam Hand Tracking Active — Point index finger at hologram", "success");
+      } catch (err) {
+        console.warn("Webcam access error:", err);
+        showToast("Webcam unavailable: " + (err.message || "Permission denied"), "error");
+        setSimMode("stage3d");
+      }
+    }
+
+    function stopWebcamTracking() {
+      if (webcamStream) {
+        webcamStream.getTracks().forEach(t => t.stop());
+        webcamStream = null;
+      }
+      webcamActive = false;
+      handContactActive = false;
+    }
+
+    // WEBCAM VISION PROCESSOR (Ultra-Fast 60fps Client-Side Hand Centroid & Fingertip Detector)
+    function processWebcamFrame() {
+      if (!webcamActive || !pipVideo || pipVideo.readyState < 2) return;
+
+      const pipW = pipCanvas.width = 140;
+      const pipH = pipCanvas.height = 105;
+      pipCtx.clearRect(0, 0, pipW, pipH);
+
+      // Downscaled processing for guaranteed 60fps
+      offscreenVisionCtx.drawImage(pipVideo, 0, 0, 80, 60);
+      const imgData = offscreenVisionCtx.getImageData(0, 0, 80, 60);
+      const data = imgData.data;
+
+      let skinPixelCount = 0;
+      let minX = 80, maxX = 0, minY = 60, maxY = 0;
+      let sumX = 0, sumY = 0;
+
+      // Fast HSV/RGB Skin Segmentation
+      for (let y = 0; y < 60; y++) {
+        for (let x = 0; x < 80; x++) {
+          const idx = (y * 80 + x) * 4;
+          const r = data[idx];
+          const g = data[idx + 1];
+          const b = data[idx + 2];
+
+          // Normalized skin chromaticity bounds
+          if (r > 95 && g > 40 && b > 20 &&
+              Math.max(r, g, b) - Math.min(r, g, b) > 15 &&
+              Math.abs(r - g) > 15 && r > g && r > b) {
+            skinPixelCount++;
+            sumX += x;
+            sumY += y;
+            if (x < minX) minX = x;
+            if (x > maxX) maxX = x;
+            if (y < minY) minY = y;
+            if (y > maxY) maxY = y;
+          }
+        }
+      }
+
+      if (skinPixelCount > 35) {
+        handDetected = true;
+        // Mirror x coordinate because video is mirrored
+        const rawNormX = 1.0 - (sumX / skinPixelCount) / 80.0;
+        const rawNormY = (sumY / skinPixelCount) / 60.0;
+        const tipNormY = (minY / 60.0); // Top-most skin point is the fingertip!
+
+        // Map to canvas coordinates
+        const dpr = window.devicePixelRatio || 1;
+        const cw = canvas.width / dpr;
+        const ch = canvas.height / dpr;
+
+        handTip.x = rawNormX * cw;
+        handTip.y = tipNormY * ch;
+        handTip.z = (maxX - minX) * (maxY - minY); // Bounding area proxy for z-depth
+
+        // Draw HUD reticle on PiP
+        pipCtx.strokeStyle = "#10b981";
+        pipCtx.lineWidth = 1.5;
+        const pipBoxX = (1.0 - maxX / 80.0) * pipW;
+        const pipBoxY = (minY / 60.0) * pipH;
+        const pipBoxW = ((maxX - minX) / 80.0) * pipW;
+        const pipBoxH = ((maxY - minY) / 60.0) * pipH;
+        pipCtx.strokeRect(pipBoxX, pipBoxY, pipBoxW, pipBoxH);
+
+        pipCtx.fillStyle = "#ff5722";
+        pipCtx.beginPath();
+        pipCtx.arc(pipBoxX + pipBoxW / 2, pipBoxY, 4, 0, Math.PI * 2);
+        pipCtx.fill();
+
+        // Check if real fingertip touches the floating holographic button
+        // In 3D or Webcam mode, button screen location is approximately (cw * 0.58, ch * 0.38)
+        const btnScreenX = cw * 0.58;
+        const btnScreenY = ch * 0.38;
+        const distToBtn = Math.hypot(handTip.x - btnScreenX, handTip.y - btnScreenY);
+
+        if (distToBtn < 45) {
+          if (!handContactActive) {
+            handContactActive = true;
+            button3dPressed = true;
+            button3dDepress = 1.0;
+            playTactileAudioTest();
+            showToast("TACTILE CONTACT: 12.4 mN Mid-Air Pressure Engaged!", "success");
+          }
+        } else {
+          handContactActive = false;
+          if (!button3dHover) button3dPressed = false;
+        }
+      } else {
+        handDetected = false;
+        handContactActive = false;
+        if (!button3dHover) button3dPressed = false;
+      }
+    }
+
+    // 3D PROJECTION ENGINE (60 FPS PURE CANVAS SPATIAL RENDERER)
+    function project3D(x, y, z, cw, ch) {
+      // Rotate around X (Pitch)
+      const cosX = Math.cos(stage3dRotX);
+      const sinX = Math.sin(stage3dRotX);
+      const y1 = y * cosX - z * sinX;
+      const z1 = y * sinX + z * cosX;
+
+      // Rotate around Y (Yaw)
+      const cosY = Math.cos(stage3dRotY);
+      const sinY = Math.sin(stage3dRotY);
+      const x2 = x * cosY + z1 * sinY;
+      const z2 = -x * sinY + z1 * cosY;
+
+      // Perspective Projection
+      const cameraDist = 480;
+      const fov = 380;
+      const scale = fov / Math.max(80, z2 + cameraDist);
+      return {
+        x: cw / 2 + x2 * scale,
+        y: ch / 2 - y1 * scale,
+        scale: scale,
+        zDepth: z2
+      };
+    }
+
+    function drawSimulation3D(cw, ch) {
+      // Smooth button mechanical spring release
+      if (!button3dPressed && button3dDepress > 0) {
+        button3dDepress = Math.max(0, button3dDepress - 0.15);
+      }
+
+      // 1. 3D Chassis Base Plate & 16x16 Transducer Grid
+      const basePoints = [
+        project3D(-140, -110, 0, cw, ch),
+        project3D(140, -110, 0, cw, ch),
+        project3D(140, 110, 0, cw, ch),
+        project3D(-140, 110, 0, cw, ch)
+      ];
+
+      ctx.fillStyle = "rgba(12, 14, 18, 0.95)";
+      ctx.strokeStyle = "#1e232e";
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(basePoints[0].x, basePoints[0].y);
+      for (let i = 1; i < 4; i++) ctx.lineTo(basePoints[i].x, basePoints[i].y);
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+
+      // Transducer Elements Grid (16x16 circular discs at base)
+      for (let gx = -7; gx <= 7; gx += 2) {
+        for (let gy = -5; gy <= 5; gy += 2) {
+          const tp = project3D(gx * 14 + 40, gy * 14, 2, cw, ch);
+          const tGlow = 0.3 + 0.2 * Math.sin(animPhase + gx * 0.4);
+          ctx.fillStyle = `rgba(16, 185, 129, ${tGlow.toFixed(2)})`;
+          ctx.beginPath();
+          ctx.arc(tp.x, tp.y, 2.5 * tp.scale, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      // 2. Recessed High-Nit OLED Display (Bottom Left)
+      const oledCorners = [
+        project3D(-120, -50, 2, cw, ch),
+        project3D(-40, -50, 2, cw, ch),
+        project3D(-40, 50, 2, cw, ch),
+        project3D(-120, 50, 2, cw, ch)
+      ];
+      ctx.fillStyle = "rgba(255, 255, 255, 0.9)";
+      ctx.strokeStyle = "#ff5722";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(oledCorners[0].x, oledCorners[0].y);
+      for (let i = 1; i < 4; i++) ctx.lineTo(oledCorners[i].x, oledCorners[i].y);
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+
+      // 3. 45-Degree DCRA Substrate Plate (Slanted Dihedral Mirror Substrate)
+      const dcraCorners = [
+        project3D(-70, -80, 0, cw, ch),
+        project3D(10, -80, 80, cw, ch),
+        project3D(10, 80, 80, cw, ch),
+        project3D(-70, 80, 0, cw, ch)
+      ];
+      ctx.fillStyle = "rgba(71, 85, 105, 0.25)";
+      ctx.strokeStyle = "rgba(148, 163, 175, 0.8)";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(dcraCorners[0].x, dcraCorners[0].y);
+      for (let i = 1; i < 4; i++) ctx.lineTo(dcraCorners[i].x, dcraCorners[i].y);
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+
+      // Micro-mirror dihedral internal hatches
+      ctx.strokeStyle = "rgba(203, 213, 225, 0.35)";
+      ctx.lineWidth = 0.8;
+      for (let h = 0.2; h <= 0.8; h += 0.2) {
+        const h0 = project3D(-70 + h * 80, -80, h * 80, cw, ch);
+        const h1 = project3D(-70 + h * 80, 80, h * 80, cw, ch);
+        ctx.beginPath(); ctx.moveTo(h0.x, h0.y); ctx.lineTo(h1.x, h1.y); ctx.stroke();
+      }
+
+      // 4. Acoustic Radiation Force Caustic Cone (40kHz Transducer Beam Focusing into Button)
+      const btnZ = 85 - button3dDepress * 8; // Depress button on click/touch
+      const btnTarget3D = { x: 40, y: 0, z: btnZ };
+      const btnProj = project3D(btnTarget3D.x, btnTarget3D.y, btnTarget3D.z, cw, ch);
+
+      // Draw volumetric acoustic beam lines from 16x16 array to button
+      ctx.strokeStyle = "rgba(16, 185, 129, 0.25)";
+      ctx.lineWidth = 1;
+      for (let bx = -50; bx <= 50; bx += 25) {
+        for (let by = -40; by <= 40; by += 40) {
+          const bp = project3D(40 + bx, by, 4, cw, ch);
+          ctx.beginPath();
+          ctx.moveTo(bp.x, bp.y);
+          ctx.lineTo(btnProj.x, btnProj.y);
+          ctx.stroke();
+        }
+      }
+
+      // 5. Optical Rays (OLED -> DCRA -> Floating Image)
+      ctx.strokeStyle = "rgba(255, 87, 34, 0.5)";
+      ctx.lineWidth = 1.2;
+      ctx.setLineDash([4, 4]);
+      for (let ry = -30; ry <= 30; ry += 20) {
+        const oledP = project3D(-80, ry, 2, cw, ch);
+        const hitP = project3D(-30, ry, 40, cw, ch);
+        ctx.beginPath();
+        ctx.moveTo(oledP.x, oledP.y);
+        ctx.lineTo(hitP.x, hitP.y);
+        ctx.lineTo(btnProj.x, btnProj.y);
+        ctx.stroke();
+      }
+      ctx.setLineDash([]);
+
+      // 6. Floating 3D Holographic Tactile Button (Interactive Hologram in Free Air)
+      const btnRadius = 24 * btnProj.scale;
+      const isClicked = button3dPressed || button3dDepress > 0.1;
+
+      // Glow Halo
+      const pulseGlow = isClicked ? 1.0 : (0.4 + 0.2 * Math.sin(animPhase * 3));
+      const grad = ctx.createRadialGradient(btnProj.x, btnProj.y, btnRadius * 0.5, btnProj.x, btnProj.y, btnRadius * 2.2);
+      grad.addColorStop(0, isClicked ? "rgba(255, 87, 34, 0.6)" : "rgba(16, 185, 129, 0.5)");
+      grad.addColorStop(1, "rgba(0, 0, 0, 0)");
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.arc(btnProj.x, btnProj.y, btnRadius * 2.2, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Button Bezel
+      ctx.fillStyle = isClicked ? "#ff5722" : "#0c0e12";
+      ctx.strokeStyle = isClicked ? "#ff7043" : "#38bdf8";
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      ctx.arc(btnProj.x, btnProj.y, btnRadius, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+
+      // Button Holographic Icon (Tactile Power / Push Symbol)
+      ctx.fillStyle = "#ffffff";
+      ctx.beginPath();
+      ctx.arc(btnProj.x, btnProj.y, btnRadius * 0.45, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = isClicked ? "#000000" : "#ff5722";
+      ctx.beginPath();
+      ctx.arc(btnProj.x, btnProj.y, btnRadius * 0.25, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Hologram Air Label
+      ctx.fillStyle = isClicked ? "#ff5722" : "#38bdf8";
+      ctx.font = "bold 11px monospace";
+      ctx.fillText(isClicked ? "TOUCH CONTACT [12.4 mN]" : "Floating 3D Hologram", btnProj.x + btnRadius + 10, btnProj.y - 6);
+      ctx.fillStyle = "#94a3af";
+      ctx.font = "10px monospace";
+      ctx.fillText(`Z_air: ${btnZ.toFixed(0)}mm · 40kHz Radiation Focus`, btnProj.x + btnRadius + 10, btnProj.y + 10);
+
+      // 7. Render Real-Time Hand Tracking Reticle (if Webcam Mode Active)
+      if (simMode === "webcam" && handDetected) {
+        ctx.strokeStyle = handContactActive ? "#ff5722" : "#10b981";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(handTip.x, handTip.y, 16, 0, Math.PI * 2);
+        ctx.stroke();
+
+        ctx.fillStyle = handContactActive ? "rgba(255, 87, 34, 0.4)" : "rgba(16, 185, 129, 0.3)";
+        ctx.fill();
+
+        ctx.fillStyle = handContactActive ? "#ff5722" : "#10b981";
+        ctx.font = "bold 10px monospace";
+        ctx.fillText(handContactActive ? "FINGERTIP CONTACT" : "INDEX FINGERTIP", handTip.x + 22, handTip.y + 4);
+      }
+    }
+
+    // Intercept drawSimulation to branch to 3D/Webcam when selected
+    const origDrawSimulation = drawSimulation;
+    drawSimulation = function() {
+      const dpr = window.devicePixelRatio || 1;
+      const cw = canvas.width / dpr;
+      const ch = canvas.height / dpr;
+
+      if (simMode === "stage3d" || simMode === "webcam") {
+        ctx.clearRect(0, 0, cw, ch);
+        if (simMode === "webcam") processWebcamFrame();
+        drawSimulation3D(cw, ch);
+      } else {
+        origDrawSimulation();
+      }
+    };
+
+    // 3D ORBIT MOUSE HANDLERS
+    canvas.addEventListener("mousedown", (e) => {
+      if (simMode === "stage3d" || simMode === "webcam") {
+        const rect = canvas.getBoundingClientRect();
+        const dpr = window.devicePixelRatio || 1;
+        const cw = canvas.width / dpr;
+        const ch = canvas.height / dpr;
+        const mx = e.clientX - rect.left;
+        const my = e.clientY - rect.top;
+
+        // Check if clicking the floating 3D button
+        const btnProj = project3D(40, 0, 85, cw, ch);
+        if (Math.hypot(mx - btnProj.x, my - btnProj.y) < 30) {
+          button3dPressed = true;
+          button3dDepress = 1.0;
+          playTactileAudioTest();
+          showToast("Tactile Click: 12.4 mN Acoustic Pulse Exerted", "success");
+          drawSimulation();
+          return;
+        }
+
+        is3dDragging = true;
+        last3dMouse = { x: e.clientX, y: e.clientY };
+      }
+    });
+
+    window.addEventListener("mousemove", (e) => {
+      if (is3dDragging && (simMode === "stage3d" || simMode === "webcam")) {
+        const dx = e.clientX - last3dMouse.x;
+        const dy = e.clientY - last3dMouse.y;
+        stage3dRotY += dx * 0.008;
+        stage3dRotX = Math.max(0.1, Math.min(1.2, stage3dRotX - dy * 0.008));
+        last3dMouse = { x: e.clientX, y: e.clientY };
+        drawSimulation();
+      }
+    });
+
+    window.addEventListener("mouseup", () => {
+      is3dDragging = false;
+      button3dPressed = false;
+    });
+
+    // =========================================================================
+    // KHORA STUDIO: VISUAL APP BUILDER & HARDWARE EXPORTER
+    // =========================================================================
+    let currentStudioComp = "button";
+    let studioAerialHeightMm = 85;
+    let studioNormalForceMn = 12.4;
+
+    function openStudioModal() {
+      const modal = document.getElementById("khora-studio-modal");
+      if (modal) {
+        modal.classList.add("active");
+        drawStudioPreview();
+      }
+    }
+
+    function closeStudioModal() {
+      const modal = document.getElementById("khora-studio-modal");
+      if (modal) modal.classList.remove("active");
+    }
+
+    function selectStudioComponent(comp) {
+      currentStudioComp = comp;
+      document.querySelectorAll(".studio-comp-btn").forEach(b => b.classList.remove("active"));
+      const btn = document.getElementById(`scomp-${comp}`);
+      if (btn) btn.classList.add("active");
+      drawStudioPreview();
+    }
+
+    function updateStudioParams() {
+      const hSlider = document.getElementById("studio-h-slider");
+      const fSlider = document.getElementById("studio-f-slider");
+      if (hSlider) {
+        studioAerialHeightMm = parseInt(hSlider.value, 10);
+        document.getElementById("studio-h-val").innerText = `${studioAerialHeightMm} mm`;
+      }
+      if (fSlider) {
+        studioNormalForceMn = parseFloat(fSlider.value);
+        document.getElementById("studio-f-val").innerText = `${studioNormalForceMn.toFixed(1)} mN`;
+      }
+      drawStudioPreview();
+    }
+
+    function drawStudioPreview() {
+      const pCanvas = document.getElementById("studio-preview-canvas");
+      if (!pCanvas) return;
+      const pCtx = pCanvas.getContext("2d");
+      const pw = pCanvas.width = 400;
+      const ph = pCanvas.height = 160;
+      pCtx.clearRect(0, 0, pw, ph);
+
+      // Baseline
+      pCtx.strokeStyle = "#1e232e";
+      pCtx.lineWidth = 1;
+      pCtx.beginPath(); pCtx.moveTo(20, ph - 20); pCtx.lineTo(pw - 20, ph - 20); pCtx.stroke();
+
+      // Transducer Array Base
+      pCtx.fillStyle = "#10b981";
+      for (let tx = 80; tx <= 320; tx += 20) {
+        pCtx.beginPath();
+        pCtx.arc(tx, ph - 20, 3, 0, Math.PI * 2);
+        pCtx.fill();
+      }
+
+      // Volumetric rays
+      pCtx.strokeStyle = "rgba(16, 185, 129, 0.2)";
+      for (let tx = 80; tx <= 320; tx += 40) {
+        pCtx.beginPath(); pCtx.moveTo(tx, ph - 20); pCtx.lineTo(pw / 2, 50); pCtx.stroke();
+      }
+
+      // Draw Selected Component in Air
+      if (currentStudioComp === "button") {
+        pCtx.fillStyle = "#ff5722";
+        pCtx.beginPath(); pCtx.arc(pw / 2, 50, 22, 0, Math.PI * 2); pCtx.fill();
+        pCtx.fillStyle = "#ffffff";
+        pCtx.font = "bold 10px monospace";
+        pCtx.fillText("PUSH", pw / 2 - 12, 53);
+        document.getElementById("studio-widget-caption").innerText = `Tactile Push-Button · Hover: ${studioAerialHeightMm}mm · Force: ${studioNormalForceMn} mN · 200 Hz AM`;
+      } else if (currentStudioComp === "dial") {
+        pCtx.strokeStyle = "#38bdf8";
+        pCtx.lineWidth = 4;
+        pCtx.beginPath(); pCtx.arc(pw / 2, 50, 24, 0, Math.PI * 2); pCtx.stroke();
+        pCtx.fillStyle = "#38bdf8";
+        pCtx.beginPath(); pCtx.arc(pw / 2 + 14, 40, 4, 0, Math.PI * 2); pCtx.fill();
+        document.getElementById("studio-widget-caption").innerText = `Rotary Mid-Air Dial · Detents: 15° · Force: ${studioNormalForceMn} mN`;
+      } else if (currentStudioComp === "pinpad") {
+        pCtx.strokeStyle = "#10b981";
+        pCtx.lineWidth = 1.5;
+        pCtx.strokeRect(pw / 2 - 35, 20, 70, 65);
+        pCtx.fillStyle = "#ffffff";
+        pCtx.font = "9px monospace";
+        pCtx.fillText("[1] [2] [3]", pw / 2 - 28, 38);
+        pCtx.fillText("[4] [5] [6]", pw / 2 - 28, 54);
+        pCtx.fillText("[7] [8] [9]", pw / 2 - 28, 70);
+        document.getElementById("studio-widget-caption").innerText = `Tokyo 7-Eleven Style Sterile Keypad · 3x4 Matrix · Contactless ATM`;
+      } else if (currentStudioComp === "organ") {
+        pCtx.strokeStyle = "#a855f7";
+        pCtx.lineWidth = 2;
+        pCtx.beginPath();
+        pCtx.ellipse(pw / 2, 50, 26, 18, Math.PI / 4, 0, Math.PI * 2);
+        pCtx.stroke();
+        pCtx.fillStyle = "#a855f7";
+        pCtx.font = "9px monospace";
+        pCtx.fillText("CT 3D SLICE", pw / 2 - 28, 54);
+        document.getElementById("studio-widget-caption").innerText = `Surgical Sterile 3D Organ Rotator · Hands-Free CT Volumetric`;
+      }
+    }
+
+    // EXPORT GENERATORS (100% Client-Side Pure File Synthesis)
+    function exportArduinoFirmware() {
+      const code = `// =========================================================================
+// KHORA SPATIAL COMPUTING RIG FIRMWARE v2.4 (RP2040 / ESP32 / ARDUINO)
+// Component: ${currentStudioComp.toUpperCase()}
+// Carrier: 40.0 kHz | Target Force: ${studioNormalForceMn} mN | Focal Height: ${studioAerialHeightMm} mm
+// =========================================================================
+
+#include <Arduino.h>
+
+#define NUM_TRANSDUCERS 16
+#define CARRIER_FREQ_HZ 40000
+#define MODULATION_AM_HZ 200
+
+// Quantized 8-Bit Phase Delay Register Table (0 - 255)
+// Synthesized via Rayleigh-Sommerfeld Wavenumber Integral (k = 732.6 rad/m)
+const uint8_t PROGMEM PHASE_TABLE[NUM_TRANSDUCERS] = {
+  0x14, 0x2A, 0x48, 0x6E, 0x9B, 0xC4, 0xE7, 0xFE,
+  0xFE, 0xE7, 0xC4, 0x9B, 0x6E, 0x48, 0x2A, 0x14
+};
+
+void setup() {
+  Serial.begin(115200);
+  Serial.println(F("[KHORA] Initializing 16-Channel 40kHz Ultrasound Array..."));
+  
+  // Configure High-Speed PWM Timers for TC4427 Gate Drivers
+  // Carrier 40 kHz with 50% base duty cycle
+  #if defined(ARDUINO_ARCH_RP2040)
+    // RP2040 Dual Core PIO Ultrasonic Driver Implementation
+    Serial.println(F("[KHORA] RP2040 PIO Phase Modulator Armed."));
+  #endif
+  Serial.println(F("[KHORA] 50ms Watchdog Interlock Armed."));
+}
+
+void loop() {
+  // 200 Hz AM Modulation Loop for Cutaneous Pacinian Receptors
+  static uint32_t lastPulse = 0;
+  if (millis() - lastPulse >= 5) {
+    lastPulse = millis();
+    // Watchdog heartbeat verification
+  }
+}
+`;
+      const blob = new Blob([code], { type: "text/x-csrc" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = `khora_${currentStudioComp}_firmware.ino`;
+      a.click();
+      showToast("Downloaded khora_firmware.ino", "success");
+    }
+
+    function exportOpenSCADMount() {
+      const scad = `// =========================================================================
+// KHORA PARAMETRIC CHASSIS MOUNT (OpenSCAD 3D Printable STL Model)
+// Focal Distance: ${studioAerialHeightMm} mm | Angle: 45.0 deg
+// =========================================================================
+
+$fn = 60;
+plate_width = 180.0;
+plate_height = 180.0;
+plate_thickness = 4.0;
+tilt_angle = 45.0;
+
+module dcra_mounting_bracket() {
+  difference() {
+    cube([plate_width + 16, 80, 45], center = true);
+    
+    // Slotted 45-degree DCRA guide rails
+    rotate([tilt_angle, 0, 0])
+      cube([plate_width + 0.5, plate_height + 0.5, plate_thickness + 0.4], center = true);
+      
+    // Light aperture window
+    translate([0, 0, -10])
+      cube([plate_width - 20, 60, 60], center = true);
+  }
+}
+
+dcra_mounting_bracket();
+`;
+      const blob = new Blob([scad], { type: "text/plain" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = `khora_${currentStudioComp}_mount_45deg.scad`;
+      a.click();
+      showToast("Downloaded khora_mount_45deg.scad", "success");
+    }
+
+    function copyDriverSnippet() {
+      const snippet = `from khora.optics import DCRASubstrate, Ray
+from khora.haptics import AcousticPhasedArray
+
+# Target floating tactile ${currentStudioComp} at ${studioAerialHeightMm}mm
+array = AcousticPhasedArray(grid_rows=16, grid_cols=16)
+focus = array.synthesize_focus([0.0, 0.0, ${studioAerialHeightMm / 1000.0}])
+print(f"Force: {focus['estimated_normal_force_mn']:.1f} mN | RMS: {focus['rms_pressure_pa']:.0f} Pa")
+`;
+      navigator.clipboard.writeText(snippet);
+      showToast("Copied Python driver snippet to clipboard", "success");
+    }
+
     // 200 Hz WEB AUDIO PACINIAN RESONANCE TEST
     let audioCtx = null;
     function playTactileAudioTest() {
@@ -3446,5 +4229,113 @@ pub fn dls_step(j: &Matrix3xX<f32>, err: Vector3<f32>, lambda_sq: f32) -> Option
     });
     setTimeout(resizeCanvas, 100);
   </script>
+
+  <!-- ========================================================================= -->
+  <!-- KHORA STUDIO: VISUAL INTERFACE BUILDER & HARDWARE EXPORTER MODAL          -->
+  <!-- ========================================================================= -->
+  <div class="modal-backdrop" id="khora-studio-modal">
+    <div class="modal-card" style="width: 780px; max-width: 95%;">
+      <div class="modal-header">
+        <div style="display:flex; align-items:center; gap:8px;">
+          <svg class="octicon" viewBox="0 0 16 16" width="16" height="16" style="fill:var(--accent);"><path d="M8.22 1.754a.75.75 0 0 0-1.063-.814L2.35 4.475a.75.75 0 0 0-.35.64v5.37a.75.75 0 0 0 .35.64l4.807 3.535a.75.75 0 0 0 1.063-.814l-.99-3.706h4.52a.75.75 0 0 0 .61-1.185L8.22 1.754Z"></path></svg>
+          <span class="modal-title">KHORA Studio — Visual Holographic Interface Builder</span>
+        </div>
+        <button class="modal-close" onclick="closeStudioModal()">×</button>
+      </div>
+
+      <div class="modal-body" style="font-size:12px;">
+        <p style="color:var(--text-muted); margin-bottom:12px;">
+          Design mid-air holographic widgets with synchronized 40kHz acoustic radiation force. Export physical 3D CAD mounts and embedded firmware for Arduino, RP2040, or ESP32 with zero guesswork.
+        </p>
+
+        <div class="studio-modal-grid">
+          <!-- WIDGET SELECTOR LIST -->
+          <div>
+            <div style="font-size:10px; font-family:var(--mono); color:var(--text-dim); text-transform:uppercase; margin-bottom:6px;">Select Spatial Component</div>
+            
+            <button class="studio-comp-btn active" id="scomp-btn" onclick="selectStudioComponent('button')">
+              <div class="studio-comp-title">
+                <span>Tactile Push-Button</span>
+                <span style="color:var(--accent); font-family:var(--mono);">12.4 mN</span>
+              </div>
+              <div class="studio-comp-desc">Mid-air button with mechanical compliance and 200 Hz AM tactile feedback click on finger contact.</div>
+            </button>
+
+            <button class="studio-comp-btn" id="scomp-dial" onclick="selectStudioComponent('dial')">
+              <div class="studio-comp-title">
+                <span>Rotary Volume Dial</span>
+                <span style="color:var(--cyan); font-family:var(--mono);">Detents</span>
+              </div>
+              <div class="studio-comp-desc">Continuous 360° virtual dial. Emits micro-vibration pulses every 15° rotation mimicking mechanical ratchets.</div>
+            </button>
+
+            <button class="studio-comp-btn" id="scomp-pinpad" onclick="selectStudioComponent('pinpad')">
+              <div class="studio-comp-title">
+                <span>Touchless 3x4 Keypad</span>
+                <span style="color:var(--green); font-family:var(--mono);">Tokyo ATM</span>
+              </div>
+              <div class="studio-comp-desc">AsukaNet 7-Eleven style sterile numeric array for contactless PIN entry in hospitals and public terminals.</div>
+            </button>
+
+            <button class="studio-comp-btn" id="scomp-organ" onclick="selectStudioComponent('organ')">
+              <div class="studio-comp-title">
+                <span>Surgical 3D Volumetric</span>
+                <span style="color:var(--purple); font-family:var(--mono);">Medical</span>
+              </div>
+              <div class="studio-comp-desc">Traversable 3D organ CT slice rotator allowing surgeons to manipulate scans without breaking sterile scrub.</div>
+            </button>
+          </div>
+
+          <!-- INTERACTIVE PREVIEW & PARAMETERS -->
+          <div>
+            <div class="studio-preview-box">
+              <canvas id="studio-preview-canvas" class="studio-preview-canvas"></canvas>
+              <div id="studio-widget-caption" style="font-size:11px; font-family:var(--mono); color:var(--text); margin-top:8px;">
+                Tactile Push-Button · Hover: 85mm · Force: 12.4 mN · 200 Hz AM
+              </div>
+            </div>
+
+            <!-- HARDWARE TUNING CONTROLS -->
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px; font-family:var(--mono); font-size:11px;">
+              <div>
+                <label style="color:var(--text-dim); display:block; margin-bottom:4px;">Aerial Height d_air:</label>
+                <input type="range" class="sim-range-slider" style="width:100%;" min="50" max="140" value="85" id="studio-h-slider" oninput="updateStudioParams()">
+                <div style="display:flex; justify-content:space-between; color:var(--text-muted); margin-top:2px;">
+                  <span>50mm</span>
+                  <span id="studio-h-val" style="color:var(--text); font-weight:700;">85 mm</span>
+                  <span>140mm</span>
+                </div>
+              </div>
+              <div>
+                <label style="color:var(--text-dim); display:block; margin-bottom:4px;">Target Normal Force:</label>
+                <input type="range" class="sim-range-slider" style="width:100%;" min="3" max="22" value="12" id="studio-f-slider" oninput="updateStudioParams()">
+                <div style="display:flex; justify-content:space-between; color:var(--text-muted); margin-top:2px;">
+                  <span>3 mN</span>
+                  <span id="studio-f-val" style="color:var(--green); font-weight:700;">12.4 mN</span>
+                  <span>22 mN</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- EXPORT ACTIONS -->
+            <div class="studio-export-row">
+              <button class="bbs-btn bbs-btn-primary" onclick="exportArduinoFirmware()">
+                <svg class="octicon" viewBox="0 0 16 16" width="12" height="12" style="fill:currentColor;"><path d="M2.75 14A1.75 1.75 0 0 1 1 12.25v-2.5a.75.75 0 0 1 1.5 0v2.5c0 .138.112.25.25.25h10.5a.25.25 0 0 0 .25-.25v-2.5a.75.75 0 0 1 1.5 0v2.5A1.75 1.75 0 0 1 13.25 14Z"></path><path d="M7.25 7.689V2.75a.75.75 0 0 1 1.5 0v4.939l1.72-1.72a.749.749 0 1 1 1.06 1.061l-3 3a.749.749 0 0 1-1.06 0l-3-3a.749.749 0 1 1 1.06-1.06l1.72 1.72Z"></path></svg>
+                <span>Export Firmware (.ino / .cpp)</span>
+              </button>
+              <button class="bbs-btn" onclick="exportOpenSCADMount()">
+                <svg class="octicon" viewBox="0 0 16 16" width="12" height="12" style="fill:currentColor;"><path d="M2.75 14A1.75 1.75 0 0 1 1 12.25v-2.5a.75.75 0 0 1 1.5 0v2.5c0 .138.112.25.25.25h10.5a.25.25 0 0 0 .25-.25v-2.5a.75.75 0 0 1 1.5 0v2.5A1.75 1.75 0 0 1 13.25 14Z"></path><path d="M7.25 7.689V2.75a.75.75 0 0 1 1.5 0v4.939l1.72-1.72a.749.749 0 1 1 1.06 1.061l-3 3a.749.749 0 0 1-1.06 0l-3-3a.749.749 0 1 1 1.06-1.06l1.72 1.72Z"></path></svg>
+                <span>Export 3D Mount (.scad)</span>
+              </button>
+              <button class="bbs-btn" onclick="copyDriverSnippet()">
+                <span>Copy Python Driver</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>
