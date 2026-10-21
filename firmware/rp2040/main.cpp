@@ -174,7 +174,12 @@ int main() {
         restore_interrupts(flags);
         if (reply.action == khora::Action::phases) publish_phases();
         if (reply.action == khora::Action::arm) {
-            start_dma();
+            if (control.output_mask & 1) start_dma();
+            else {
+                stop_dma();
+                pio_sm_set_enabled(pio, sm, false);
+                pio_sm_set_pins_with_mask(pio, sm, 0, 0xffff);
+            }
             const uint32_t lock = save_and_disable_interrupts();
             if (control.armed && interlock_closed()) { gpio_put(acoustic_gate, control.output_mask & 1); gpio_put(servo_gate, (control.output_mask & 2) != 0); }
             else disable_outputs();
