@@ -1,68 +1,53 @@
-# KHORA v0.2.0-alpha launch kit
+# KHORA v0.3.0-alpha launch material
 
-Demo: https://iriss-dev.github.io/khora/platform/?lang=en
+## Public destinations
 
-Lab: https://iriss-dev.github.io/khora/platform/lab.html
+- Website: https://iriss-dev.github.io/khora/
+- Robotics + MCP demo: https://iriss-dev.github.io/khora/platform/robot.html
+- Pico controller: https://iriss-dev.github.io/khora/platform/hardware.html
+- Forum guide: https://iriss-dev.github.io/khora/platform/community.html
+- Actual forum: https://github.com/iriss-dev/khora/discussions
+- External technical introduction: https://github.com/ultraleap/leapc-python-bindings/discussions/17
+
+The Ultraleap introduction was posted by iriss-dev in its **Show and tell** category. It describes the unvalidated physical tracking boundary and asks about tested binding/runtime combinations. No physical tracking performance is claimed.
+
+## English copy
+
+KHORA v0.3 adds a six-joint robot planning demo, an installable MCP server and a 16-channel RP2040 PIO/DMA target to its optics/acoustics workbench.
+
+Try a target in the browser, inspect the simulated path and export it as JSON. An MCP client can produce a plan for the same reference arm and replay it in the viewer. The Pico panel distinguishes the 16-emitter hardware profile from the existing 256-element acoustic model.
+
+The release includes Feetech STS3215 packets and telemetry, explicit joint calibration, independent host/MCU leases and a commissioning guide. The default UF2 has outputs disabled. CI covers numerical behavior, protocol interoperability, browser flows and Pico cross-compilation; real output and stopping time still need bench measurements.
+
+Demo: https://iriss-dev.github.io/khora/platform/robot.html
 
 Source: https://github.com/iriss-dev/khora
 
-## Positioning
+## Texto en español
 
-KHORA is an open laboratory for aerial imaging and mid-air haptics. This release makes a 256-element acoustic model explorable in the browser and provides reference calculations and a phase-staging transport. It is an alpha simulation and engineering toolkit. Do not describe the illustrative assembly as a working prototype or the uncalibrated field as measured tactile performance.
+KHORA v0.3 incorpora una demo de planificación para un brazo de seis articulaciones, un servidor MCP instalable y firmware PIO/DMA para 16 canales en RP2040.
 
-## English announcement
+Puedes elegir un objetivo en el navegador, revisar la trayectoria simulada y exportarla a JSON. Un cliente MCP también puede generar un plan para ese brazo de referencia y reproducirlo en el visor. El panel Pico distingue la matriz física de 16 emisores del modelo acústico de 256.
 
-KHORA v0.2.0-alpha is an open-source lab for exploring aerial imaging and mid-air haptics.
+La entrega incluye paquetes y telemetría Feetech STS3215, calibración explícita por articulación, supervisión independiente en PC/Pico y guía de puesta en marcha. El UF2 por defecto tiene las salidas deshabilitadas. La compilación y las pruebas de software no sustituyen las mediciones eléctricas del montaje.
 
-Move the focus of a 16 × 16 ultrasonic array in your browser, inspect interference in three planes, compare aperture weighting, and download the phase map. Configurations can be shared by URL. No signup or installation is needed for the demo.
+Demo: https://iriss-dev.github.io/khora/platform/robot.html
 
-The repo includes Python reference calculations, a numerical Rayleigh comparison, an ideal DCRA optical model, and a C/Web Serial phase-staging protocol. The browser field is computed from complex pressure superposition, including piston directivity and 8-bit phase quantization.
+Foro público: https://github.com/iriss-dev/khora/discussions
 
-This is uncalibrated simulation, not a demonstrated hardware system. The next useful step is single-emitter calibration data: amplitude, directivity, phase delay, and measurement uncertainty. Contributions or critiques of the model are welcome.
+## Assets
 
-Try it: https://iriss-dev.github.io/khora/platform/?lang=en
+- `assets/press/khora-robot.gif`: screen recording of the actual browser simulation, not a physical robot.
+- `assets/press/khora-robot.png`: running robot demo.
+- `assets/press/khora-pico.png`: 16-channel protocol simulator.
+- `assets/press/khora-community.png`: forum entry page.
+- `assets/press/khora-social.png`: social preview.
+- `assets/press/khora-launch-kit.zip`: copy, captures, logo and license.
 
-## Anuncio en español
+## Community posting
 
-KHORA v0.2.0-alpha: un laboratorio abierto para explorar imágenes aéreas y háptica en el aire.
+The copy above can be adapted only where the destination's rules permit it. Use a relevant technical question or reproducible result rather than repeating a generic advertisement. Do not request stars, votes or coordinated engagement.
 
-Puedes mover el foco de una matriz ultrasónica de 16 × 16 emisores, observar la interferencia en tres planos, comparar la ponderación de la apertura y descargar el mapa de fases. Las configuraciones se comparten con un enlace. La demo funciona en el navegador sin registro.
+Hacker News explicitly asks for human-written text and no automated posting. Its submission was not published by this assistant. The project owner must write and submit their own post there; the generated copy in this file is not intended for HN.
 
-El repositorio incluye modelos de referencia en Python, una comparación numérica de Rayleigh, un modelo óptico DCRA ideal y un protocolo C/Web Serial para preparar fases con las salidas deshabilitadas.
-
-Es una simulación sin calibrar. El siguiente paso necesita mediciones de un emisor: amplitud, directividad, retardo de fase e incertidumbre. Buscamos experimentos reproducibles y revisiones del modelo.
-
-Demo: https://iriss-dev.github.io/khora/
-
-## Hacker News draft
-
-Title: Show HN: KHORA – Explore a 256-element ultrasonic field in your browser
-
-Link: https://iriss-dev.github.io/khora/platform/?lang=en
-
-Opening comment:
-
-KHORA is an open-source spatial-computing research toolkit. This release focuses on a usable acoustic field inspector: move the focus, switch cross-sections, adjust aperture weighting, and export the phase bytes. The same model has Python reference tests and three GPU/CPU readback checks.
-
-The amplitude is illustrative, so the pressure/force display is not a hardware measurement. The optical assembly is also a visualization. I would especially value feedback on the piston approximation near the array and on a minimal, reproducible calibration experiment. Code and assumptions: https://github.com/iriss-dev/khora
-
-## Embedded and acoustics community draft
-
-Title: An open 40 kHz array simulator seeking single-emitter calibration data
-
-KHORA now has a browser field inspector for a modeled 16 × 16 array and an inspectable Python reference. It includes piston directivity, 8-bit phase quantization, and patch-integrated radiation force. A separate KH v1 serial receiver stages phase bytes with outputs disabled; it is not a board driver.
-
-The most useful missing input is a measured single-emitter response. If you have calibrated amplitude/directivity data, what geometry and uncertainty budget would you use to compare it with a baffled-piston model? A reproducible experiment or critique is more useful than a performance claim.
-
-Demo: https://iriss-dev.github.io/khora/platform/?lang=en
-
-Methods: https://github.com/iriss-dev/khora/blob/master/docs/ENGINEERING_AUDIT.md
-
-## Assets and posting status
-
-- `assets/press/khora-social.png`: 1200 × 630 preview image.
-- `assets/press/khora-rig.png`: illustrative assembly captured from the local renderer.
-- `assets/press/khora-lab.png`: screenshot of the running field inspector.
-- `assets/press/khora-launch-kit.zip`: copy, images, logo, and MIT license.
-
-Community messages above are drafts. No Hacker News, Reddit, Discord, or other external community post is implied by this file. Choose a relevant community, check its current submission rules, and post from the project owner's account with the project relationship stated. Do not cross-post identical messages in bulk or ask for votes.
+Publication is not evidence of audience growth. Stars, forks, replies and useful contributions should be recorded as actual outcomes rather than inferred from the number of posts.
