@@ -57,3 +57,36 @@ impl AcousticPhasedArray {
         )
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn phase_quantization_stays_within_half_a_step() {
+        let focus = Vector3::new(0.013, -0.009, 0.14);
+        let array = AcousticPhasedArray::new(16, 16, 10.0, Vector3::new(0.0, 0.0, 0.0));
+        let step = 2.0 * core::f32::consts::PI / 256.0;
+        for row in 0..16 {
+            for col in 0..16 {
+                let element = array.get_transducer_coord(row, col);
+                let distance = ((focus.x - element.x).powi(2)
+                    + (focus.y - element.y).powi(2)
+                    + (focus.z - element.z).powi(2)).sqrt();
+                let phase = compute_phase_8bit(&focus, &element, DEFAULT_FREQ_HZ) as f32 * step;
+                let residual = phase + acoustic_wavenumber(DEFAULT_FREQ_HZ) * distance;
+                let error = residual.sin().atan2(residual.cos()).abs();
+                assert!(error <= step / 2.0 + 0.00002, "phase error: {error}");
+            }
+        }
+    }
+
+    #[test]
+    fn phases_wrap_at_a_full_wavelength() {
+        let origin = Vector3::new(0.0, 0.0, 0.0);
+        let wavelength = SPEED_OF_SOUND_AIR_20C / DEFAULT_FREQ_HZ;
+        assert_eq!(compute_phase_8bit(&Vector3::new(0.0, 0.0, wavelength), &origin, DEFAULT_FREQ_HZ), 0);
+        assert_eq!(compute_phase_8bit(&Vector3::new(0.0, 0.0, wavelength / 2.0), &origin, DEFAULT_FREQ_HZ), 128);
+        assert_eq!(compute_phase_8bit(&Vector3::new(0.0, 0.0, wavelength / 4.0), &origin, DEFAULT_FREQ_HZ), 192);
+    }
+}

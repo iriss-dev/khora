@@ -273,7 +273,10 @@ ctest --test-dir build/firmware --output-on-failure
 ```
 
 The Windows environment used for this audit lacked an executable C compiler
-and Cargo; firmware host tests and the Rust change were not executed here.
+and Cargo. The [GitHub Actions validation](https://github.com/iriss-dev/khora/actions/runs/39534557397)
+subsequently compiled the portable C library, passed its CTest regression,
+and compiled the Rust core with default `std` features on Ubuntu. That run
+also passed both browser suites in Chromium. It did not test embedded targets.
 No physical array, calibrated tracker or acoustic exposure apparatus was
 available. No hardware actuation, medical suitability, ASVS level or regulatory
 compliance is established by these checks.
