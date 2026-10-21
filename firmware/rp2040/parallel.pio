@@ -1,0 +1,4 @@
+.program khora_parallel
+.wrap_target
+    out pins, 16
+.wrap

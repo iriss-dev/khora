@@ -37,3 +37,17 @@ jobs:
       - run: node tests/landing_smoke.cjs
         env:
           KHORA_BROWSER_CHANNEL: chromium
+  pico:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y gcc-arm-none-eabi libnewlib-arm-none-eabi libstdc++-arm-none-eabi-newlib
+      - run: git clone --depth 1 --branch 2.2.0 --recurse-submodules --shallow-submodules https://github.com/raspberrypi/pico-sdk.git "$RUNNER_TEMP/pico-sdk"
+      - run: cmake -S firmware/rp2040 -B build/pico -DPICO_BOARD=pico
+        env:
+          PICO_SDK_PATH: ${{ runner.temp }}/pico-sdk
+      - run: cmake --build build/pico --parallel 2
+      - uses: actions/upload-artifact@v4
+        with:
+          name: khora-pico-dry-run
+          path: build/pico/khora_pico.uf2
