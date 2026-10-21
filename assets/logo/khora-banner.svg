@@ -120,22 +120,22 @@
   <g transform="translate(390, 280)">
     <!-- Pill 1: MIT License -->
     <rect x="0" y="0" width="125" height="32" rx="16" fill="#0f1626" stroke="#22324d" stroke-width="1"/>
-    <text x="14" y="20" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#3fb950">✓</text>
+    <path d="M14 16.5 L17.5 20 L23 12.5" fill="none" stroke="#3fb950" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
     <text x="30" y="20" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" font-weight="500" fill="#f1f5f9">MIT License</text>
 
     <!-- Pill 2: 1:1 DCRA Optics -->
     <rect x="135" y="0" width="170" height="32" rx="16" fill="#0f1626" stroke="#22324d" stroke-width="1"/>
-    <text x="149" y="20" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#00f0ff">✓</text>
+    <path d="M149 16.5 L152.5 20 L158 12.5" fill="none" stroke="#00f0ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
     <text x="165" y="20" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" font-weight="500" fill="#f1f5f9">1:1 DCRA Convergence</text>
 
     <!-- Pill 3: 40kHz Haptics -->
     <rect x="315" y="0" width="160" height="32" rx="16" fill="#0f1626" stroke="#22324d" stroke-width="1"/>
-    <text x="329" y="20" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#38bdf8">✓</text>
+    <path d="M329 16.5 L332.5 20 L338 12.5" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
     <text x="345" y="20" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" font-weight="500" fill="#f1f5f9">40 kHz Acoustic Touch</text>
 
     <!-- Pill 4: Model Context Protocol -->
     <rect x="485" y="0" width="165" height="32" rx="16" fill="#0f1626" stroke="#22324d" stroke-width="1"/>
-    <text x="499" y="20" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="12" font-weight="600" fill="#a78bfa">✓</text>
+    <path d="M499 16.5 L502.5 20 L508 12.5" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
     <text x="515" y="20" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" font-weight="500" fill="#f1f5f9">Model Context Protocol</text>
   </g>
 

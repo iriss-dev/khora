@@ -254,6 +254,17 @@
       margin-bottom: 8px;
       padding: 0 6px;
     }
+    
+    .channel-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .octicon {
+      vertical-align: text-bottom;
+      fill: currentColor;
+      flex-shrink: 0;
+    }
     .channel-item {
       display: flex;
       align-items: center;
@@ -721,8 +732,8 @@
 
       <ul class="gh-header-nav">
         <li><a href="#" class="active" onclick="setFeedCategory('all')">Explore</a></li>
-        <li><a href="#" onclick="openToolsModal()">⚡ Code Tools &amp; Generators</a></li>
-        <li><a href="#" onclick="openProofModal()">🔬 Physical Proof</a></li>
+        <li><a href="#" onclick="openToolsModal()"><svg class="octicon" viewBox="0 0 16 16" width="14" height="14"><path d="m11.28 3.22 4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.749.749 0 0 1-1.275-.326.749.749 0 0 1 .215-.734L13.94 8l-3.72-3.72a.749.749 0 0 1 .326-1.275.749.749 0 0 1 .734.215Zm-6.56 0a.751.751 0 0 1 1.06 1.06L2.06 8l3.72 3.72a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215L.47 8.53a.75.75 0 0 1 0-1.06l4.25-4.25Z"></path></svg> Code Tools &amp; Generators</a></li>
+        <li><a href="#" onclick="openProofModal()"><svg class="octicon" viewBox="0 0 16 16" width="14" height="14"><path d="M5 1.75a.75.75 0 0 1 .75-.75h4.5a.75.75 0 0 1 0 1.5H9.5v2.336l3.662 6.41A2.25 2.25 0 0 1 11.203 14.5H4.797a2.25 2.25 0 0 1-1.96-3.254L6.5 4.836V2.5H5.75a.75.75 0 0 1-.75-.75Zm3 3.086V2.5H8v2.336l-.08.14L4.148 11.63a.75.75 0 0 0 .649 1.12h6.406a.75.75 0 0 0 .65-1.12L8.08 4.976 8 4.836Z"></path></svg> Physical Proof</a></li>
         <li><a href="#" onclick="setFeedCategory('mega')">Mega-Projects</a></li>
         <li><a href="https://github.com/iriss-dev/khora" target="_blank">Repository ↗</a></li>
       </ul>
@@ -730,7 +741,7 @@
 
     <div class="gh-header-right">
       <button class="btn-new-discussion" onclick="openToolsModal()" style="background:#1f6feb;">
-        <span>⚡</span> Generate Code
+        <svg class="octicon" viewBox="0 0 16 16" width="14" height="14" style="margin-right:5px;"><path d="m11.28 3.22 4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.749.749 0 0 1-1.275-.326.749.749 0 0 1 .215-.734L13.94 8l-3.72-3.72a.749.749 0 0 1 .326-1.275.749.749 0 0 1 .734.215Zm-6.56 0a.751.751 0 0 1 1.06 1.06L2.06 8l3.72 3.72a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215L.47 8.53a.75.75 0 0 1 0-1.06l4.25-4.25Z"></path></svg>Generate Code
       </button>
       <button class="btn-new-discussion" onclick="openNewPostModal()">
         <span>+</span> New Post
@@ -771,31 +782,31 @@
       <div class="channels-block">
         <div class="channels-title">Engineering Channels</div>
         <div class="channel-item active" onclick="setFeedCategory('all')">
-          <span>🌐 All Feeds</span>
+          <span class="channel-label"><svg class="octicon" viewBox="0 0 16 16" width="16" height="16"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Zm7.25-5.228c1.385.405 2.502 1.942 2.87 3.728H4.38c.368-1.786 1.485-3.323 2.87-3.728a.751.751 0 0 1 1.5 0ZM4.024 8c0 .546.06 1.077.172 1.5h7.608c.112-.423.172-.954.172-1.5 0-.546-.06-1.077-.172-1.5H4.196c-.112.423-.172.954-.172 1.5Zm.356 3c.368 1.786 1.485 3.323 2.87 3.728a.751.751 0 0 0 1.5 0c1.385-.405 2.502-1.942 2.87-3.728H4.38Z"></path></svg>All Feeds</span>
           <span class="channel-count">48</span>
         </div>
         <div class="channel-item" onclick="setFeedCategory('mega')">
-          <span>🚀 Mega-Projects</span>
+          <span class="channel-label"><svg class="octicon" viewBox="0 0 16 16" width="16" height="16"><path d="M14.064 0a8.75 8.75 0 0 0-6.187 2.563l-.439.439A2.748 2.748 0 0 0 6.2 3.84l-.845-.845a.75.75 0 0 0-1.06 1.06l.845.845a2.75 2.75 0 0 0-.84 1.238l-.439.439a8.75 8.75 0 0 0-2.563 6.187.75.75 0 0 0 .75.75 8.75 8.75 0 0 0 6.187-2.563l.439-.439a2.748 2.748 0 0 0 .84-1.238l.845.845a.75.75 0 0 0 1.06-1.06l-.845-.845a2.75 2.75 0 0 0 .84-1.238l.439-.439A8.75 8.75 0 0 0 14.814.75a.75.75 0 0 0-.75-.75Zm-5.126 3.624A7.25 7.25 0 0 1 13.313 1.5a7.25 7.25 0 0 1-2.124 4.375l-.439.439a1.25 1.25 0 0 1-1.08.366L8.14 5.15a1.25 1.25 0 0 1 .366-1.087l.439-.439Zm-4.965 9.34A7.25 7.25 0 0 1 2.687 9.5a7.25 7.25 0 0 1 4.375-2.124l.439-.439a1.25 1.25 0 0 1 .366-1.08L6.337 7.39a1.25 1.25 0 0 1-1.087.366l-.439.439a7.25 7.25 0 0 1-2.124 4.375l1.286.372Z"></path></svg>Mega-Projects</span>
           <span class="channel-count">6</span>
         </div>
         <div class="channel-item" onclick="setFeedCategory('optics')">
-          <span>🔬 Optics &amp; DCRA</span>
+          <span class="channel-label"><svg class="octicon" viewBox="0 0 16 16" width="16" height="16"><path d="M8 2c1.981 0 3.67.992 4.933 2.078 1.27 1.091 2.187 2.345 2.637 3.023a1.62 1.62 0 0 1 0 1.798c-.45.678-1.367 1.932-2.637 3.023C11.67 13.008 9.981 14 8 14c-1.981 0-3.67-.992-4.933-2.078C1.797 10.83.88 9.576.43 8.898a1.62 1.62 0 0 1 0-1.798c.45-.677 1.367-1.931 2.637-3.022C4.33 2.992 6.019 2 8 2ZM1.679 8c.373.526 1.137 1.516 2.211 2.44C4.97 11.365 6.36 12.5 8 12.5c1.64 0 3.03-1.135 4.11-2.06 1.074-.924 1.838-1.914 2.211-2.44-.373-.526-1.137-1.516-2.21-2.44C11.03 4.635 9.64 3.5 8 3.5c-1.64 0-3.03 1.135-4.11 2.06C2.816 6.484 2.052 7.474 1.679 8ZM8 5a3 3 0 1 1 0 6 3 3 0 0 1 0-6Zm0 1.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Z"></path></svg>Optics &amp; DCRA</span>
           <span class="channel-count">24</span>
         </div>
         <div class="channel-item" onclick="setFeedCategory('kinematics')">
-          <span>📐 Kinematics &amp; SE(3)</span>
+          <span class="channel-label"><svg class="octicon" viewBox="0 0 16 16" width="16" height="16"><path d="M13.25 10a.75.75 0 0 1 .75.75V12h1.25a.75.75 0 0 1 0 1.5H14v1.25a.75.75 0 0 1-1.5 0V13.5H1a.75.75 0 0 1 0-1.5h11.5v-1.25a.75.75 0 0 1 .75-.75Zm-6.5-5a.75.75 0 0 1 .75.75V7H15a.75.75 0 0 1 0 1.5H7.5v1.25a.75.75 0 0 1-1.5 0V8.5H1a.75.75 0 0 1 0-1.5h5V5.75A.75.75 0 0 1 6.75 5ZM3.25 0a.75.75 0 0 1 .75.75V2H15a.75.75 0 0 1 0 1.5H4v1.25a.75.75 0 0 1-1.5 0V3.5H1a.75.75 0 0 1 0-1.5h1.5V.75A.75.75 0 0 1 3.25 0Z"></path></svg>Kinematics &amp; SE(3)</span>
           <span class="channel-count">38</span>
         </div>
         <div class="channel-item" onclick="setFeedCategory('ultrasound')">
-          <span>🔊 Acoustic Haptics</span>
+          <span class="channel-label"><svg class="octicon" viewBox="0 0 16 16" width="16" height="16"><path d="M7.563 2.069A.75.75 0 0 1 8 2.75v10.5a.75.75 0 0 1-1.238.57L3.487 11H1a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h2.487l3.275-2.82a.75.75 0 0 1 .801-.111ZM1.5 6.5v3h2.15a.75.75 0 0 1 .488.183L6.5 11.758V4.242L4.138 6.317a.75.75 0 0 1-.488.183H1.5Zm10.05-3.08a.75.75 0 0 1 1.06 0 7.72 7.72 0 0 1 0 10.92.75.75 0 0 1-1.06-1.06 6.22 6.22 0 0 0 0-8.8.75.75 0 0 1 0-1.06Zm-2.12 2.12a.75.75 0 0 1 1.06 0 4.72 4.72 0 0 1 0 6.68.75.75 0 0 1-1.06-1.06 3.22 3.22 0 0 0 0-4.56.75.75 0 0 1 0-1.06Z"></path></svg>Acoustic Haptics</span>
           <span class="channel-count">19</span>
         </div>
         <div class="channel-item" onclick="setFeedCategory('hardware')">
-          <span>🛠️ Hardware Troubleshoot</span>
+          <span class="channel-label"><svg class="octicon" viewBox="0 0 16 16" width="16" height="16"><path d="M6.457 1.047c.659-.44 1.51-.314 2.03.308l.839.998c.205.244.51.385.83.385h1.302c.792 0 1.488.528 1.696 1.29l.26 1.274c.065.318.25.592.517.766l1.096.71c.683.442.946 1.308.636 2.036l-.49 1.15c-.122.285-.122.61 0 .895l.49 1.15c.31.728.047 1.594-.636 2.036l-1.096.71a1.25 1.25 0 0 0-.517.766l-.26 1.274a1.75 1.75 0 0 1-1.696 1.29H9.326c-.32 0-.625.141-.83.385l-.839.998c-.52.622-1.371.748-2.03.308l-1.042-.693a1.25 1.25 0 0 0-.895-.145l-1.256.342c-.77.209-1.57-.184-1.938-.95l-.545-1.125a1.25 1.25 0 0 0-.64-.64l-1.125-.545c-.766-.368-1.159-1.168-.95-1.938l.342-1.256c.088-.322.035-.668-.145-.895L.348 9.07c-.44-.659-.314-1.51.308-2.03l.998-.839c.244-.205.385-.51.385-.83V4.069c0-.792.528-1.488 1.29-1.696l1.274-.26c.318-.065.592-.25.766-.517l.71-1.096c.442-.683 1.308-.946 2.036-.636l1.15.49c.285.122.61.122.895 0l1.15-.49ZM8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5Z"></path></svg>Hardware Troubleshoot</span>
           <span class="channel-count">52</span>
         </div>
         <div class="channel-item" onclick="setFeedCategory('bounty')">
-          <span>💰 Active Bounties</span>
+          <span class="channel-label"><svg class="octicon" viewBox="0 0 16 16" width="16" height="16"><path d="M8 0a4 4 0 0 1 4 4v1.5a2.5 2.5 0 0 1-2.4 2.498A4.002 4.002 0 0 1 8.75 11.9v1.6H11a.75.75 0 0 1 0 1.5H5a.75.75 0 0 1 0-1.5h2.25v-1.6A4.002 4.002 0 0 1 6.4 7.998 2.5 2.5 0 0 1 4 5.5V4a4 4 0 0 1 4-4Zm2.5 4a2.5 2.5 0 0 0-5 0v1.5a2.5 2.5 0 0 0 5 0V4Zm-5.75 1.5a1 1 0 0 0-1 1v.25c0 .414.336.75.75.75h.5V5.5H4.75Zm6.5 0v2h.5a.75.75 0 0 0 .75-.75V6.5a1 1 0 0 0-1-1h-.25Z"></path></svg>Active Bounties</span>
           <span class="channel-count">$1.8k</span>
         </div>
       </div>
@@ -859,7 +870,7 @@
           <div class="trending-item">
             <div class="trending-item-top">
               <a href="https://github.com/iriss-dev/khora" class="trending-item-name">iriss-dev / khora</a>
-              <span class="trending-stars">⭐ 1.4k</span>
+              <span class="trending-stars"><svg class="octicon-star" viewBox="0 0 16 16" width="12" height="12" fill="#e3b341" style="vertical-align:text-bottom; margin-right:3px;"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"></path></svg>1.4k</span>
             </div>
             <div class="trending-desc">Deterministic robotics kinematics, spatial computing &amp; traversable mid-air light.</div>
           </div>
@@ -867,7 +878,7 @@
           <div class="trending-item">
             <div class="trending-item-top">
               <a href="#" class="trending-item-name" onclick="openThreadModal(1)">khora / human-scale-rig</a>
-              <span class="trending-stars">⭐ 582</span>
+              <span class="trending-stars"><svg class="octicon-star" viewBox="0 0 16 16" width="12" height="12" fill="#e3b341" style="vertical-align:text-bottom; margin-right:3px;"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"></path></svg>582</span>
             </div>
             <div class="trending-desc">16-tile DCRA array gantry for life-size interactive floating avatars.</div>
           </div>
@@ -875,7 +886,7 @@
           <div class="trending-item">
             <div class="trending-item-top">
               <a href="https://github.com/iriss-dev/blackice" class="trending-item-name">iriss-dev / blackice</a>
-              <span class="trending-stars">⭐ 840</span>
+              <span class="trending-stars"><svg class="octicon-star" viewBox="0 0 16 16" width="12" height="12" fill="#e3b341" style="vertical-align:text-bottom; margin-right:3px;"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"></path></svg>840</span>
             </div>
             <div class="trending-desc">Autonomous Linux ingress defense sentinel with atomic nftables drop in &lt;0.05ms.</div>
           </div>
@@ -883,7 +894,7 @@
           <div class="trending-item">
             <div class="trending-item-top">
               <a href="#" class="trending-item-name" onclick="openThreadModal(2)">khora / dual-arm-bimanual</a>
-              <span class="trending-stars">⭐ 320</span>
+              <span class="trending-stars"><svg class="octicon-star" viewBox="0 0 16 16" width="12" height="12" fill="#e3b341" style="vertical-align:text-bottom; margin-right:3px;"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"></path></svg>320</span>
             </div>
             <div class="trending-desc">Cooperative 14-DOF bimanual trajectory planner with CANopen bus.</div>
           </div>
@@ -941,15 +952,15 @@
     <div class="modal-card" style="width:780px;">
       <div class="modal-head">
         <h3 style="display:flex; align-items:center; gap:8px;">
-          <span>⚡ KHORA Engineering Code Generators &amp; DevTools</span>
+          <svg class="octicon" viewBox="0 0 16 16" width="18" height="18" fill="#58a6ff" style="margin-right:6px;"><path d="m11.28 3.22 4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.749.749 0 0 1-1.275-.326.749.749 0 0 1 .215-.734L13.94 8l-3.72-3.72a.749.749 0 0 1 .326-1.275.749.749 0 0 1 .734.215Zm-6.56 0a.751.751 0 0 1 1.06 1.06L2.06 8l3.72 3.72a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215L.47 8.53a.75.75 0 0 1 0-1.06l4.25-4.25Z"></path></svg><span>KHORA Engineering Code Generators &amp; DevTools</span>
         </h3>
         <button class="modal-close-btn" onclick="closeModal('tools-modal')">&times;</button>
       </div>
       <div class="modal-content-scroll">
         <div style="display:flex; gap:10px; border-bottom:1px solid var(--border); padding-bottom:10px; margin-bottom:16px;">
-          <button class="btn-sub-action" id="tool-tab-btn-haptics" onclick="switchToolTab('haptics')">🔊 Ultrasound C Array</button>
-          <button class="btn-sub-action" id="tool-tab-btn-kinematics" onclick="switchToolTab('kinematics')">📐 SE(3) Robotics Code</button>
-          <button class="btn-sub-action" id="tool-tab-btn-optics" onclick="switchToolTab('optics')">🔬 DCRA Optics Calculator</button>
+          <button class="btn-sub-action" id="tool-tab-btn-haptics" onclick="switchToolTab('haptics')"><svg class="octicon" viewBox="0 0 16 16" width="13" height="13" style="margin-right:4px;"><path d="M7.563 2.069A.75.75 0 0 1 8 2.75v10.5a.75.75 0 0 1-1.238.57L3.487 11H1a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h2.487l3.275-2.82a.75.75 0 0 1 .801-.111ZM1.5 6.5v3h2.15a.75.75 0 0 1 .488.183L6.5 11.758V4.242L4.138 6.317a.75.75 0 0 1-.488.183H1.5Zm10.05-3.08a.75.75 0 0 1 1.06 0 7.72 7.72 0 0 1 0 10.92.75.75 0 0 1-1.06-1.06 6.22 6.22 0 0 0 0-8.8.75.75 0 0 1 0-1.06Zm-2.12 2.12a.75.75 0 0 1 1.06 0 4.72 4.72 0 0 1 0 6.68.75.75 0 0 1-1.06-1.06 3.22 3.22 0 0 0 0-4.56.75.75 0 0 1 0-1.06Z"></path></svg>Ultrasound C Array</button>
+          <button class="btn-sub-action" id="tool-tab-btn-kinematics" onclick="switchToolTab('kinematics')"><svg class="octicon" viewBox="0 0 16 16" width="13" height="13" style="margin-right:4px;"><path d="M13.25 10a.75.75 0 0 1 .75.75V12h1.25a.75.75 0 0 1 0 1.5H14v1.25a.75.75 0 0 1-1.5 0V13.5H1a.75.75 0 0 1 0-1.5h11.5v-1.25a.75.75 0 0 1 .75-.75Zm-6.5-5a.75.75 0 0 1 .75.75V7H15a.75.75 0 0 1 0 1.5H7.5v1.25a.75.75 0 0 1-1.5 0V8.5H1a.75.75 0 0 1 0-1.5h5V5.75A.75.75 0 0 1 6.75 5ZM3.25 0a.75.75 0 0 1 .75.75V2H15a.75.75 0 0 1 0 1.5H4v1.25a.75.75 0 0 1-1.5 0V3.5H1a.75.75 0 0 1 0-1.5h1.5V.75A.75.75 0 0 1 3.25 0Z"></path></svg>SE(3) Robotics Code</button>
+          <button class="btn-sub-action" id="tool-tab-btn-optics" onclick="switchToolTab('optics')"><svg class="octicon" viewBox="0 0 16 16" width="13" height="13" style="margin-right:4px;"><path d="M8 2c1.981 0 3.67.992 4.933 2.078 1.27 1.091 2.187 2.345 2.637 3.023a1.62 1.62 0 0 1 0 1.798c-.45.678-1.367 1.932-2.637 3.023C11.67 13.008 9.981 14 8 14c-1.981 0-3.67-.992-4.933-2.078C1.797 10.83.88 9.576.43 8.898a1.62 1.62 0 0 1 0-1.798c.45-.677 1.367-1.931 2.637-3.022C4.33 2.992 6.019 2 8 2ZM1.679 8c.373.526 1.137 1.516 2.211 2.44C4.97 11.365 6.36 12.5 8 12.5c1.64 0 3.03-1.135 4.11-2.06 1.074-.924 1.838-1.914 2.211-2.44-.373-.526-1.137-1.516-2.21-2.44C11.03 4.635 9.64 3.5 8 3.5c-1.64 0-3.03 1.135-4.11 2.06C2.816 6.484 2.052 7.474 1.679 8ZM8 5a3 3 0 1 1 0 6 3 3 0 0 1 0-6Zm0 1.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3Z"></path></svg>DCRA Optics Calculator</button>
         </div>
 
         <!-- TOOL 1: ULTRASOUND C ARRAY GENERATOR -->
@@ -973,7 +984,7 @@
           </div>
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
             <span style="font-size:12px; color:var(--blue); font-family:var(--mono);" id="tool-force-calc">Estimated Force: 9.2 mN (Tactile click)</span>
-            <button class="btn-sub-action" onclick="copyCode('tool-haptic-code-output')">📋 Copy C Header</button>
+            <button class="btn-sub-action" onclick="copyCode('tool-haptic-code-output')"><svg class="octicon" viewBox="0 0 16 16" width="13" height="13" style="margin-right:4px;"><path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"></path><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg>Copy C Header</button>
           </div>
           <pre class="code-block" id="tool-haptic-code-output">// Generating C99 code...</pre>
         </div>
@@ -988,7 +999,7 @@
               <option value="python">Python 3 (no dependencies)</option>
               <option value="rust">Rust (#![no_std] compatible)</option>
             </select>
-            <button class="btn-sub-action" onclick="copyCode('tool-kin-code-output')">📋 Copy Implementation</button>
+            <button class="btn-sub-action" onclick="copyCode('tool-kin-code-output')"><svg class="octicon" viewBox="0 0 16 16" width="13" height="13" style="margin-right:4px;"><path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"></path><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path></svg>Copy Implementation</button>
           </div>
           <pre class="code-block" id="tool-kin-code-output"></pre>
         </div>
@@ -1029,7 +1040,7 @@
     <div class="modal-card" style="width:780px;">
       <div class="modal-head">
         <h3 style="display:flex; align-items:center; gap:8px;">
-          <span>🔬 The Physical Proof: Real-World Evidence &amp; Science</span>
+          <svg class="octicon" viewBox="0 0 16 16" width="18" height="18" fill="#58a6ff" style="margin-right:6px;"><path d="M5 1.75a.75.75 0 0 1 .75-.75h4.5a.75.75 0 0 1 0 1.5H9.5v2.336l3.662 6.41A2.25 2.25 0 0 1 11.203 14.5H4.797a2.25 2.25 0 0 1-1.96-3.254L6.5 4.836V2.5H5.75a.75.75 0 0 1-.75-.75Zm3 3.086V2.5H8v2.336l-.08.14L4.148 11.63a.75.75 0 0 0 .649 1.12h6.406a.75.75 0 0 0 .65-1.12L8.08 4.976 8 4.836Z"></path></svg><span>The Physical Proof: Real-World Evidence &amp; Science</span>
         </h3>
         <button class="modal-close-btn" onclick="closeModal('proof-modal')">&times;</button>
       </div>
@@ -1115,12 +1126,12 @@
 
         <label style="font-size:12px; font-weight:600; color:var(--text-heading); display:block; margin-bottom:6px;">Category</label>
         <select id="new-cat-input">
-          <option value="mega">🚀 #mega-projects (Colossal collaborative builds)</option>
-          <option value="optics">🔬 #optics-dcra (Aerial imaging plates &amp; lasers)</option>
-          <option value="kinematics">📐 #kinematics-control (SE(3), DLS solvers, motor tuning)</option>
-          <option value="ultrasound">🔊 #acoustic-haptics (40kHz radiation force &amp; phased arrays)</option>
-          <option value="hardware">🛠️ #hardware-troubleshoot (Circuits, MOSFETs, assembly)</option>
-          <option value="bounty">💰 #funded-bounties (Paid technical challenges)</option>
+          <option value="mega">#mega-projects (Colossal collaborative builds)</option>
+          <option value="optics">#optics-dcra (Aerial imaging plates &amp; lasers)</option>
+          <option value="kinematics">#kinematics-control (SE(3), DLS solvers, motor tuning)</option>
+          <option value="ultrasound">#acoustic-haptics (40kHz radiation force &amp; phased arrays)</option>
+          <option value="hardware">#hardware-troubleshoot (Circuits, MOSFETs, assembly)</option>
+          <option value="bounty">#funded-bounties (Paid technical challenges)</option>
         </select>
 
         <label style="font-size:12px; font-weight:600; color:var(--text-heading); display:block; margin-bottom:6px;">Description &amp; Specifications (Markdown)</label>
