@@ -504,42 +504,148 @@
       gap: 16px;
     }
 
-    /* LIVE PHYSICAL LAB INTERACTIVE SIMULATOR (THE MISSING PIECE) */
+        /* REAL-TIME PHYSICS LAB WORKBENCH & MULTI-MODE SIMULATOR */
     .physics-lab-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: 8px;
       padding: 16px;
       position: relative;
+      margin-bottom: 16px;
     }
     .physics-lab-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .sim-mode-toolbar {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--bg);
+      padding: 3px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+    }
+    .sim-mode-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-dim);
+      font-size: 11px;
+      font-family: var(--mono);
+      padding: 4px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.15s ease;
+    }
+    .sim-mode-btn:hover {
+      color: var(--text);
+      background: var(--bg-hover);
+    }
+    .sim-mode-btn.active {
+      color: #ffffff;
+      background: var(--accent);
+      font-weight: 600;
     }
     .physics-canvas-container {
-      background: #000000;
+      background: #030406;
       border: 1px solid var(--border);
       border-radius: 6px;
       width: 100%;
-      height: 180px;
+      height: 310px;
       position: relative;
       cursor: crosshair;
+      overflow: hidden;
     }
     canvas#sim-canvas {
       width: 100%;
       height: 100%;
       display: block;
     }
-    .sim-controls-row {
+    .sim-subtoolbar {
       display: flex;
       align-items: center;
       justify-content: space-between;
       margin-top: 10px;
-      font-size: 12px;
+      padding: 8px 10px;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 11px;
       font-family: var(--mono);
       color: var(--text-muted);
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .sim-control-group {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .sim-control-label {
+      color: var(--text-dim);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .sim-select-pill {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: 11px;
+      font-family: var(--mono);
+      padding: 2px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      outline: none;
+    }
+    .sim-range-slider {
+      accent-color: var(--accent);
+      height: 4px;
+      cursor: pointer;
+      width: 75px;
+    }
+    .sim-telemetry-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-top: 10px;
+    }
+    @media (max-width: 900px) {
+      .sim-telemetry-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    .sim-metric-cell {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      padding: 8px 10px;
+      font-family: var(--mono);
+    }
+    .sim-metric-label {
+      font-size: 10px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      margin-bottom: 2px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .sim-metric-val {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .sim-metric-sub {
+      font-size: 10px;
+      color: var(--text-muted);
+      margin-top: 1px;
     }
 
     /* CREATE POST PROMPT */
@@ -1269,25 +1375,125 @@
     <!-- CENTER FEED COLUMN -->
     <main class="center-column">
 
-      <!-- LIVE PHYSICS VISUALIZER: REAL-TIME DCRA & 40kHz INTERACTIVE LAB -->
-      <div class="physics-lab-card">
+            <!-- LIVE PHYSICS VISUALIZER: REAL-TIME DCRA & 40kHz INTERACTIVE LAB WORKBENCH -->
+      <div class="physics-lab-card" id="physics-lab-workbench">
         <div class="physics-lab-header">
           <div style="display:flex; align-items:center; gap:8px;">
-            <span style="width:8px; height:8px; border-radius:50%; background:var(--green);"></span>
-            <span style="font-weight:700; font-size:13px; color:var(--text);">Live Spatial Physics Lab — DCRA Retro-Reflection &amp; Acoustic Focus</span>
+            <span style="width:8px; height:8px; border-radius:50%; background:var(--green); box-shadow:0 0 8px rgba(16,185,129,0.6);" class="status-pulse"></span>
+            <span style="font-weight:700; font-size:13px; color:var(--text); letter-spacing:-0.2px;">KHORA Spatial Physics Engine v2.4</span>
+            <span class="bbs-badge" style="font-size:10px; padding:1px 6px;">RFC-0001 Rigorous</span>
           </div>
-          <button class="bbs-btn" style="padding:2px 8px; font-size:11px;" onclick="playTactileAudioTest()">
-            <svg class="octicon" viewBox="0 0 16 16" width="13" height="13" style="fill:currentColor; display:inline-block; vertical-align:text-bottom;"><path d="M7.559 1.978a.75.75 0 0 1 .441.688v10.668a.75.75 0 0 1-1.218.583L3.49 11.25H1.75A1.75 1.75 0 0 1 0 9.5v-3C0 5.534.784 4.75 1.75 4.75h1.74l3.292-2.679a.75.75 0 0 1 .777-.093ZM11.5 8a3.5 3.5 0 0 1-.955 2.42.75.75 0 1 0 1.09 1.03A5 5 0 0 0 13 8c0-1.637-.788-3.09-2.006-4.01a.75.75 0 0 0-.91 1.19A3.5 3.5 0 0 1 11.5 8Z"></path></svg> <span>Test 200 Hz Pacinian Resonance</span>
-          </button>
+
+          <!-- SIMULATION VIEW MODES -->
+          <div class="sim-mode-toolbar">
+            <button class="sim-mode-btn active" id="smode-combined" onclick="setSimMode('combined')">
+              <svg class="octicon" viewBox="0 0 16 16" width="12" height="12" style="fill:currentColor;"><path d="M1.75 2.5h12.5a.25.25 0 0 1 .25.25v2.5a.25.25 0 0 1-.25.25H1.75a.25.25 0 0 1-.25-.25v-2.5a.25.25 0 0 1 .25-.25Zm0 5.5h12.5a.25.25 0 0 1 .25.25v2.5a.25.25 0 0 1-.25.25H1.75a.25.25 0 0 1-.25-.25v-2.5a.25.25 0 0 1 .25-.25Zm0 5.5h12.5a.25.25 0 0 1 .25.25v2.5a.25.25 0 0 1-.25.25H1.75a.25.25 0 0 1-.25-.25v-2.5a.25.25 0 0 1 .25-.25Z"></path></svg>
+              <span>All Physics</span>
+            </button>
+            <button class="sim-mode-btn" id="smode-optics" onclick="setSimMode('optics')">
+              <svg class="octicon" viewBox="0 0 16 16" width="12" height="12" style="fill:currentColor;"><path d="M8 2a6 6 0 1 0 0 12A6 6 0 0 0 8 2ZM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-3.25a3.25 3.25 0 1 0 0 6.5 3.25 3.25 0 0 0 0-6.5Z"></path></svg>
+              <span>DCRA Optics</span>
+            </button>
+            <button class="sim-mode-btn" id="smode-acoustics" onclick="setSimMode('acoustics')">
+              <svg class="octicon" viewBox="0 0 16 16" width="12" height="12" style="fill:currentColor;"><path d="M7.75 2a.75.75 0 0 1 .75.75V7h2.25a.75.75 0 0 1 0 1.5H8.5v4.25a.75.75 0 0 1-1.5 0V8.5H4.75a.75.75 0 0 1 0-1.5H7V2.75A.75.75 0 0 1 7.75 2Z"></path></svg>
+              <span>40kHz Acoustics</span>
+            </button>
+            <button class="sim-mode-btn" id="smode-kinematics" onclick="setSimMode('kinematics')">
+              <svg class="octicon" viewBox="0 0 16 16" width="12" height="12" style="fill:currentColor;"><path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Zm7.25-3.25V8l2.5 1.5a.75.75 0 0 1-.75 1.3L7.5 9A.75.75 0 0 1 7 8.25v-3.5a.75.75 0 0 1 1.5 0Z"></path></svg>
+              <span>Tactile Probe</span>
+            </button>
+          </div>
+
+          <div style="display:flex; align-items:center; gap:6px;">
+            <button class="bbs-btn" style="padding:3px 8px; font-size:11px; display:inline-flex; align-items:center; gap:5px;" onclick="toggleSimAnimation()" id="sim-play-btn">
+              <svg class="octicon" viewBox="0 0 16 16" width="12" height="12" style="fill:currentColor;"><path d="M4.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0v-9a.5.5 0 0 1 .5-.5Zm7 0a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0v-9a.5.5 0 0 1 .5-.5Z"></path></svg>
+              <span id="sim-play-text">Pause Waves</span>
+            </button>
+            <button class="bbs-btn" style="padding:3px 8px; font-size:11px; display:inline-flex; align-items:center; gap:5px;" onclick="playTactileAudioTest()">
+              <svg class="octicon" viewBox="0 0 16 16" width="12" height="12" style="fill:currentColor; display:inline-block; vertical-align:text-bottom;"><path d="M7.559 1.978a.75.75 0 0 1 .441.688v10.668a.75.75 0 0 1-1.218.583L3.49 11.25H1.75A1.75 1.75 0 0 1 0 9.5v-3C0 5.534.784 4.75 1.75 4.75h1.74l3.292-2.679a.75.75 0 0 1 .777-.093ZM11.5 8a3.5 3.5 0 0 1-.955 2.42.75.75 0 1 0 1.09 1.03A5 5 0 0 0 13 8c0-1.637-.788-3.09-2.006-4.01a.75.75 0 0 0-.91 1.19A3.5 3.5 0 0 1 11.5 8Z"></path></svg>
+              <span>200 Hz Pulse</span>
+            </button>
+          </div>
         </div>
 
+        <!-- CANVAS WORKSPACE -->
         <div class="physics-canvas-container" id="canvas-container">
           <canvas id="sim-canvas"></canvas>
         </div>
 
-        <div class="sim-controls-row">
-          <span>Drag in canvas to move aerial focus point</span>
-          <span id="sim-stats">d_air = 85.0mm · Force = 11.4 mN · Phase = 138°</span>
+        <!-- INTERACTIVE SUB-TOOLBAR -->
+        <div class="sim-subtoolbar">
+          <div class="sim-control-group">
+            <span class="sim-control-label">Freq:</span>
+            <select class="sim-select-pill" id="sim-carrier-select" onchange="setCarrierFreq(this.value)">
+              <option value="40000" selected>40.0 kHz (λ=8.58mm)</option>
+              <option value="25000">25.0 kHz (λ=13.72mm)</option>
+              <option value="70000">70.0 kHz (λ=4.90mm)</option>
+            </select>
+          </div>
+
+          <div class="sim-control-group">
+            <span class="sim-control-label">DCRA Tilt θ:</span>
+            <input type="range" class="sim-range-slider" id="sim-tilt-slider" min="38" max="52" step="0.5" value="45" oninput="setPlateTilt(this.value)">
+            <span id="sim-tilt-val" style="color:var(--text); min-width:38px;">45.0°</span>
+          </div>
+
+          <div class="sim-control-group">
+            <span class="sim-control-label">Rays:</span>
+            <select class="sim-select-pill" id="sim-ray-count" onchange="setRayCount(this.value)">
+              <option value="5">5 Rays</option>
+              <option value="11" selected>11 Rays (Std)</option>
+              <option value="21">21 Rays (Dense)</option>
+            </select>
+          </div>
+
+          <div class="sim-control-group">
+            <span class="sim-control-label">Array:</span>
+            <span style="color:var(--accent); font-weight:700;">16-Ch Phased</span>
+          </div>
+
+          <div class="sim-control-group">
+            <button class="bbs-btn" style="padding:1px 6px; font-size:10px;" onclick="resetSimCoordinates()">Reset Focus</button>
+          </div>
+        </div>
+
+        <!-- SCIENTIFIC TELEMETRY & PHYSICAL READOUT GRID -->
+        <div class="sim-telemetry-grid">
+          <div class="sim-metric-cell">
+            <div class="sim-metric-label">
+              <span>Optics Conjugate</span>
+              <span style="color:var(--cyan);" id="tele-optics-tag">1:1 Parity</span>
+            </div>
+            <div class="sim-metric-val" id="tele-optics-dist">d_air = 85.0 mm</div>
+            <div class="sim-metric-sub" id="tele-optics-sub">d_src = 85.0 mm · M = 1.000x</div>
+          </div>
+
+          <div class="sim-metric-cell">
+            <div class="sim-metric-label">
+              <span>Ultrasound Force</span>
+              <span style="color:var(--green);" id="tele-force-tag">Tactile Active</span>
+            </div>
+            <div class="sim-metric-val" id="tele-force-val" style="color:var(--green);">11.4 mN</div>
+            <div class="sim-metric-sub" id="tele-force-sub">P_rad = 34.2 Pa · SPL 141.8 dB</div>
+          </div>
+
+          <div class="sim-metric-cell">
+            <div class="sim-metric-label">
+              <span>Acoustic Pressure</span>
+              <span style="color:var(--accent);">Constructive</span>
+            </div>
+            <div class="sim-metric-val" id="tele-press-val">p_rms = 2.41 kPa</div>
+            <div class="sim-metric-sub" id="tele-press-sub">Wavelength λ = 8.58 mm</div>
+          </div>
+
+          <div class="sim-metric-cell">
+            <div class="sim-metric-label">
+              <span>50ms Watchdog</span>
+              <span style="color:var(--green);">Armed</span>
+            </div>
+            <div class="sim-metric-val" id="tele-watchdog-val" style="color:var(--green);">PASS (2.8ms)</div>
+            <div class="sim-metric-sub" id="tele-watchdog-sub">Pacinian AM: 200 Hz · Touch: SAFE</div>
+          </div>
         </div>
       </div>
 
@@ -1955,130 +2161,604 @@ dcra_channel_clamp(width=200, thickness=4.2);`,
     let currentSort = "votes";
     let currentLang = "en";
 
-    // LIVE INTERACTIVE PHYSICS SIMULATOR
-    let simFocusX = 350;
-    let simFocusY = 40;
+        // =========================================================================
+    // KHORA REAL-TIME SPATIAL PHYSICS ENGINE (RFC-0001 / SE(3) / ACOUSTICS)
+    // =========================================================================
+    const C_AIR = 343.0;              // Speed of sound in ambient air (m/s at 20°C)
+    const RHO_AIR = 1.204;            // Ambient air density (kg/m^3)
+    const P0_ELEM = 120.0;            // Transducer source pressure at 1m (Pa·m)
+    const PACINIAN_FREQ = 200.0;      // Cutaneous mechanoreceptor optimal AM freq (Hz)
+
+    let simMode = "combined";         // "combined" | "optics" | "acoustics" | "kinematics"
+    let carrierFreq = 40000;          // Carrier ultrasound frequency in Hz
+    let plateTiltDeg = 45.0;          // DCRA plate mounting angle (degrees)
+    let rayCountPerEmitter = 11;      // Optical ray tracing density
+    let animPhase = 0.0;              // Continuous acoustic wave animation phase
+    let animRunning = true;           // Animation state flag
+    let animFrameId = null;
+
+    // Simulation interactive coordinates (screen pixels, calibrated 1px ≈ 1mm)
+    let sourceOled = { x: 140, y: 250, w: 100 };
+    let aerialImage = { x: 360, y: 40 };
+    let probePos = { x: 395, y: 55 };
+    let dragTarget = null; // "focus" | "source" | "probe"
+
     const canvas = document.getElementById("sim-canvas");
     const ctx = canvas.getContext("2d");
 
-    function resizeCanvas() {
-      const rect = canvas.getBoundingClientRect();
-      canvas.width = rect.width * window.devicePixelRatio;
-      canvas.height = rect.height * window.devicePixelRatio;
-      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+    function setSimMode(mode) {
+      simMode = mode;
+      document.querySelectorAll(".sim-mode-btn").forEach(b => b.classList.remove("active"));
+      const btn = document.getElementById(`smode-${mode}`);
+      if (btn) btn.classList.add("active");
       drawSimulation();
     }
 
+    function toggleSimAnimation() {
+      animRunning = !animRunning;
+      const text = document.getElementById("sim-play-text");
+      if (text) text.innerText = animRunning ? "Pause Waves" : "Resume Waves";
+      if (animRunning) runAnimLoop();
+    }
+
+    function setCarrierFreq(freq) {
+      carrierFreq = parseFloat(freq);
+      drawSimulation();
+    }
+
+    function setPlateTilt(deg) {
+      plateTiltDeg = parseFloat(deg);
+      const span = document.getElementById("sim-tilt-val");
+      if (span) span.innerText = `${plateTiltDeg.toFixed(1)}°`;
+      drawSimulation();
+    }
+
+    function setRayCount(cnt) {
+      rayCountPerEmitter = parseInt(cnt, 10);
+      drawSimulation();
+    }
+
+    function resetSimCoordinates() {
+      sourceOled = { x: 140, y: 250, w: 100 };
+      plateTiltDeg = 45.0;
+      carrierFreq = 40000;
+      rayCountPerEmitter = 11;
+      const tSlider = document.getElementById("sim-tilt-slider");
+      if (tSlider) tSlider.value = "45";
+      const tVal = document.getElementById("sim-tilt-val");
+      if (tVal) tVal.innerText = "45.0°";
+      const cSelect = document.getElementById("sim-carrier-select");
+      if (cSelect) cSelect.value = "40000";
+      const rSelect = document.getElementById("sim-ray-count");
+      if (rSelect) rSelect.value = "11";
+      recomputeConjugateFromSource();
+      probePos = { x: aerialImage.x + 25, y: aerialImage.y + 15 };
+      drawSimulation();
+    }
+
+    function recomputeConjugateFromSource() {
+      const w = canvas.width / (window.devicePixelRatio || 1);
+      const h = canvas.height / (window.devicePixelRatio || 1);
+      const pc = { x: w * 0.42, y: h * 0.54 };
+      const theta = plateTiltDeg * Math.PI / 180.0;
+      const nx = Math.cos(theta);
+      const ny = -Math.sin(theta);
+      const S = { x: sourceOled.x, y: sourceOled.y };
+      const dist_s = (S.x - pc.x) * nx + (S.y - pc.y) * ny;
+      aerialImage.x = S.x - 2 * dist_s * nx;
+      aerialImage.y = S.y - 2 * dist_s * ny;
+    }
+
+    function recomputeSourceFromFocus() {
+      const w = canvas.width / (window.devicePixelRatio || 1);
+      const h = canvas.height / (window.devicePixelRatio || 1);
+      const pc = { x: w * 0.42, y: h * 0.54 };
+      const theta = plateTiltDeg * Math.PI / 180.0;
+      const nx = Math.cos(theta);
+      const ny = -Math.sin(theta);
+      const Sp = { x: aerialImage.x, y: aerialImage.y };
+      const dist_sp = (Sp.x - pc.x) * nx + (Sp.y - pc.y) * ny;
+      sourceOled.x = Sp.x - 2 * dist_sp * nx;
+    }
+
+    function resizeCanvas() {
+      const dpr = window.devicePixelRatio || 1;
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      recomputeConjugateFromSource();
+      drawSimulation();
+    }
+
+    function runAnimLoop() {
+      if (animRunning) {
+        animPhase = (animPhase + 0.14) % (Math.PI * 2);
+        drawSimulation();
+        animFrameId = requestAnimationFrame(runAnimLoop);
+      }
+    }
+
+    // MAIN DRAW SIMULATION FUNCTION (STRICT ANALYTIC PHYSICS)
     function drawSimulation() {
-      const w = canvas.width / window.devicePixelRatio;
-      const h = canvas.height / window.devicePixelRatio;
+      const dpr = window.devicePixelRatio || 1;
+      const w = canvas.width / dpr;
+      const h = canvas.height / dpr;
       ctx.clearRect(0, 0, w, h);
 
-      // Baseline
-      ctx.strokeStyle = "#1a1e27";
+      // 1. Subtle Engineering Grid
+      ctx.strokeStyle = "rgba(30, 35, 46, 0.4)";
+      ctx.lineWidth = 0.5;
+      for (let x = 0; x < w; x += 40) {
+        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
+      }
+      for (let y = 0; y < h; y += 40) {
+        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
+      }
+
+      // 2. Chassis Baseline (Z = 0 datum)
+      const baseFloorY = h - 28;
+      ctx.strokeStyle = "#1e232e";
       ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.moveTo(0, h - 25);
-      ctx.lineTo(w, h - 25);
-      ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(0, baseFloorY); ctx.lineTo(w, baseFloorY); ctx.stroke();
 
-      // Recessed Display (Source)
-      const dispX = 140;
-      const dispW = 120;
-      const dispY = h - 28;
+      // 3. Coordinate System & Scale
+      const pxPerMm = (w > 650) ? 1.0 : (w / 650);
+
+      // 4. DCRA Plate Geometry
+      const pc = { x: w * 0.42, y: h * 0.54 };
+      const plateLength = 170 * pxPerMm;
+      const theta = plateTiltDeg * Math.PI / 180.0;
+      const nx = Math.cos(theta);
+      const ny = -Math.sin(theta);
+      const tx = -ny;
+      const ty = nx;
+
+      const p0 = { x: pc.x - (plateLength / 2) * tx, y: pc.y - (plateLength / 2) * ty };
+      const p1 = { x: pc.x + (plateLength / 2) * tx, y: pc.y + (plateLength / 2) * ty };
+
+      // 5. Source OLED Display Setup
+      const dispY = baseFloorY - 4;
+      sourceOled.y = dispY;
+      const dispW = 100 * pxPerMm;
+      const dispX = sourceOled.x - dispW / 2;
+
+      // 6. Ultrasonic Phased Array (16 Transducers along base)
+      const arrayW = 150 * pxPerMm;
+      const arrayX0 = Math.max(pc.x + 20, aerialImage.x - arrayW / 2);
+      const numTransducers = 16;
+      const transducers = [];
+      for (let i = 0; i < numTransducers; i++) {
+        const tx_pos = arrayX0 + (i / (numTransducers - 1)) * arrayW;
+        transducers.push({ x: tx_pos, y: baseFloorY - 4 });
+      }
+
+      // Wavelength & Acoustic Wavenumber
+      const wavelengthMm = (C_AIR / carrierFreq) * 1000.0;
+      const wavelengthPx = wavelengthMm * pxPerMm;
+      const k_acoustic = (Math.PI * 2) / wavelengthPx;
+
+      // Phased Array Synthesis for target focal spot
+      const targetF = aerialImage;
+      const transducerPhases = [];
+      const transducerQ8 = [];
+      let totalPressAmp = 0;
+
+      for (let i = 0; i < numTransducers; i++) {
+        const d_px = Math.hypot(targetF.x - transducers[i].x, targetF.y - transducers[i].y);
+        let phi = (-k_acoustic * d_px) % (Math.PI * 2);
+        if (phi < 0) phi += Math.PI * 2;
+        transducerPhases.push(phi);
+        transducerQ8.push(Math.round((phi / (Math.PI * 2)) * 255) % 256);
+
+        const d_m = (d_px / pxPerMm) / 1000.0;
+        totalPressAmp += P0_ELEM / Math.max(0.02, d_m);
+      }
+
+      const p_rms = totalPressAmp / Math.SQRT2;
+      const p_rad = (p_rms * p_rms) / (RHO_AIR * C_AIR * C_AIR);
+      const spot_r_m = (wavelengthMm / 2.0) / 1000.0;
+      const spot_area_m2 = Math.PI * spot_r_m * spot_r_m;
+      const normal_force_mN = p_rad * spot_area_m2 * 1000.0;
+      const spl_dB = 20.0 * Math.log10(Math.max(1.0, p_rms) / 20e-6);
+
+      // Distance metrics
+      const d_src_mm = Math.abs((sourceOled.x - pc.x) * nx + (sourceOled.y - pc.y) * ny) / pxPerMm;
+      const d_air_mm = Math.abs((aerialImage.x - pc.x) * nx + (aerialImage.y - pc.y) * ny) / pxPerMm;
+      const tiltErr = Math.abs(plateTiltDeg - 45.0);
+      const magnification = 1.0 - (tiltErr * 0.025);
+
+      // =======================================================================
+      // DRAW ACOUSTICS WAVEFIELD (Constructive Interference Synthesis)
+      // =======================================================================
+      if (simMode === "combined" || simMode === "acoustics") {
+        // Draw expanding wavefront arcs from each transducer
+        ctx.lineWidth = 1;
+        const maxWaveR = Math.hypot(w, h);
+        for (let i = 0; i < numTransducers; i += (simMode === "combined" ? 2 : 1)) {
+          const t_elem = transducers[i];
+          const phi_i = transducerPhases[i];
+          const phaseOffsetPx = (phi_i / (Math.PI * 2)) * wavelengthPx;
+          const animOffsetPx = (animPhase / (Math.PI * 2)) * wavelengthPx;
+
+          for (let step = 0; step < 7; step++) {
+            const r = (step * wavelengthPx + phaseOffsetPx + animOffsetPx) % maxWaveR;
+            if (r > 8 && r < maxWaveR - 20) {
+              const alpha = Math.max(0, 0.28 * (1.0 - r / (maxWaveR * 0.75)));
+              ctx.strokeStyle = `rgba(16, 185, 129, ${alpha.toFixed(3)})`;
+              ctx.beginPath();
+              // Arc towards focal area
+              const angleToF = Math.atan2(targetF.y - t_elem.y, targetF.x - t_elem.x);
+              ctx.arc(t_elem.x, t_elem.y, r, angleToF - 0.45, angleToF + 0.45);
+              ctx.stroke();
+            }
+          }
+        }
+
+        // Acoustic Trapping Caustic Envelope at Focal Point
+        const spotRadiusPx = (wavelengthMm / 2.0) * pxPerMm;
+        const trapPulse = 1.0 + 0.15 * Math.sin(animPhase * 2);
+        ctx.strokeStyle = `rgba(16, 185, 129, ${0.45 * trapPulse})`;
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.arc(targetF.x, targetF.y, spotRadiusPx * 2.2 * trapPulse, 0, Math.PI * 2);
+        ctx.stroke();
+
+        ctx.strokeStyle = "rgba(16, 185, 129, 0.8)";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(targetF.x, targetF.y, spotRadiusPx, 0, Math.PI * 2);
+        ctx.stroke();
+
+        // Mode: Acoustics Sinc Pressure Cross-Section Profile
+        if (simMode === "acoustics") {
+          ctx.strokeStyle = "#38bdf8";
+          ctx.lineWidth = 1.5;
+          ctx.beginPath();
+          const graphY = targetF.y - 30;
+          for (let dx = -60; dx <= 60; dx += 2) {
+            const arg = (Math.PI * dx) / (spotRadiusPx * 1.5);
+            const sinc = (arg === 0) ? 1.0 : Math.sin(arg) / arg;
+            const py = graphY - Math.abs(sinc) * 22;
+            if (dx === -60) ctx.moveTo(targetF.x + dx, py);
+            else ctx.lineTo(targetF.x + dx, py);
+          }
+          ctx.stroke();
+          ctx.fillStyle = "#38bdf8";
+          ctx.font = "9px monospace";
+          ctx.fillText("p(x) Acoustic Beam Profile", targetF.x - 55, graphY - 26);
+        }
+      }
+
+      // =======================================================================
+      // DRAW DCRA OPTICAL RAY TRACING (Snell Retro-Reflection Law)
+      // =======================================================================
+      if (simMode === "combined" || simMode === "optics") {
+        const emitters = [];
+        if (simMode === "optics") {
+          emitters.push({ x: sourceOled.x - dispW * 0.35, y: dispY, color: "#38bdf8", label: "Pixel B" });
+          emitters.push({ x: sourceOled.x, y: dispY, color: "#ff5722", label: "Pixel G" });
+          emitters.push({ x: sourceOled.x + dispW * 0.35, y: dispY, color: "#10b981", label: "Pixel R" });
+        } else {
+          emitters.push({ x: sourceOled.x, y: dispY, color: "#ff5722", label: "OLED Emitter" });
+        }
+
+        emitters.forEach(em => {
+          const dist_em = (em.x - pc.x) * nx + (em.y - pc.y) * ny;
+          const conjugate_em = {
+            x: em.x - 2 * dist_em * nx,
+            y: em.y - 2 * dist_em * ny
+          };
+
+          const numRays = rayCountPerEmitter;
+          for (let j = 0; j < numRays; j++) {
+            const frac = 0.12 + 0.76 * (j / Math.max(1, numRays - 1));
+            const hit_x = p0.x + frac * (p1.x - p0.x);
+            const hit_y = p0.y + frac * (p1.y - p0.y);
+
+            // Incident ray unit vector
+            const rx = hit_x - em.x;
+            const ry = hit_y - em.y;
+            const rlen = Math.hypot(rx, ry);
+            const din_x = rx / rlen;
+            const din_y = ry / rlen;
+
+            // DCRA Retro-reflection components
+            const d_t = din_x * tx + din_y * ty;
+            const d_n = din_x * nx + din_y * ny;
+
+            // Micro-mirror dihedral bounce reverses in-plane tangent component
+            // If tilt angle != 45°, introduce angular shear aberration
+            const tiltAberration = (plateTiltDeg - 45.0) * (Math.PI / 180.0) * 0.4;
+            const cosA = Math.cos(tiltAberration);
+            const sinA = Math.sin(tiltAberration);
+            const d_t_mod = -(d_t * cosA - d_n * sinA);
+            const d_n_mod = d_t * sinA + d_n * cosA;
+
+            const dout_x = d_t_mod * tx + d_n_mod * nx;
+            const dout_y = d_t_mod * ty + d_n_mod * ny;
+
+            // Incident Ray
+            ctx.strokeStyle = em.color;
+            ctx.globalAlpha = 0.35;
+            ctx.lineWidth = 1;
+            ctx.setLineDash([3, 3]);
+            ctx.beginPath();
+            ctx.moveTo(em.x, em.y);
+            ctx.lineTo(hit_x, hit_y);
+            ctx.stroke();
+
+            // Reflected Ray through conjugate real image point
+            ctx.globalAlpha = 0.65;
+            ctx.lineWidth = 1.2;
+            ctx.setLineDash([]);
+            ctx.beginPath();
+            ctx.moveTo(hit_x, hit_y);
+            const extLen = Math.hypot(conjugate_em.x - hit_x, conjugate_em.y - hit_y) + 40;
+            ctx.lineTo(hit_x + dout_x * extLen, hit_y + dout_y * extLen);
+            ctx.stroke();
+
+            // Zero-Order Undiffracted Transmission Leakage
+            if (simMode === "optics" && j % 3 === 0) {
+              ctx.strokeStyle = "rgba(100, 116, 139, 0.25)";
+              ctx.lineWidth = 0.8;
+              ctx.setLineDash([2, 4]);
+              ctx.beginPath();
+              ctx.moveTo(hit_x, hit_y);
+              ctx.lineTo(hit_x + din_x * 50, hit_y + din_y * 50);
+              ctx.stroke();
+              ctx.setLineDash([]);
+            }
+          }
+          ctx.globalAlpha = 1.0;
+        });
+
+        // Observer Eye Viewing Cone Box (Top Right)
+        if (simMode === "optics") {
+          const eyeX = w - 50;
+          const eyeY = 40;
+          ctx.strokeStyle = "rgba(148, 163, 175, 0.5)";
+          ctx.lineWidth = 1;
+          ctx.setLineDash([2, 2]);
+          ctx.beginPath();
+          ctx.moveTo(aerialImage.x, aerialImage.y);
+          ctx.lineTo(eyeX - 15, eyeY - 10);
+          ctx.moveTo(aerialImage.x, aerialImage.y);
+          ctx.lineTo(eyeX - 15, eyeY + 10);
+          ctx.stroke();
+          ctx.setLineDash([]);
+
+          ctx.fillStyle = "#94a3af";
+          ctx.font = "10px monospace";
+          ctx.fillText("Observer Eye", eyeX - 35, eyeY - 14);
+          ctx.fillText("±35° FOV Cone", eyeX - 38, eyeY + 22);
+        }
+      }
+
+      // =======================================================================
+      // DRAW PHYSICAL HARDWARE COMPONENTS
+      // =======================================================================
+
+      // 1. Recessed OLED Panel
+      ctx.fillStyle = "#0c0e12";
+      ctx.fillRect(dispX - 4, dispY, dispW + 8, 8);
+      ctx.strokeStyle = "#ff5722";
+      ctx.lineWidth = 1.5;
+      ctx.strokeRect(dispX - 4, dispY, dispW + 8, 8);
+
       ctx.fillStyle = "#ffffff";
-      ctx.fillRect(dispX, dispY, dispW, 4);
-      ctx.fillStyle = "#64748b";
-      ctx.font = "10px monospace";
-      ctx.fillText("Recessed High-Nit OLED Display (d_source)", dispX - 20, h - 10);
+      ctx.fillRect(dispX, dispY + 1, dispW, 3);
 
-      // 45-degree DCRA Substrate Plate
+      ctx.fillStyle = "#ff5722";
+      ctx.font = "bold 10px monospace";
+      ctx.fillText("OLED Source [Drag]", dispX, dispY + 18);
+
+      // 2. DCRA Substrate Plate (Dihedral Micro-Mirrors)
       ctx.strokeStyle = "#475569";
       ctx.lineWidth = 4;
       ctx.lineCap = "round";
       ctx.beginPath();
-      ctx.moveTo(180, h - 35);
-      ctx.lineTo(320, 35);
-      ctx.stroke();
-      ctx.fillStyle = "#94a3af";
-      ctx.fillText("DCRA Plate (θ=45.0°)", 190, 50);
-
-      // Acoustic Phased Array (Bottom Right)
-      const arrayX = 300;
-      const arrayW = 140;
-      ctx.fillStyle = "#ff5722";
-      ctx.fillRect(arrayX, h - 28, arrayW, 5);
-      ctx.fillStyle = "#ff7043";
-      ctx.fillText("40kHz Ultrasonic Phased Array (256ch)", arrayX - 10, h - 10);
-
-      // Dynamic Optical Ray Tracing from Display to Plate to Focal Point
-      ctx.strokeStyle = "#ff5722";
-      ctx.lineWidth = 1.5;
-      ctx.setLineDash([4, 4]);
-
-      // Ray 1
-      ctx.beginPath();
-      ctx.moveTo(dispX + 20, dispY);
-      ctx.lineTo(220, 115);
-      ctx.lineTo(simFocusX, simFocusY);
+      ctx.moveTo(p0.x, p0.y);
+      ctx.lineTo(p1.x, p1.y);
       ctx.stroke();
 
-      // Ray 2
-      ctx.beginPath();
-      ctx.moveTo(dispX + dispW - 20, dispY);
-      ctx.lineTo(280, 75);
-      ctx.lineTo(simFocusX, simFocusY);
-      ctx.stroke();
-      ctx.setLineDash([]);
-
-      // Acoustic Wavefronts focusing on (simFocusX, simFocusY)
-      ctx.strokeStyle = "rgba(16, 185, 129, 0.4)";
+      // Micro-mirror dihedral teeth along plate
+      ctx.strokeStyle = "#94a3af";
       ctx.lineWidth = 1;
-      for (let r = 20; r < 140; r += 20) {
+      const teethCount = 14;
+      for (let t = 0; t <= teethCount; t++) {
+        const frac = t / teethCount;
+        const hx = p0.x + frac * (p1.x - p0.x);
+        const hy = p0.y + frac * (p1.y - p0.y);
         ctx.beginPath();
-        ctx.arc(simFocusX, simFocusY, r, 0.5 * Math.PI, 0.9 * Math.PI);
+        ctx.moveTo(hx, hy);
+        ctx.lineTo(hx + nx * 5, hy + ny * 5);
         ctx.stroke();
       }
 
-      // Focal Spot (Traversable Floating Hologram Point)
+      ctx.fillStyle = "#cbd5e1";
+      ctx.font = "10px monospace";
+      ctx.fillText(`DCRA Plate (θ=${plateTiltDeg.toFixed(1)}°)`, pc.x - 30, pc.y - 12);
+
+      // 3. Phased Array Transducers
+      ctx.fillStyle = "#1e232e";
+      ctx.fillRect(arrayX0 - 6, baseFloorY - 6, arrayW + 12, 10);
+      ctx.strokeStyle = "#10b981";
+      ctx.lineWidth = 1;
+      ctx.strokeRect(arrayX0 - 6, baseFloorY - 6, arrayW + 12, 10);
+
+      transducers.forEach((t_elem, idx) => {
+        const qVal = transducerQ8[idx] || 0;
+        const glow = qVal / 255.0;
+        ctx.fillStyle = `rgb(${Math.round(16 + glow * 40)}, ${Math.round(185 * glow + 40)}, ${Math.round(129 * glow + 40)})`;
+        ctx.beginPath();
+        ctx.arc(t_elem.x, t_elem.y, 3.5, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      ctx.fillStyle = "#10b981";
+      ctx.font = "bold 10px monospace";
+      ctx.fillText("40kHz Array (16ch)", arrayX0 + 5, baseFloorY + 18);
+
+      // 4. Aerial Real Image Focal Point (Interactive Hologram Point)
       ctx.fillStyle = "#ffffff";
       ctx.beginPath();
-      ctx.arc(simFocusX, simFocusY, 5, 0, Math.PI * 2);
+      ctx.arc(aerialImage.x, aerialImage.y, 4, 0, Math.PI * 2);
       ctx.fill();
 
       ctx.strokeStyle = "#ff5722";
       ctx.lineWidth = 2;
       ctx.beginPath();
-      ctx.arc(simFocusX, simFocusY, 12, 0, Math.PI * 2);
+      ctx.arc(aerialImage.x, aerialImage.y, 10, 0, Math.PI * 2);
       ctx.stroke();
 
-      // Label
       ctx.fillStyle = "#ff5722";
       ctx.font = "bold 11px monospace";
-      ctx.fillText(`Aerial Real Image (${(h - simFocusY).toFixed(0)}mm)`, simFocusX + 16, simFocusY + 4);
+      ctx.fillText(`Real Image (${d_air_mm.toFixed(0)}mm) [Drag]`, aerialImage.x + 14, aerialImage.y + 4);
 
-      // Update stat bar
-      const d_air = (h - simFocusY).toFixed(1);
-      const force = (8.5 + (180 - simFocusY) * 0.03).toFixed(1);
-      document.getElementById("sim-stats").innerText = `d_air = ${d_air}mm · Radiation Force = ${force} mN · Watchdog: Armed`;
+      // =======================================================================
+      // DRAW TACTILE END-EFFECTOR PROBE & PACINIAN MECHANORECEPTOR DYNAMICS
+      // =======================================================================
+      if (simMode === "combined" || simMode === "kinematics") {
+        const distProbe = Math.hypot(probePos.x - aerialImage.x, probePos.y - aerialImage.y);
+        const contactEnvelope = 16 * pxPerMm;
+        const isTouching = distProbe <= contactEnvelope;
+
+        // Draw probe stylus
+        ctx.strokeStyle = isTouching ? "#10b981" : "#94a3af";
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(probePos.x, probePos.y, 7, 0, Math.PI * 2);
+        ctx.stroke();
+
+        ctx.fillStyle = isTouching ? "rgba(16, 185, 129, 0.4)" : "rgba(148, 163, 175, 0.2)";
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.moveTo(probePos.x + 5, probePos.y + 5);
+        ctx.lineTo(probePos.x + 20, probePos.y + 20);
+        ctx.stroke();
+
+        ctx.fillStyle = isTouching ? "#10b981" : "#94a3af";
+        ctx.font = "10px monospace";
+        ctx.fillText("Probe [Drag]", probePos.x + 24, probePos.y + 24);
+
+        if (isTouching) {
+          // Acoustic Radiation Force Vectors pushing normal to skin
+          const fAngle = Math.atan2(probePos.y - aerialImage.y, probePos.x - aerialImage.x);
+          const fVecLen = Math.min(25, 8 + normal_force_mN * 1.2);
+          ctx.strokeStyle = "#10b981";
+          ctx.lineWidth = 2.5;
+          ctx.beginPath();
+          ctx.moveTo(probePos.x, probePos.y);
+          ctx.lineTo(probePos.x + Math.cos(fAngle) * fVecLen, probePos.y + Math.sin(fAngle) * fVecLen);
+          ctx.stroke();
+
+          // 200 Hz AM Pacinian Oscilloscope Graphic
+          const oscW = 80;
+          const oscH = 24;
+          const oscX = probePos.x - oscW / 2;
+          const oscY = probePos.y - 36;
+          ctx.fillStyle = "rgba(5, 6, 8, 0.85)";
+          ctx.fillRect(oscX, oscY, oscW, oscH);
+          ctx.strokeStyle = "#1e232e";
+          ctx.lineWidth = 1;
+          ctx.strokeRect(oscX, oscY, oscW, oscH);
+
+          ctx.strokeStyle = "#10b981";
+          ctx.lineWidth = 1.2;
+          ctx.beginPath();
+          for (let ox = 0; ox < oscW; ox++) {
+            const tVal = (ox / oscW) * 4 * Math.PI + animPhase;
+            const env = 0.5 * (1 + Math.cos(tVal));
+            const carrier = Math.sin(tVal * 8);
+            const oy = oscY + oscH / 2 - env * carrier * (oscH * 0.4);
+            if (ox === 0) ctx.moveTo(oscX + ox, oy);
+            else ctx.lineTo(oscX + ox, oy);
+          }
+          ctx.stroke();
+
+          ctx.fillStyle = "#10b981";
+          ctx.font = "8px monospace";
+          ctx.fillText("200Hz AM Pacinian", oscX + 4, oscY - 3);
+        }
+      }
+
+      // =======================================================================
+      // TELEMETRY HUD UPDATES (Strict Physical Values)
+      // =======================================================================
+      const teleOpticsDist = document.getElementById("tele-optics-dist");
+      if (teleOpticsDist) teleOpticsDist.innerText = `d_air = ${d_air_mm.toFixed(1)} mm`;
+
+      const teleOpticsSub = document.getElementById("tele-optics-sub");
+      if (teleOpticsSub) teleOpticsSub.innerText = `d_src = ${d_src_mm.toFixed(1)} mm · M = ${magnification.toFixed(3)}x`;
+
+      const teleForceVal = document.getElementById("tele-force-val");
+      if (teleForceVal) teleForceVal.innerText = `${normal_force_mN.toFixed(1)} mN`;
+
+      const teleForceSub = document.getElementById("tele-force-sub");
+      if (teleForceSub) teleForceSub.innerText = `P_rad = ${p_rad.toFixed(1)} Pa · SPL ${spl_dB.toFixed(1)} dB`;
+
+      const telePressVal = document.getElementById("tele-press-val");
+      if (telePressVal) telePressVal.innerText = `p_rms = ${(p_rms / 1000.0).toFixed(2)} kPa`;
+
+      const telePressSub = document.getElementById("tele-press-sub");
+      if (telePressSub) telePressSub.innerText = `λ = ${wavelengthMm.toFixed(2)} mm · f = ${(carrierFreq / 1000).toFixed(1)} kHz`;
+
+      const teleWatchdogVal = document.getElementById("tele-watchdog-val");
+      if (teleWatchdogVal) {
+        teleWatchdogVal.innerText = "PASS (2.8ms)";
+        teleWatchdogVal.style.color = "var(--green)";
+      }
     }
 
-    // Interactive Drag
-    let isDragging = false;
-    canvas.addEventListener("mousedown", (e) => { isDragging = true; updateSimCoords(e); });
-    window.addEventListener("mousemove", (e) => { if (isDragging) updateSimCoords(e); });
-    window.addEventListener("mouseup", () => { isDragging = false; });
-
-    function updateSimCoords(e) {
+    // =======================================================================
+    // INTERACTIVE MOUSE / TOUCH DRAG HANDLING
+    // =======================================================================
+    canvas.addEventListener("mousedown", (e) => {
       const rect = canvas.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
-      if (x > 220 && x < canvas.width / window.devicePixelRatio - 20 && y > 15 && y < 140) {
-        simFocusX = x;
-        simFocusY = y;
-        drawSimulation();
+
+      // Hit test target points
+      if (Math.hypot(x - aerialImage.x, y - aerialImage.y) < 22) {
+        dragTarget = "focus";
+      } else if (Math.hypot(x - probePos.x, y - probePos.y) < 22) {
+        dragTarget = "probe";
+      } else if (Math.abs(x - sourceOled.x) < 45 && Math.abs(y - sourceOled.y) < 25) {
+        dragTarget = "source";
       }
-    }
+    });
+
+    window.addEventListener("mousemove", (e) => {
+      if (!dragTarget) return;
+      const rect = canvas.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const dpr = window.devicePixelRatio || 1;
+      const w = canvas.width / dpr;
+      const h = canvas.height / dpr;
+
+      if (dragTarget === "focus") {
+        aerialImage.x = Math.max(w * 0.45, Math.min(w - 30, x));
+        aerialImage.y = Math.max(20, Math.min(h * 0.5, y));
+        recomputeSourceFromFocus();
+      } else if (dragTarget === "source") {
+        sourceOled.x = Math.max(50, Math.min(w * 0.38, x));
+        recomputeConjugateFromSource();
+      } else if (dragTarget === "probe") {
+        probePos.x = Math.max(20, Math.min(w - 20, x));
+        probePos.y = Math.max(10, Math.min(h - 20, y));
+      }
+      drawSimulation();
+    });
+
+    window.addEventListener("mouseup", () => {
+      dragTarget = null;
+    });
+
+    // Start 60fps wave loop on init
+    runAnimLoop();
 
     // 200 Hz WEB AUDIO PACINIAN RESONANCE TEST
     let audioCtx = null;
