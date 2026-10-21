@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="onyx">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,27 +12,69 @@
   <meta name="referrer" content="no-referrer">
 
   <style>
-    :root {
-      --bg: #090d16;
-      --bg-card: #0f1726;
-      --bg-subtle: #162032;
-      --bg-hover: #1e2c45;
-      --border: #22324d;
-      --border-muted: #192538;
-      --text: #e2e8f0;
-      --text-muted: #94a3b8;
-      --text-dim: #64748b;
-      --blue: #38bdf8;
-      --blue-hover: #7dd3fc;
-      --cyan: #00f0ff;
-      --orange: #ff5722;
-      --orange-hover: #ff7043;
-      --green: #22c55e;
-      --green-hover: #4ade80;
+    /* ========================================================================= */
+    /* THEME SYSTEM: DEFAULT ONYX PITCH BLACK (ZERO BLUE WASH)                  */
+    /* ========================================================================= */
+    :root, [data-theme="onyx"] {
+      --bg: #050608;              /* Pure pitch black / OLED void */
+      --bg-card: #0c0e12;         /* Deep neutral graphite */
+      --bg-subtle: #12151c;       /* Subtle neutral charcoal */
+      --bg-hover: #1a1e27;        /* Clean dark hover */
+      --border: #1e232e;          /* Deep neutral border */
+      --border-muted: #151820;    /* Muted hairline */
+      --text: #f3f4f6;            /* Crisp silver white */
+      --text-muted: #9ca3af;      /* Neutral mid slate */
+      --text-dim: #64748b;        /* Subtle dim */
+      --accent: #ff5722;          /* Iconic BBS / Reddit active orange */
+      --accent-hover: #ff7043;
+      --accent-subtle: rgba(255, 87, 34, 0.12);
+      --green: #10b981;
+      --green-subtle: rgba(16, 185, 129, 0.12);
       --purple: #a855f7;
       --danger: #ef4444;
+      --cyan: #38bdf8;
       --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
       --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+    }
+
+    [data-theme="charcoal"] {
+      --bg: #111215;
+      --bg-card: #181a1f;
+      --bg-subtle: #21242c;
+      --bg-hover: #2a2e38;
+      --border: #323742;
+      --border-muted: #242730;
+      --text: #f8fafc;
+      --text-muted: #cbd5e1;
+      --text-dim: #788294;
+      --accent: #ff5722;
+      --accent-hover: #ff7043;
+      --accent-subtle: rgba(255, 87, 34, 0.15);
+      --green: #22c55e;
+      --green-subtle: rgba(34, 197, 94, 0.15);
+      --purple: #c084fc;
+      --danger: #f87171;
+      --cyan: #67e8f9;
+    }
+
+    [data-theme="cyber"] {
+      --bg: #000000;
+      --bg-card: #080a08;
+      --bg-subtle: #101410;
+      --bg-hover: #182018;
+      --border: #223022;
+      --border-muted: #141c14;
+      --text: #f0fdf4;
+      --text-muted: #86efac;
+      --text-dim: #4ade80;
+      --accent: #10b981;
+      --accent-hover: #34d399;
+      --accent-subtle: rgba(16, 185, 129, 0.15);
+      --green: #10b981;
+      --green-subtle: rgba(16, 185, 129, 0.15);
+      --purple: #a855f7;
+      --danger: #ef4444;
+      --cyan: #34d399;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -43,9 +85,9 @@
       font-size: 14px;
       line-height: 1.5;
       -webkit-font-smoothing: antialiased;
+      transition: background 0.15s, color 0.15s;
     }
 
-    /* SVG ICONS BASE */
     .octicon {
       fill: currentColor;
       vertical-align: text-bottom;
@@ -53,7 +95,7 @@
       flex-shrink: 0;
     }
 
-    /* TOAST NOTIFICATION SYSTEM (Replaces native alerts) */
+    /* TOAST SYSTEM (Zero Native Alerts) */
     .toast-container {
       position: fixed;
       bottom: 24px;
@@ -67,13 +109,13 @@
     .toast-msg {
       background: var(--bg-card);
       border: 1px solid var(--border);
-      border-left: 4px solid var(--cyan);
+      border-left: 4px solid var(--accent);
       color: var(--text);
       padding: 12px 18px;
       border-radius: 6px;
       font-size: 13px;
       font-weight: 500;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.8);
       display: flex;
       align-items: center;
       gap: 10px;
@@ -85,7 +127,7 @@
       to { transform: translateY(0); opacity: 1; }
     }
 
-    /* TOP GLOBAL HEADER (Reddit/BBS Style) */
+    /* TOP GLOBAL HEADER */
     header.bbs-header {
       background: var(--bg-card);
       border-bottom: 1px solid var(--border);
@@ -108,13 +150,13 @@
       gap: 10px;
       text-decoration: none;
       color: var(--text);
-      font-weight: 700;
+      font-weight: 800;
       font-size: 17px;
       letter-spacing: -0.2px;
     }
     .bbs-logo svg {
-      width: 28px;
-      height: 28px;
+      width: 26px;
+      height: 26px;
       fill: #ffffff;
     }
     .bbs-badge {
@@ -122,63 +164,72 @@
       font-weight: 600;
       padding: 2px 8px;
       border-radius: 12px;
-      background: rgba(0, 240, 255, 0.1);
-      color: var(--cyan);
-      border: 1px solid rgba(0, 240, 255, 0.25);
+      background: var(--accent-subtle);
+      color: var(--accent);
+      border: 1px solid rgba(255, 87, 34, 0.25);
       font-family: var(--mono);
     }
 
-    /* SEARCH BAR (Fixed Icon & Overlap Bug) */
-    .bbs-search-box {
-      position: relative;
-      width: 320px;
-    }
-    .bbs-search-icon {
-      position: absolute;
-      left: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--text-dim);
-      pointer-events: none;
-      z-index: 2;
-    }
-    .bbs-search-input {
-      width: 100%;
+    /* SEARCH BAR (FLEXBOX CENTERING — MATHEMATICALLY PERFECT) */
+    .search-bar-wrapper {
+      display: flex;
+      align-items: center;
+      width: 330px;
+      height: 34px;
       background: var(--bg);
       border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 7px 36px 7px 38px !important; /* Critical: 38px ensures icon never overlaps text */
-      color: var(--text);
-      font-size: 13px;
-      outline: none;
-      font-family: var(--font);
+      border-radius: 17px;
+      padding: 0 12px;
+      gap: 8px;
       transition: all 0.15s ease;
     }
-    .bbs-search-input:focus {
-      border-color: var(--cyan);
-      box-shadow: 0 0 0 3px rgba(0, 240, 255, 0.15);
+    .search-bar-wrapper:focus-within {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-subtle);
       background: var(--bg-card);
     }
-    .bbs-search-kbd {
-      position: absolute;
-      right: 12px;
-      top: 50%;
-      transform: translateY(-50%);
+    .search-icon {
+      width: 14px;
+      height: 14px;
+      fill: var(--text-dim);
+      flex-shrink: 0;
+      display: block;
+    }
+    .search-input {
+      flex: 1;
+      height: 100%;
+      background: transparent !important;
+      border: none !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      color: var(--text);
+      font-size: 13px;
+      outline: none !important;
+      box-shadow: none !important;
+      font-family: var(--font);
+      line-height: 34px;
+    }
+    .search-kbd {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+      height: 18px;
       background: var(--bg-subtle);
       border: 1px solid var(--border);
-      color: var(--text-dim);
       border-radius: 4px;
-      padding: 1px 6px;
       font-size: 11px;
+      color: var(--text-dim);
       font-family: var(--mono);
-      pointer-events: none;
+      line-height: 1;
+      flex-shrink: 0;
     }
 
     /* HEADER NAV LINKS */
     .bbs-nav-links {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       list-style: none;
     }
     .bbs-nav-links a {
@@ -202,7 +253,7 @@
       gap: 10px;
     }
 
-    /* ACTION BUTTONS */
+    /* BUTTONS */
     .bbs-btn {
       display: inline-flex;
       align-items: center;
@@ -224,22 +275,13 @@
       border-color: var(--text-muted);
     }
     .bbs-btn-primary {
-      background: var(--orange);
-      border-color: var(--orange);
+      background: var(--accent);
+      border-color: var(--accent);
       color: #ffffff;
     }
     .bbs-btn-primary:hover {
-      background: var(--orange-hover);
-      border-color: var(--orange-hover);
-    }
-    .bbs-btn-cyan {
-      background: rgba(0, 240, 255, 0.15);
-      border-color: rgba(0, 240, 255, 0.3);
-      color: var(--cyan);
-    }
-    .bbs-btn-cyan:hover {
-      background: var(--cyan);
-      color: #090d16;
+      background: var(--accent-hover);
+      border-color: var(--accent-hover);
     }
 
     /* USER AVATAR & DROPDOWN */
@@ -250,8 +292,8 @@
       width: 34px;
       height: 34px;
       border-radius: 50%;
-      background: var(--cyan);
-      color: #090d16;
+      background: #1e293b;
+      color: #ffffff;
       font-weight: 700;
       font-size: 13px;
       display: flex;
@@ -274,7 +316,7 @@
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: 8px;
-      box-shadow: 0 12px 30px rgba(0,0,0,0.6);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.8);
       display: none;
       flex-direction: column;
       z-index: 200;
@@ -307,7 +349,7 @@
     }
     .dropdown-item:hover {
       background: var(--bg-hover);
-      color: var(--cyan);
+      color: var(--accent);
     }
     .dropdown-divider {
       height: 1px;
@@ -315,7 +357,7 @@
       margin: 4px 0;
     }
 
-    /* SUBNAV / BOARDS STRIP (Reddit subreddits & 4chan boards) */
+    /* SUBNAV / BOARDS STRIP */
     .boards-subnav {
       background: var(--bg-subtle);
       border-bottom: 1px solid var(--border);
@@ -348,8 +390,8 @@
       border-bottom-color: var(--text-dim);
     }
     .board-tab.active {
-      color: var(--cyan);
-      border-bottom-color: var(--cyan);
+      color: var(--text);
+      border-bottom-color: var(--accent);
     }
     .board-tag {
       font-family: var(--mono);
@@ -359,6 +401,36 @@
       padding: 1px 6px;
       border-radius: 4px;
       color: var(--text-dim);
+    }
+
+    /* CLI FAST LAUNCH BANNER */
+    .cli-bar {
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border);
+      padding: 6px 24px;
+      font-size: 12px;
+      font-family: var(--mono);
+      color: var(--text-muted);
+    }
+    .cli-bar-inner {
+      max-width: 1320px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .cli-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      padding: 3px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .cli-pill:hover {
+      border-color: var(--text-muted);
     }
 
     /* MAIN 3-COLUMN LAYOUT */
@@ -371,7 +443,7 @@
       gap: 24px;
     }
 
-    /* LEFT SIDEBAR (Boards & Channels) */
+    /* LEFT SIDEBAR */
     .sidebar-left {
       display: flex;
       flex-direction: column;
@@ -416,7 +488,7 @@
     }
     .board-nav-item.active {
       background: var(--bg-subtle);
-      color: var(--cyan);
+      color: var(--accent);
       font-weight: 600;
     }
     .board-nav-left {
@@ -432,7 +504,45 @@
       gap: 16px;
     }
 
-    /* CREATE POST PROMPT (Reddit Style) */
+    /* LIVE PHYSICAL LAB INTERACTIVE SIMULATOR (THE MISSING PIECE) */
+    .physics-lab-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      position: relative;
+    }
+    .physics-lab-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .physics-canvas-container {
+      background: #000000;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      width: 100%;
+      height: 180px;
+      position: relative;
+      cursor: crosshair;
+    }
+    canvas#sim-canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .sim-controls-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 10px;
+      font-size: 12px;
+      font-family: var(--mono);
+      color: var(--text-muted);
+    }
+
+    /* CREATE POST PROMPT */
     .create-prompt-bar {
       background: var(--bg-card);
       border: 1px solid var(--border);
@@ -446,8 +556,8 @@
       width: 34px;
       height: 34px;
       border-radius: 50%;
-      background: var(--cyan);
-      color: #090d16;
+      background: #1e293b;
+      color: #ffffff;
       font-weight: bold;
       display: flex;
       align-items: center;
@@ -455,6 +565,7 @@
       font-size: 13px;
       flex-shrink: 0;
       overflow: hidden;
+      border: 1px solid var(--border);
     }
     .prompt-avatar img {
       width: 100%;
@@ -466,14 +577,14 @@
       background: var(--bg);
       border: 1px solid var(--border);
       border-radius: 20px;
-      padding: 8px 14px;
+      padding: 8px 16px;
       color: var(--text-dim);
       font-size: 13px;
       cursor: pointer;
       transition: all 0.15s;
     }
     .prompt-input:hover {
-      border-color: var(--cyan);
+      border-color: var(--accent);
       color: var(--text);
     }
 
@@ -511,8 +622,8 @@
     }
     .sort-pill-btn.active {
       background: var(--bg-subtle);
-      color: var(--cyan);
-      border: 1px solid rgba(0, 240, 255, 0.2);
+      color: var(--text);
+      border: 1px solid var(--border);
     }
 
     /* REDDIT / BBS POST CARD */
@@ -531,7 +642,7 @@
     /* UPVOTE COLUMN */
     .vote-gutter {
       width: 48px;
-      background: rgba(9, 13, 22, 0.4);
+      background: rgba(0, 0, 0, 0.4);
       border-right: 1px solid var(--border-muted);
       display: flex;
       flex-direction: column;
@@ -554,10 +665,10 @@
     }
     .vote-btn:hover {
       background: var(--bg-hover);
-      color: var(--orange);
+      color: var(--accent);
     }
     .vote-btn.upvoted {
-      color: var(--orange);
+      color: var(--accent);
     }
     .vote-score {
       font-size: 13px;
@@ -584,7 +695,7 @@
     .board-flair {
       font-family: var(--mono);
       font-weight: 700;
-      color: var(--cyan);
+      color: var(--text);
       text-decoration: none;
     }
     .post-flair-badge {
@@ -594,10 +705,10 @@
       border-radius: 4px;
       font-family: var(--mono);
     }
-    .flair-rfc { background: rgba(56, 189, 248, 0.15); color: var(--blue); border: 1px solid rgba(56, 189, 248, 0.3); }
-    .flair-proof { background: rgba(34, 197, 94, 0.15); color: var(--green); border: 1px solid rgba(34, 197, 94, 0.3); }
-    .flair-bounty { background: rgba(255, 87, 34, 0.15); color: var(--orange); border: 1px solid rgba(255, 87, 34, 0.3); }
-    .flair-hw { background: rgba(168, 85, 247, 0.15); color: var(--purple); border: 1px solid rgba(168, 85, 247, 0.3); }
+    .flair-rfc { background: rgba(56, 189, 248, 0.12); color: var(--cyan); border: 1px solid rgba(56, 189, 248, 0.25); }
+    .flair-proof { background: rgba(16, 185, 129, 0.12); color: var(--green); border: 1px solid rgba(16, 185, 129, 0.25); }
+    .flair-bounty { background: rgba(255, 87, 34, 0.12); color: var(--accent); border: 1px solid rgba(255, 87, 34, 0.25); }
+    .flair-hw { background: rgba(168, 85, 247, 0.12); color: var(--purple); border: 1px solid rgba(168, 85, 247, 0.25); }
 
     .bbs-post-title {
       font-size: 16px;
@@ -608,7 +719,7 @@
       cursor: pointer;
     }
     .bbs-post-title:hover {
-      color: var(--cyan);
+      color: var(--accent);
     }
     .post-lead {
       font-size: 13px;
@@ -625,7 +736,7 @@
       border-radius: 4px;
       background: var(--bg);
       border: 1px solid var(--border);
-      color: var(--cyan);
+      color: var(--text);
       font-size: 11px;
       font-family: var(--mono);
       cursor: pointer;
@@ -636,13 +747,13 @@
       background: var(--bg-hover);
     }
     .expando-code-block {
-      background: #05080f;
+      background: #000000;
       border: 1px solid var(--border);
       border-radius: 6px;
       padding: 10px 14px;
       font-family: var(--mono);
       font-size: 12px;
-      color: #7dd3fc;
+      color: #94a3af;
       overflow-x: auto;
       line-height: 1.45;
       margin-top: 6px;
@@ -676,7 +787,7 @@
       color: var(--text);
     }
 
-    /* RIGHT SIDEBAR (Community Info, Rules & Quick Tools) */
+    /* RIGHT SIDEBAR */
     .sidebar-right {
       display: flex;
       flex-direction: column;
@@ -689,13 +800,13 @@
       overflow: hidden;
     }
     .community-banner {
-      background: linear-gradient(135deg, #101c30 0%, #172a48 100%);
+      background: linear-gradient(135deg, #101216 0%, #171b22 100%);
       padding: 16px;
       border-bottom: 1px solid var(--border);
     }
     .community-title {
       font-size: 16px;
-      font-weight: 700;
+      font-weight: 800;
       color: var(--text);
     }
     .community-desc {
@@ -745,7 +856,7 @@
     .confirm-modal-overlay {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(5, 8, 15, 0.85);
+      background: rgba(0, 0, 0, 0.85);
       backdrop-filter: blur(4px);
       display: none;
       align-items: center;
@@ -763,7 +874,7 @@
       width: 100%;
       max-width: 460px;
       padding: 20px;
-      box-shadow: 0 16px 40px rgba(0,0,0,0.7);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.8);
     }
     .confirm-title {
       font-size: 16px;
@@ -790,7 +901,7 @@
       margin-bottom: 16px;
     }
     .confirm-input:focus {
-      border-color: var(--cyan);
+      border-color: var(--accent);
     }
     .confirm-actions {
       display: flex;
@@ -802,7 +913,7 @@
     .settings-overlay {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(5, 8, 15, 0.85);
+      background: rgba(0, 0, 0, 0.85);
       backdrop-filter: blur(4px);
       display: none;
       align-items: center;
@@ -822,7 +933,7 @@
       height: 85vh;
       display: flex;
       flex-direction: column;
-      box-shadow: 0 20px 48px rgba(0,0,0,0.7);
+      box-shadow: 0 20px 48px rgba(0,0,0,0.8);
       overflow: hidden;
     }
     .settings-header {
@@ -865,7 +976,7 @@
     }
     .settings-nav-item.active {
       background: var(--bg-subtle);
-      color: var(--cyan);
+      color: var(--accent);
       font-weight: 600;
     }
     .settings-view {
@@ -877,7 +988,7 @@
     .bbs-modal-overlay {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(5, 8, 15, 0.85);
+      background: rgba(0, 0, 0, 0.85);
       backdrop-filter: blur(4px);
       display: none;
       align-items: center;
@@ -897,7 +1008,7 @@
       max-height: 90vh;
       display: flex;
       flex-direction: column;
-      box-shadow: 0 16px 40px rgba(0,0,0,0.7);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.8);
       overflow: hidden;
     }
     .bbs-modal-head {
@@ -914,7 +1025,7 @@
       flex: 1;
     }
 
-    /* THREADED COMMENTS (Reddit/BBS Tree Indentation) */
+    /* THREADED COMMENTS */
     .comment-tree-node {
       border-left: 2px solid var(--border);
       padding-left: 14px;
@@ -928,7 +1039,7 @@
       margin-bottom: 4px;
     }
     .comment-author-bar b {
-      color: var(--cyan);
+      color: var(--accent);
       font-family: var(--mono);
     }
 
@@ -945,8 +1056,8 @@
       margin-bottom: 14px;
     }
     input:focus, select:focus, textarea:focus {
-      border-color: var(--cyan);
-      box-shadow: 0 0 0 3px rgba(0, 240, 255, 0.15);
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-subtle);
     }
 
     @media (max-width: 1024px) {
@@ -970,38 +1081,45 @@
       <a href="#" class="bbs-logo" onclick="setBoard('all')">
         <!-- KHORA Option C Vector Mark -->
         <svg viewBox="0 0 512 512">
-          <rect x="28" y="28" width="456" height="456" rx="88" fill="none" stroke="#38bdf8" stroke-width="20"/>
-          <line x1="140" y1="28" x2="140" y2="484" stroke="#22324d" stroke-width="12" stroke-dasharray="12 12"/>
-          <line x1="28" y1="372" x2="484" y2="372" stroke="#22324d" stroke-width="12" stroke-dasharray="12 12"/>
-          <line x1="140" y1="372" x2="372" y2="140" stroke="#00f0ff" stroke-width="24" stroke-linecap="round"/>
-          <path d="M 276 236 A 80 80 0 0 1 332 292" fill="none" stroke="#a78bfa" stroke-width="16" stroke-linecap="round"/>
-          <path d="M 308 204 A 124 124 0 0 1 364 260" fill="none" stroke="#a78bfa" stroke-width="12" stroke-linecap="round" stroke-dasharray="10 10"/>
-          <circle cx="256" cy="256" r="14" fill="#00f0ff"/>
-          <circle cx="256" cy="256" r="28" fill="none" stroke="#00f0ff" stroke-width="8"/>
+          <rect x="28" y="28" width="456" height="456" rx="88" fill="none" stroke="#94a3af" stroke-width="20"/>
+          <line x1="140" y1="28" x2="140" y2="484" stroke="#262626" stroke-width="12" stroke-dasharray="12 12"/>
+          <line x1="28" y1="372" x2="484" y2="372" stroke="#262626" stroke-width="12" stroke-dasharray="12 12"/>
+          <line x1="140" y1="372" x2="372" y2="140" stroke="#f3f4f6" stroke-width="24" stroke-linecap="round"/>
+          <path d="M 276 236 A 80 80 0 0 1 332 292" fill="none" stroke="#ff5722" stroke-width="16" stroke-linecap="round"/>
+          <path d="M 308 204 A 124 124 0 0 1 364 260" fill="none" stroke="#ff5722" stroke-width="12" stroke-linecap="round" stroke-dasharray="10 10"/>
+          <circle cx="256" cy="256" r="14" fill="#ffffff"/>
+          <circle cx="256" cy="256" r="28" fill="none" stroke="#ffffff" stroke-width="8"/>
         </svg>
         <span>KHORA</span>
       </a>
       <span class="bbs-badge">engineering.bbs</span>
 
-      <!-- SEARCH BAR (38px padding prevents overlap) -->
-      <div class="bbs-search-box">
-        <svg class="octicon bbs-search-icon" viewBox="0 0 16 16" width="14" height="14">
+      <!-- SEARCH BAR (MATHEMATICALLY CENTERED FLEXBOX) -->
+      <div class="search-bar-wrapper">
+        <svg class="search-icon" viewBox="0 0 16 16">
           <path d="M11.5 7a4.499 4.499 0 11-8.998 0A4.499 4.499 0 0111.5 7zm-.82 4.74a6 6 0 10-1.06 1.06l3.04 3.04a.75.75 0 101.06-1.06l-3.04-3.04z"></path>
         </svg>
-        <input type="text" class="bbs-search-input" id="bbs-search-input" placeholder="Search threads, RFCs, equations..." oninput="handleSearch(this.value)">
-        <span class="bbs-search-kbd">/</span>
+        <input type="text" class="search-input" id="search-input-field" placeholder="Search threads, RFCs, equations..." oninput="handleSearch(this.value)">
+        <kbd class="search-kbd">/</kbd>
       </div>
 
       <ul class="bbs-nav-links">
         <li><a href="#" class="active" onclick="setBoard('all')">Feed</a></li>
         <li><a href="#" onclick="openToolsModal()">DevTools &amp; Code</a></li>
         <li><a href="#" onclick="openProofModal()">Physical Proof</a></li>
-        <li><a href="#" onclick="openSettingsWithTab('legal')">Terms &amp; Privacy</a></li>
+        <li><a href="#" onclick="openSettingsWithTab('terms')">Terms &amp; Privacy</a></li>
       </ul>
     </div>
 
     <div class="bbs-header-right">
-      <!-- LANGUAGE TRANSLATION ENGINE SELECTOR -->
+      <!-- THEME SELECTOR DROPDOWN (Onyx Default) -->
+      <select class="bbs-btn" id="theme-selector" onchange="setTheme(this.value)" style="padding:4px 8px; font-size:12px; margin-bottom:0;" title="Theme Palette">
+        <option value="onyx">Theme: Onyx Pitch Black</option>
+        <option value="charcoal">Theme: Charcoal Smoke</option>
+        <option value="cyber">Theme: Emerald Terminal</option>
+      </select>
+
+      <!-- LANGUAGE SELECTOR -->
       <select class="bbs-btn" id="lang-switch-select" onchange="switchLanguage(this.value)" style="padding:4px 8px; font-size:12px; margin-bottom:0;" title="Change Language">
         <option value="en">English (US)</option>
         <option value="es">Español (ES)</option>
@@ -1027,7 +1145,6 @@
             <b id="dropdown-user-title">u/iris</b>
           </div>
           <a class="dropdown-item" onclick="openSettingsWithTab('profile')">User Profile</a>
-          <a class="dropdown-item" onclick="openSettingsWithTab('profile')">Account Settings</a>
           <a class="dropdown-item" onclick="openSettingsWithTab('2fa')">Two-Factor Auth (2FA)</a>
           <a class="dropdown-item" onclick="openSettingsWithTab('language')">Language Engine</a>
           <div class="dropdown-divider"></div>
@@ -1041,7 +1158,7 @@
     </div>
   </header>
 
-  <!-- BOARDS SUBNAV (Reddit Subreddits & 4chan Channels) -->
+  <!-- BOARDS SUBNAV -->
   <nav class="boards-subnav">
     <div class="boards-subnav-inner">
       <div class="board-tab active" id="btab-all" onclick="setBoard('all')">
@@ -1068,12 +1185,24 @@
         <span>k/bounties</span>
         <span class="board-tag">$800 Active</span>
       </div>
-      <div class="board-tab" id="btab-meta" onclick="setBoard('meta')">
-        <span>k/meta</span>
-        <span class="board-tag">Proofs &amp; RFCs</span>
-      </div>
     </div>
   </nav>
+
+  <!-- CLI QUICK STATS BAR -->
+  <div class="cli-bar">
+    <div class="cli-bar-inner">
+      <div style="display:flex; align-items:center; gap:12px;">
+        <span class="cli-pill" onclick="copyCliCommand('git clone https://github.com/iriss-dev/khora.git')">
+          <span>$</span> git clone https://github.com/iriss-dev/khora.git
+          <span style="color:var(--text-dim);">[copy]</span>
+        </span>
+        <span style="color:var(--green);">● 18/18 Unit Tests Passing (0.015s)</span>
+      </div>
+      <div>
+        <span>Watchdog: <b>50ms Interlock Armed</b></span>
+      </div>
+    </div>
+  </div>
 
   <!-- MAIN 3-COLUMN LAYOUT -->
   <div class="main-grid">
@@ -1117,7 +1246,7 @@
 
           <div class="board-nav-item" id="bnav-bounties" onclick="setBoard('bounties')">
             <span class="board-nav-left">
-              <svg class="octicon" viewBox="0 0 16 16" width="16" height="16" fill="var(--orange)"><path d="M8 0a4 4 0 0 1 4 4v1.5a2.5 2.5 0 0 1-2.4 2.498A4.002 4.002 0 0 1 8.75 11.9v1.6H11a.75.75 0 0 1 0 1.5H5a.75.75 0 0 1 0-1.5h2.25v-1.6A4.002 4.002 0 0 1 6.4 7.998 2.5 2.5 0 0 1 4 5.5V4a4 4 0 0 1 4-4Zm2.5 4a2.5 2.5 0 0 0-5 0v1.5a2.5 2.5 0 0 0 5 0V4Z"></path></svg>
+              <svg class="octicon" viewBox="0 0 16 16" width="16" height="16" fill="var(--accent)"><path d="M8 0a4 4 0 0 1 4 4v1.5a2.5 2.5 0 0 1-2.4 2.498A4.002 4.002 0 0 1 8.75 11.9v1.6H11a.75.75 0 0 1 0 1.5H5a.75.75 0 0 1 0-1.5h2.25v-1.6A4.002 4.002 0 0 1 6.4 7.998 2.5 2.5 0 0 1 4 5.5V4a4 4 0 0 1 4-4Zm2.5 4a2.5 2.5 0 0 0-5 0v1.5a2.5 2.5 0 0 0 5 0V4Z"></path></svg>
               <span>k/bounties</span>
             </span>
             <span style="font-family:var(--mono); font-size:11px; color:var(--green); font-weight:bold;">$800</span>
@@ -1129,10 +1258,10 @@
       <div class="widget-box">
         <div class="widget-header">Legal &amp; Privacy Shield</div>
         <div class="widget-content" style="font-size:12px; line-height:1.8;">
-          <div><a href="#" onclick="openSettingsWithTab('terms')" style="color:var(--blue); text-decoration:none;">Terms &amp; Conditions ↗</a></div>
+          <div><a href="#" onclick="openSettingsWithTab('terms')" style="color:var(--text); text-decoration:none;">Terms &amp; Conditions ↗</a></div>
           <div><a href="#" onclick="openSettingsWithTab('privacy')" style="color:var(--green); text-decoration:none;">Privacy Policy (Zero-Telemetry) ↗</a></div>
-          <div><a href="#" onclick="openSettingsWithTab('safety')" style="color:var(--orange); text-decoration:none;">Acoustic Safety (OSHA/IEC) ↗</a></div>
-          <div><a href="https://github.com/iriss-dev/khora/blob/master/docs/LEGAL_AND_COMPLIANCE.md" target="_blank" style="color:var(--text-dim); text-decoration:none;">Full Legal Documentation ↗</a></div>
+          <div><a href="#" onclick="openSettingsWithTab('safety')" style="color:var(--accent); text-decoration:none;">Acoustic Safety (OSHA/IEC) ↗</a></div>
+          <div><a href="https://github.com/iriss-dev/khora/blob/master/docs/LEGAL_AND_COMPLIANCE.md" target="_blank" style="color:var(--text-dim); text-decoration:none;">Full Documentation ↗</a></div>
         </div>
       </div>
     </aside>
@@ -1140,7 +1269,29 @@
     <!-- CENTER FEED COLUMN -->
     <main class="center-column">
 
-      <!-- CREATE POST PROMPT (Reddit Style) -->
+      <!-- LIVE PHYSICS VISUALIZER: REAL-TIME DCRA & 40kHz INTERACTIVE LAB -->
+      <div class="physics-lab-card">
+        <div class="physics-lab-header">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span style="width:8px; height:8px; border-radius:50%; background:var(--green);"></span>
+            <span style="font-weight:700; font-size:13px; color:var(--text);">Live Spatial Physics Lab — DCRA Retro-Reflection &amp; Acoustic Focus</span>
+          </div>
+          <button class="bbs-btn" style="padding:2px 8px; font-size:11px;" onclick="playTactileAudioTest()">
+            <svg class="octicon" viewBox="0 0 16 16" width="13" height="13" style="fill:currentColor; display:inline-block; vertical-align:text-bottom;"><path d="M7.559 1.978a.75.75 0 0 1 .441.688v10.668a.75.75 0 0 1-1.218.583L3.49 11.25H1.75A1.75 1.75 0 0 1 0 9.5v-3C0 5.534.784 4.75 1.75 4.75h1.74l3.292-2.679a.75.75 0 0 1 .777-.093ZM11.5 8a3.5 3.5 0 0 1-.955 2.42.75.75 0 1 0 1.09 1.03A5 5 0 0 0 13 8c0-1.637-.788-3.09-2.006-4.01a.75.75 0 0 0-.91 1.19A3.5 3.5 0 0 1 11.5 8Z"></path></svg> <span>Test 200 Hz Pacinian Resonance</span>
+          </button>
+        </div>
+
+        <div class="physics-canvas-container" id="canvas-container">
+          <canvas id="sim-canvas"></canvas>
+        </div>
+
+        <div class="sim-controls-row">
+          <span>Drag in canvas to move aerial focus point</span>
+          <span id="sim-stats">d_air = 85.0mm · Force = 11.4 mN · Phase = 138°</span>
+        </div>
+      </div>
+
+      <!-- CREATE POST PROMPT -->
       <div class="create-prompt-bar">
         <div class="prompt-avatar" id="prompt-user-avatar">
           <span>I</span>
@@ -1148,8 +1299,8 @@
         <div class="prompt-input" onclick="openNewPostModal()">
           Create an engineering thread, report benchmarks, or propose hardware specs...
         </div>
-        <button class="bbs-btn bbs-btn-cyan" onclick="openToolsModal()">
-          <span> Generate Code</span>
+        <button class="bbs-btn bbs-btn-primary" onclick="openToolsModal()">
+          <span><svg class="octicon" viewBox="0 0 16 16" width="13" height="13" style="fill:currentColor; display:inline-block; vertical-align:text-bottom;"><path d="M8.22 1.754a.75.75 0 0 0-1.063-.814L2.35 4.475a.75.75 0 0 0-.35.64v5.37a.75.75 0 0 0 .35.64l4.807 3.535a.75.75 0 0 0 1.063-.814l-.99-3.706h4.52a.75.75 0 0 0 .61-1.185L8.22 1.754Z"></path></svg> <span>Generate Code</span></span>
         </button>
       </div>
 
@@ -1180,14 +1331,14 @@
 
     </main>
 
-    <!-- RIGHT SIDEBAR (Community Board Info, Rules, Bounties) -->
+    <!-- RIGHT SIDEBAR -->
     <aside class="sidebar-right">
 
       <div class="community-box">
         <div class="community-banner">
           <div class="community-title">k/khora</div>
           <div class="community-desc">
-            The decentralized engineering board for traversable spatial computing, 40kHz ultrasound radiation force haptics, and deterministic robotics kinematics.
+            Decentralized engineering board for traversable spatial computing, 40kHz ultrasound radiation force haptics, and deterministic robotics kinematics.
           </div>
         </div>
 
@@ -1201,7 +1352,7 @@
             <span>Online now</span>
           </div>
           <div class="stat-metric">
-            <b style="color:var(--cyan);">18/18</b>
+            <b>18/18</b>
             <span>Tests Passed</span>
           </div>
           <div class="stat-metric">
@@ -1252,7 +1403,7 @@
               <a href="#" style="font-weight:600; color:var(--text); text-decoration:none; font-size:12px;" onclick="openThreadModal(4)">TC4427 Gate Driver Power Board</a>
               <div style="font-size:11px; color:var(--text-dim);">24V distribution for 256 transducers</div>
             </div>
-            <span style="font-family:var(--mono); font-size:11px; font-weight:bold; color:var(--green); background:rgba(34,197,94,0.15); padding:1px 6px; border-radius:4px;">$500</span>
+            <span style="font-family:var(--mono); font-size:11px; font-weight:bold; color:var(--green); background:rgba(16,185,129,0.15); padding:1px 6px; border-radius:4px;">$500</span>
           </div>
 
           <div style="display:flex; justify-content:space-between; align-items:flex-start;">
@@ -1260,7 +1411,7 @@
               <a href="#" style="font-weight:600; color:var(--text); text-decoration:none; font-size:12px;" onclick="openThreadModal(3)">RP2040 Dual-Core PIO Matrix</a>
               <div style="font-size:11px; color:var(--text-dim);">Cycle-accurate phase delay lookup</div>
             </div>
-            <span style="font-family:var(--mono); font-size:11px; font-weight:bold; color:var(--green); background:rgba(34,197,94,0.15); padding:1px 6px; border-radius:4px;">$300</span>
+            <span style="font-family:var(--mono); font-size:11px; font-weight:bold; color:var(--green); background:rgba(16,185,129,0.15); padding:1px 6px; border-radius:4px;">$300</span>
           </div>
         </div>
       </div>
@@ -1269,9 +1420,7 @@
 
   </div>
 
-  <!-- ========================================================================= -->
-  <!-- CUSTOM IN-PAGE CONFIRMATION MODALS (Replaces window.prompt/confirm/alert)  -->
-  <!-- ========================================================================= -->
+  <!-- CUSTOM CONFIRMATION MODAL -->
   <div class="confirm-modal-overlay" id="custom-prompt-modal">
     <div class="confirm-card">
       <div class="confirm-title" id="cp-title">Confirm Action</div>
@@ -1284,9 +1433,7 @@
     </div>
   </div>
 
-  <!-- ========================================================================= -->
-  <!-- FULL ACCOUNT & SETTINGS MODAL (With Comprehensive Terms and Privacy)      -->
-  <!-- ========================================================================= -->
+  <!-- FULL SETTINGS MODAL -->
   <div class="settings-overlay" id="settings-modal" onclick="closeOnSettingsOverlay(event)">
     <div class="settings-box">
       <div class="settings-header">
@@ -1365,7 +1512,7 @@
                 <button class="bbs-btn" onclick="showToast('TOTP secret key re-synchronized.')">Reconfigure</button>
               </div>
               <div style="font-size:12px; color:var(--text-dim); margin-bottom:8px;">Secret Key: <code>JBSWY3DPEHPK3PXP</code></div>
-              <div style="font-family:var(--mono); font-size:24px; font-weight:bold; color:var(--cyan); letter-spacing:4px;" id="totp-code-val">491 802</div>
+              <div style="font-family:var(--mono); font-size:24px; font-weight:bold; color:var(--text); letter-spacing:4px;" id="totp-code-val">491 802</div>
               <div style="font-size:11px; color:var(--text-dim); margin-top:4px;" id="totp-timer-label">Rotates in 22s</div>
             </div>
 
@@ -1395,14 +1542,6 @@
               <option value="fr">Français (French)</option>
               <option value="zh">简体中文 (Chinese)</option>
             </select>
-
-            <div style="background:var(--bg-card); border:1px solid var(--border); border-radius:6px; padding:14px; font-size:12px; color:var(--text-muted); line-height:1.7;">
-              <h4 style="color:var(--cyan); font-size:13px; margin-bottom:6px;">Lexical Engine Guarantees</h4>
-              <div> Preserves all &lt;code&gt; and &lt;pre&gt; blocks untranslated.</div>
-              <div> Mathematical formulas &amp; symbols (d_air = d_source, P = 2I/c) remain intact.</div>
-              <div> Hardware part numbers (TC4427, RP2040, ASKA3D) are never corrupted.</div>
-              <div> 100% Client-Side: 0ms network latency.</div>
-            </div>
           </div>
 
           <!-- VIEW 4: EXTENSIVE TERMS & CONDITIONS -->
@@ -1431,13 +1570,13 @@
             <p style="font-size:13px; color:var(--text-muted); margin-bottom:16px;">Architectural proof that your personal data is never transmitted to any third party.</p>
 
             <div style="font-size:13px; line-height:1.7; color:var(--text-muted);">
-              <h4 style="color:var(--cyan); margin-top:12px;">1. Zero External Telemetry</h4>
+              <h4 style="color:var(--text); margin-top:12px;">1. Zero External Telemetry</h4>
               <p>KHORA does not embed Google Analytics, Meta Pixel, tracking beacons, or third-party cookies. All scripts are self-hosted.</p>
 
-              <h4 style="color:var(--cyan); margin-top:12px;">2. Content Security Policy (CSP)</h4>
+              <h4 style="color:var(--text); margin-top:12px;">2. Content Security Policy (CSP)</h4>
               <p>Our strict CSP enforces <code>default-src 'self'</code>, blocking any unauthorized JavaScript from exfiltrating data to external domains.</p>
 
-              <h4 style="color:var(--cyan); margin-top:12px;">3. GDPR Article 17 ("Right to Erasure")</h4>
+              <h4 style="color:var(--text); margin-top:12px;">3. GDPR Article 17 ("Right to Erasure")</h4>
               <p>You can completely eradicate all local profile records, discussion caches, and cryptographic keys in one click using the Danger Zone below.</p>
             </div>
           </div>
@@ -1448,13 +1587,13 @@
             <p style="font-size:13px; color:var(--text-muted); margin-bottom:16px;">Mandatory safety exposure limits based on OSHA and IEC standards.</p>
 
             <div style="font-size:13px; line-height:1.7; color:var(--text-muted);">
-              <h4 style="color:var(--orange); margin-top:12px;">OSHA 1910.95 &amp; IEC 60601-2-5 Ultrasonic Safety Limits</h4>
+              <h4 style="color:var(--accent); margin-top:12px;">OSHA 1910.95 &amp; IEC 60601-2-5 Ultrasonic Safety Limits</h4>
               <p>Focused 40 kHz ultrasound produces mechanical radiation pressure ($P = 2I/c$). The beamforming array must NEVER exceed <b>20 mN of acoustic radiation force</b> on human skin. Modulation must be restricted to $\le 250\text{ Hz}$ with duty cycles $\le 25\%$ to prevent localized tissue heating.</p>
 
-              <h4 style="color:var(--orange); margin-top:12px;">24V DC / MOSFET High-Current Electrical Precautions</h4>
+              <h4 style="color:var(--accent); margin-top:12px;">24V DC / MOSFET High-Current Electrical Precautions</h4>
               <p>Switching 256 piezoelectric transducers draws up to 8–15A instantaneous peak currents. Builders must provide star-ground PCB layouts, thermal heatsinking, and emergency mechanical power disconnects.</p>
 
-              <h4 style="color:var(--orange); margin-top:12px;">50ms Hardware Watchdog Interlock Protocol</h4>
+              <h4 style="color:var(--accent); margin-top:12px;">50ms Hardware Watchdog Interlock Protocol</h4>
               <p>Robotic arms operating in co-presence with human hands in the DCRA holographic workspace must run a 50ms heartbeat watchdog. If optical tracking is lost for $\ge 50\text{ ms}$, joint velocities must halt immediately.</p>
             </div>
           </div>
@@ -1511,7 +1650,7 @@
         <p style="color:var(--text-muted); margin-bottom:14px;">KHORA unifies two real, commercially verified technologies:</p>
 
         <div style="background:var(--bg); border:1px solid var(--border); border-radius:6px; padding:14px; margin-bottom:14px;">
-          <h4 style="color:var(--cyan); margin-bottom:6px;">1. ASKA3D Optical Plates (AsukaNet Co., Ltd.)</h4>
+          <h4 style="color:var(--text); margin-bottom:6px;">1. ASKA3D Optical Plates (AsukaNet Co., Ltd.)</h4>
           <p style="margin-bottom:6px;"><b>Deployed in real 7-Eleven Bank ATMs in Japan:</b> Keypads float in empty space so users type banking PINs without touching physical glass.</p>
           <p style="color:var(--text-dim); font-size:12px;"><b>Patent:</b> US Patent 9,678,255 B2 ("Aerial Image Display Device"). Real-image convergence in free air: $d_{air} = d_{source}$.</p>
         </div>
@@ -1529,12 +1668,12 @@
   <div class="bbs-modal-overlay" id="tools-modal" onclick="closeOnModalOverlay(event, 'tools-modal')">
     <div class="bbs-modal-window">
       <div class="bbs-modal-head">
-        <h3 style="font-size:15px; font-weight:700; color:var(--cyan);">KHORA Engineering DevTools &amp; Code Generators</h3>
+        <h3 style="font-size:15px; font-weight:700; color:var(--text);">KHORA Engineering DevTools &amp; Code Generators</h3>
         <button class="bbs-btn" style="padding:2px 8px;" onclick="closeModal('tools-modal')">&times;</button>
       </div>
       <div class="bbs-modal-body">
         <div style="display:flex; gap:8px; border-bottom:1px solid var(--border); padding-bottom:10px; margin-bottom:14px;">
-          <button class="bbs-btn bbs-btn-cyan" id="ttab-haptics" onclick="setDevToolTab('haptics')">Ultrasound C Array</button>
+          <button class="bbs-btn bbs-btn-primary" id="ttab-haptics" onclick="setDevToolTab('haptics')">Ultrasound C Array</button>
           <button class="bbs-btn" id="ttab-kinematics" onclick="setDevToolTab('kinematics')">SE(3) Robotics Code</button>
           <button class="bbs-btn" id="ttab-optics" onclick="setDevToolTab('optics')">DCRA Optics Calculator</button>
         </div>
@@ -1555,7 +1694,7 @@
             </div>
           </div>
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-            <span style="font-size:12px; font-family:var(--mono); color:var(--cyan);">Radiation Force: ~9.2 mN</span>
+            <span style="font-size:12px; font-family:var(--mono); color:var(--text);">Radiation Force: ~9.2 mN</span>
             <button class="bbs-btn" onclick="copyCode('th-code')">Copy C Array</button>
           </div>
           <pre class="expando-code-block" id="th-code"></pre>
@@ -1624,21 +1763,38 @@
   </div>
 
   <!-- ========================================================================= -->
-  <!-- ENGINE JAVASCRIPT: DATA, BOARD FILTERING, TOASTS & ZERO POPUPS            -->
+  <!-- SCRIPT ENGINE: LIVE PHYSICS SIMULATOR, DATA, ZERO POPUPS, THEMES           -->
   <!-- ========================================================================= -->
   <script>
-    // TOAST SYSTEM (Zero window.alert)
+    // TOAST SYSTEM
     function showToast(msg) {
       const c = document.getElementById("toast-container");
       const el = document.createElement("div");
       el.className = "toast-msg";
-      el.innerHTML = `<span></span> <span>${msg}</span>`;
+      el.innerHTML = `<span>●</span> <span>${msg}</span>`;
       c.appendChild(el);
       setTimeout(() => {
         el.style.opacity = '0';
         el.style.transform = 'translateY(15px)';
         setTimeout(() => el.remove(), 250);
       }, 3000);
+    }
+
+    // THEME CONTROLLER (Onyx Default)
+    function setTheme(th) {
+      document.documentElement.setAttribute("data-theme", th);
+      document.getElementById("theme-selector").value = th;
+      localStorage.setItem("khora_theme", th);
+      drawSimulation();
+      showToast(`Theme switched to ${th.toUpperCase()}`);
+    }
+    const savedTheme = localStorage.getItem("khora_theme") || "onyx";
+    document.documentElement.setAttribute("data-theme", savedTheme);
+
+    // CLIPBOARD COPY HELPER
+    function copyCliCommand(cmd) {
+      navigator.clipboard.writeText(cmd);
+      showToast("Command copied to clipboard!");
     }
 
     // USER PROFILE STATE
@@ -1661,7 +1817,7 @@
       if (saved) USER_PROFILE = Object.assign(USER_PROFILE, JSON.parse(saved));
     } catch(e) {}
 
-    // BBS THREADS DATA (Reddit + 4chan hybrid)
+    // BBS THREADS DATA
     const THREADS_DATA = [
       {
         id: 1,
@@ -1799,6 +1955,160 @@ dcra_channel_clamp(width=200, thickness=4.2);`,
     let currentSort = "votes";
     let currentLang = "en";
 
+    // LIVE INTERACTIVE PHYSICS SIMULATOR
+    let simFocusX = 350;
+    let simFocusY = 40;
+    const canvas = document.getElementById("sim-canvas");
+    const ctx = canvas.getContext("2d");
+
+    function resizeCanvas() {
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width * window.devicePixelRatio;
+      canvas.height = rect.height * window.devicePixelRatio;
+      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+      drawSimulation();
+    }
+
+    function drawSimulation() {
+      const w = canvas.width / window.devicePixelRatio;
+      const h = canvas.height / window.devicePixelRatio;
+      ctx.clearRect(0, 0, w, h);
+
+      // Baseline
+      ctx.strokeStyle = "#1a1e27";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(0, h - 25);
+      ctx.lineTo(w, h - 25);
+      ctx.stroke();
+
+      // Recessed Display (Source)
+      const dispX = 140;
+      const dispW = 120;
+      const dispY = h - 28;
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(dispX, dispY, dispW, 4);
+      ctx.fillStyle = "#64748b";
+      ctx.font = "10px monospace";
+      ctx.fillText("Recessed High-Nit OLED Display (d_source)", dispX - 20, h - 10);
+
+      // 45-degree DCRA Substrate Plate
+      ctx.strokeStyle = "#475569";
+      ctx.lineWidth = 4;
+      ctx.lineCap = "round";
+      ctx.beginPath();
+      ctx.moveTo(180, h - 35);
+      ctx.lineTo(320, 35);
+      ctx.stroke();
+      ctx.fillStyle = "#94a3af";
+      ctx.fillText("DCRA Plate (θ=45.0°)", 190, 50);
+
+      // Acoustic Phased Array (Bottom Right)
+      const arrayX = 300;
+      const arrayW = 140;
+      ctx.fillStyle = "#ff5722";
+      ctx.fillRect(arrayX, h - 28, arrayW, 5);
+      ctx.fillStyle = "#ff7043";
+      ctx.fillText("40kHz Ultrasonic Phased Array (256ch)", arrayX - 10, h - 10);
+
+      // Dynamic Optical Ray Tracing from Display to Plate to Focal Point
+      ctx.strokeStyle = "#ff5722";
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([4, 4]);
+
+      // Ray 1
+      ctx.beginPath();
+      ctx.moveTo(dispX + 20, dispY);
+      ctx.lineTo(220, 115);
+      ctx.lineTo(simFocusX, simFocusY);
+      ctx.stroke();
+
+      // Ray 2
+      ctx.beginPath();
+      ctx.moveTo(dispX + dispW - 20, dispY);
+      ctx.lineTo(280, 75);
+      ctx.lineTo(simFocusX, simFocusY);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Acoustic Wavefronts focusing on (simFocusX, simFocusY)
+      ctx.strokeStyle = "rgba(16, 185, 129, 0.4)";
+      ctx.lineWidth = 1;
+      for (let r = 20; r < 140; r += 20) {
+        ctx.beginPath();
+        ctx.arc(simFocusX, simFocusY, r, 0.5 * Math.PI, 0.9 * Math.PI);
+        ctx.stroke();
+      }
+
+      // Focal Spot (Traversable Floating Hologram Point)
+      ctx.fillStyle = "#ffffff";
+      ctx.beginPath();
+      ctx.arc(simFocusX, simFocusY, 5, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.strokeStyle = "#ff5722";
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.arc(simFocusX, simFocusY, 12, 0, Math.PI * 2);
+      ctx.stroke();
+
+      // Label
+      ctx.fillStyle = "#ff5722";
+      ctx.font = "bold 11px monospace";
+      ctx.fillText(`Aerial Real Image (${(h - simFocusY).toFixed(0)}mm)`, simFocusX + 16, simFocusY + 4);
+
+      // Update stat bar
+      const d_air = (h - simFocusY).toFixed(1);
+      const force = (8.5 + (180 - simFocusY) * 0.03).toFixed(1);
+      document.getElementById("sim-stats").innerText = `d_air = ${d_air}mm · Radiation Force = ${force} mN · Watchdog: Armed`;
+    }
+
+    // Interactive Drag
+    let isDragging = false;
+    canvas.addEventListener("mousedown", (e) => { isDragging = true; updateSimCoords(e); });
+    window.addEventListener("mousemove", (e) => { if (isDragging) updateSimCoords(e); });
+    window.addEventListener("mouseup", () => { isDragging = false; });
+
+    function updateSimCoords(e) {
+      const rect = canvas.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      if (x > 220 && x < canvas.width / window.devicePixelRatio - 20 && y > 15 && y < 140) {
+        simFocusX = x;
+        simFocusY = y;
+        drawSimulation();
+      }
+    }
+
+    // 200 Hz WEB AUDIO PACINIAN RESONANCE TEST
+    let audioCtx = null;
+    function playTactileAudioTest() {
+      try {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+
+        // 200 Hz is human Pacinian corpuscle tactile resonance frequency
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(200, audioCtx.currentTime);
+
+        gain.gain.setValueAtTime(0.001, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.2, audioCtx.currentTime + 0.05);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.4);
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.45);
+        showToast("Emitted 200 Hz sensory tone (Pacinian corpuscle mechanoreceptor resonance).");
+      } catch (err) {
+        showToast("Audio context requires interaction.");
+      }
+    }
+
     // RENDER FEED
     function renderBbsFeed() {
       const container = document.getElementById("feed-container");
@@ -1853,7 +2163,7 @@ dcra_channel_clamp(width=200, thickness=4.2);`,
             <h2 class="bbs-post-title" onclick="openThreadModal(${t.id})">${t.title}</h2>
             <div class="post-lead">${t.lead}</div>
 
-            <!-- INLINE EXPANDO BUTTON -->
+            <!-- INLINE EXPANDO BUTTON (Reddit expando) -->
             ${t.codeSnippet ? `
               <button class="expando-toggle-btn" onclick="toggleExpando(${t.id})">
                 <span>[+]</span> <span>View Code &amp; Equations</span>
@@ -1897,7 +2207,6 @@ dcra_channel_clamp(width=200, thickness=4.2);`,
       });
     }
 
-    // ACTIONS
     function voteThread(id) {
       const t = THREADS_DATA.find(x => x.id === id);
       if (!t) return;
@@ -2193,9 +2502,9 @@ dcra_channel_clamp(width=200, thickness=4.2);`,
 
     // DEVTOOLS CALCULATORS
     function setDevToolTab(tab) {
-      document.getElementById("ttab-haptics").className = tab === 'haptics' ? 'bbs-btn bbs-btn-cyan' : 'bbs-btn';
-      document.getElementById("ttab-kinematics").className = tab === 'kinematics' ? 'bbs-btn bbs-btn-cyan' : 'bbs-btn';
-      document.getElementById("ttab-optics").className = tab === 'optics' ? 'bbs-btn bbs-btn-cyan' : 'bbs-btn';
+      document.getElementById("ttab-haptics").className = tab === 'haptics' ? 'bbs-btn bbs-btn-primary' : 'bbs-btn';
+      document.getElementById("ttab-kinematics").className = tab === 'kinematics' ? 'bbs-btn bbs-btn-primary' : 'bbs-btn';
+      document.getElementById("ttab-optics").className = tab === 'optics' ? 'bbs-btn bbs-btn-primary' : 'bbs-btn';
 
       document.getElementById("tview-haptics").style.display = tab === 'haptics' ? 'block' : 'none';
       document.getElementById("tview-kinematics").style.display = tab === 'kinematics' ? 'block' : 'none';
@@ -2449,8 +2758,13 @@ pub fn dls_step(j: &Matrix3xX<f32>, err: Vector3<f32>, lambda_sq: f32) -> Option
     }
 
     // INIT
-    renderBbsFeed();
-    updateAvatarPreviews();
+    window.addEventListener("resize", resizeCanvas);
+    window.addEventListener("DOMContentLoaded", () => {
+      renderBbsFeed();
+      updateAvatarPreviews();
+      resizeCanvas();
+    });
+    setTimeout(resizeCanvas, 100);
   </script>
 </body>
 </html>
